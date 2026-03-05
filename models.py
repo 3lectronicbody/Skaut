@@ -1,6 +1,5 @@
-# TODO: Logs table with logs from app (history of app activities (like login, inserting , deletein etc)
 from datetime import datetime
-from sqlalchemy import Integer, String, DateTime, Boolean, Float, ForeignKey, Enum
+from sqlalchemy import Integer, String, DateTime, Boolean, Float, ForeignKey, Enum, Column, LargeBinary
 from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase, relationship
 
 
@@ -8,8 +7,40 @@ from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase, relationship
 class Base(DeclarativeBase):
     pass
 
-class Log(Enum):
-    pass
+class Role(Enum):
+    DEVELOPER = 'developer'
+    ADMIN = 'admin'
+    USER = 'user'
+    GUEST = 'guest'
+
+
+class Users(Base):
+    __tablename__ = 'users'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(String, nullable=False)
+    surname: Mapped[str] = mapped_column(String, nullable=False)
+    email: Mapped[str] = mapped_column(String, nullable=False)
+    phone: Mapped[str | None] = mapped_column(String)
+    password: Mapped[bytes] = mapped_column(LargeBinary, nullable=False)
+    picture: Mapped[bytes | None] = mapped_column(LargeBinary)
+    role: Mapped[Enum] = mapped_column(Enum, nullable=False)
+
+    def __init__(self, name:str,
+                 surname: str,
+                 email: str,
+                 phone: str | None,
+                 password: bytes,
+                 picture: bytes | None,
+                 role: Enum):
+
+        self.name = name
+        self.surname = surname
+        self.email = email
+        self.phone = phone
+        self.password = password
+        self.picture = picture
+        self.role = role
+
 
 
 class Projects(Base):

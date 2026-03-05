@@ -1,5 +1,5 @@
 import sys
-import qdarkstyle
+# import qdarkstyle
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QPushButton, QDialog, QLabel, QLineEdit, \
     QTextEdit, QMessageBox
 from datetime import datetime
@@ -14,7 +14,9 @@ class MainWindow(QMainWindow):
 
         self.new_project_window = None
         self.all_projects_window = None
-        self.move(1000, 500)
+
+
+        self.move(500, 250)
 
 
         self.central_widget = QWidget(self)
@@ -36,6 +38,8 @@ class MainWindow(QMainWindow):
         self.all_projects_button.setText("PROJECTS")
         self.layout.addWidget(self.all_projects_button, 1, 0)
         self.all_projects_button.clicked.connect(self.all_projects_button_function)
+
+
 
     def create_project_button(self):
         self.new_project_window = NewProjectWindow(self)
@@ -211,19 +215,21 @@ class SingleProject(QDialog):
         self.layout.addWidget(self.name_label, 0, 0)
 
 
-# Application Flow
+# APPLICATION FLOW
 
 app = QApplication(sys.argv)
-app.setStyle("Fusion")
-app.setStyleSheet(qdarkstyle.load_stylesheet())
 
-database = Database()
+database_object = Database()
 
-login = LoginWindow(database)
+login = LoginWindow(database_object)
 
 if login.exec() == QDialog.DialogCode.Accepted:
-    main_window = MainWindow(database)
+    main_window = MainWindow(database_object)
     main_window.show()
-sys.exit(app.exec())
+    sys.exit(app.exec())
+else:
+    sys.exit()
+
+
 
 

@@ -1,3 +1,4 @@
-Login logic
-Users Table for login
-    priviliges
+TODO:
+* Login to app logic
+* Logs table with logs from app (history of app activities
+(like login, inserting , delete etc)
