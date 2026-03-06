@@ -1,10 +1,13 @@
 import sys
+
+import qdarkstyle
 # import qdarkstyle
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QPushButton, QDialog, QLabel, QLineEdit, \
-    QTextEdit, QMessageBox
+    QTextEdit, QMessageBox, QCheckBox
 from datetime import datetime
 from database import Database
-from models import Projects, ProjectDetails
+from models import Projects, ProjectDetails, Users, Role
+
 
 
 class MainWindow(QMainWindow):
@@ -62,20 +65,28 @@ class LoginWindow(QDialog):
         self.layout = QGridLayout()
         self.setLayout(self.layout)
 
-        self.username_label = QLabel(self)
-        self.username_label.setText("Username")
-        self.layout.addWidget(self.username_label, 0, 0)
+        self.email_label = QLabel(self)
+        self.email_label.setText("Email Address")
+        self.layout.addWidget(self.email_label, 0, 0)
 
-        self.username_input = QLineEdit(self)
-        self.username_input.setPlaceholderText("Username")
-        self.layout.addWidget(self.username_input, 0, 1)
+        self.email_input = QLineEdit(self)
+        self.email_input.setPlaceholderText("Email Address")
+        self.layout.addWidget(self.email_input, 0, 1)
 
         self.password_label = QLabel(self)
         self.password_label.setText("Password")
         self.layout.addWidget(self.password_label, 1, 0)
         self.password_input = QLineEdit(self)
         self.password_input.setPlaceholderText("Password")
+        self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
         self.layout.addWidget(self.password_input, 1, 1)
+
+        self.password_visibility_checkbox = QCheckBox(self)
+        self.password_visibility_checkbox.setText("show password")
+        self.password_visibility_checkbox.clicked.connect(self.checkbox_function)
+        self.layout.addWidget(self.password_visibility_checkbox, 1, 2)
+
+
 
         self.login_button = QPushButton(self)
         self.login_button.setText("LOGIN")
@@ -86,11 +97,101 @@ class LoginWindow(QDialog):
         self.cancel_button.setText("CANCEL")
         self.layout.addWidget(self.cancel_button, 2, 2)
         self.cancel_button.clicked.connect(self.cancel_button_function)
+
+        self.sign_in_label = QLabel(self)
+        self.sign_in_label.setText('<a href="#">Sign In</a>')
+        self.layout.addWidget(self.sign_in_label, 3, 0)
+        self.sign_in_label.linkActivated.connect(self.sign_in_link)
+
     def login_button_function(self):
-        self.accept()
+        email = self.email_input.text()
+        password = self.password_input.text()
+        with self.database.session() as session:
+            if email and password:
+                row = session.query(Users).filter(Users.email == email).first()
+                if row is not None:
+                    if password == row.password:
+                        self.accept()
+                else:
+                    message = QMessageBox()
+                    message.setText("Wrong Password or Email Address")
+                    message.exec()
+            else:
+                message = QMessageBox()
+                message.setText('Please enter your email address')
+                message.exec()
+
+    def sign_in_link(self):
+        sign_in = self.SignIn(self.database)
+        sign_in.exec()
+
+    def checkbox_function(self):
+        if self.password_visibility_checkbox.isChecked():
+            self.password_input.setEchoMode(QLineEdit.EchoMode.Normal)
+        else:
+            self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
 
     def cancel_button_function(self):
         self.reject()
+
+    class SignIn(QDialog):
+        def __init__(self, database):
+            super().__init__()
+            self.database = database
+            self.layout = QGridLayout()
+            self.setLayout(self.layout)
+
+            self.label = QLabel(self)
+            self.label.setText("Email Address:")
+            self.layout.addWidget(self.label, 0, 0)
+            self.email_input = QLineEdit(self)
+            self.email_input.setPlaceholderText("Email Address")
+            self.layout.addWidget(self.email_input, 0, 1)
+
+            self.password_label = QLabel(self)
+            self.password_label.setText("Password:")
+            self.layout.addWidget(self.password_label, 1, 0)
+            self.password_input = QLineEdit(self)
+            self.password_input.setPlaceholderText("Password")
+            self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
+            self.layout.addWidget(self.password_input, 1, 1)
+
+            self.password_visibility_checkbox = QCheckBox(self)
+            self.password_visibility_checkbox.setChecked(False)
+            self.password_visibility_checkbox.setText("   Show\nPassword")
+            self.layout.addWidget(self.password_visibility_checkbox, 1, 2)
+            self.password_visibility_checkbox.clicked.connect(self.click_checkbox)
+
+            self.rep_password_label = QLabel(self)
+            self.rep_password_label.setText("Repeat password:")
+            self.layout.addWidget(self.rep_password_label, 2, 0)
+            self.rep_password_input = QLineEdit(self)
+            self.rep_password_input.setPlaceholderText("Password")
+            self.rep_password_input.setEchoMode(QLineEdit.EchoMode.Password)
+            self.layout.addWidget(self.rep_password_input, 2, 1)
+
+
+            self.create_account_button = QPushButton(self)
+            self.create_account_button.setText("Create Account")
+            self.layout.addWidget(self.create_account_button, 3, 0)
+            self.create_account_button.clicked.connect(self.create_account_function)
+
+
+            self.cancel_button = QPushButton(self)
+            self.cancel_button.setText("Cancel")
+            self.layout.addWidget(self.cancel_button, 3, 1)
+            self.cancel_button.clicked.connect(lambda: self.close())
+        def click_checkbox(self):
+            if self.password_visibility_checkbox.isChecked():
+                self.password_input.setEchoMode(QLineEdit.EchoMode.Normal)
+            else:
+                self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
+
+        def create_account_function(self):
+            email = self.email_input.text()
+            password = self.password_input.text()
+            with self.database.session() as session:
+                new_user = Users(email=email, password=password)
 
 class NewProjectWindow(QDialog):
     def __init__(self, parent_window):
@@ -218,6 +319,7 @@ class SingleProject(QDialog):
 # APPLICATION FLOW
 
 app = QApplication(sys.argv)
+app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
 
 database_object = Database()
 

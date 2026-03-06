@@ -17,8 +17,8 @@ class Role(Enum):
 class Users(Base):
     __tablename__ = 'users'
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(String, nullable=False)
-    surname: Mapped[str] = mapped_column(String, nullable=False)
+    name: Mapped[str] = mapped_column(String)
+    surname: Mapped[str] = mapped_column(String)
     email: Mapped[str] = mapped_column(String, nullable=False)
     phone: Mapped[str | None] = mapped_column(String)
     password: Mapped[bytes] = mapped_column(LargeBinary, nullable=False)
