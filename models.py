@@ -4,6 +4,7 @@ from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase, relationship
 
 
 
+
 class Base(DeclarativeBase):
     pass
 
@@ -17,21 +18,23 @@ class Role(Enum):
 class Users(Base):
     __tablename__ = 'users'
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str] = mapped_column(String)
-    surname: Mapped[str] = mapped_column(String)
+    name: Mapped[str | None] = mapped_column(String, nullable=True)
+    surname: Mapped[str | None] = mapped_column(String, nullable=True)
     email: Mapped[str] = mapped_column(String, nullable=False)
-    phone: Mapped[str | None] = mapped_column(String)
-    password: Mapped[bytes] = mapped_column(LargeBinary, nullable=False)
-    picture: Mapped[bytes | None] = mapped_column(LargeBinary)
-    role: Mapped[Enum] = mapped_column(Enum, nullable=False)
+    phone: Mapped[str | None] = mapped_column(String, nullable=True)
+    password: Mapped[str] = mapped_column(String, nullable=False)
+    picture: Mapped[bytes| None] = mapped_column(LargeBinary, nullable=True)
+    role: Mapped[Role] = mapped_column(String, nullable=False, default=Role.USER)
 
-    def __init__(self, name:str,
-                 surname: str,
+    def __init__(self,
                  email: str,
-                 phone: str | None,
-                 password: bytes,
-                 picture: bytes | None,
-                 role: Enum):
+                 password: str,
+                 role: Role = Role.USER,
+                 name: str | None = None,
+                 surname: str | None = None,
+                 phone: str | None = None,
+                 picture: bytes | None = None):
+
 
         self.name = name
         self.surname = surname

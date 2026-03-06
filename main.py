@@ -1,7 +1,8 @@
+
 import sys
+from helper import hash_password
 
 import qdarkstyle
-# import qdarkstyle
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QPushButton, QDialog, QLabel, QLineEdit, \
     QTextEdit, QMessageBox, QCheckBox
 from datetime import datetime
@@ -64,6 +65,8 @@ class LoginWindow(QDialog):
 
         self.layout = QGridLayout()
         self.setLayout(self.layout)
+
+        self.setWindowTitle("Login")
 
         self.email_label = QLabel(self)
         self.email_label.setText("Email Address")
@@ -190,8 +193,14 @@ class LoginWindow(QDialog):
         def create_account_function(self):
             email = self.email_input.text()
             password = self.password_input.text()
+            hashed_password = hash_password(password)
+
             with self.database.session() as session:
-                new_user = Users(email=email, password=password)
+                new_user = Users(email=email, password=hashed_password, role=Role.USER)
+                session.add(new_user)
+                session.commit()
+                session.close()
+            self.close()
 
 class NewProjectWindow(QDialog):
     def __init__(self, parent_window):
