@@ -1,5 +1,4 @@
 TODO:
-* Create Account Logic with password check , email check and hashing
-* Login to app logic
+* Login logic
 * Logs table with logs from app (history of app activities
 (like login, inserting , delete etc)

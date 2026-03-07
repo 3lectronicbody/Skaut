@@ -1,15 +1,13 @@
 
 import sys
-from helper import hash_password
-
+from helper import hash_password, validate_password, email_validation
 import qdarkstyle
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QPushButton, QDialog, QLabel, QLineEdit, \
     QTextEdit, QMessageBox, QCheckBox
 from datetime import datetime
 from database import Database
 from models import Projects, ProjectDetails, Users, Role
-
-
+from sqlalchemy import select
 
 class MainWindow(QMainWindow):
     def __init__(self,database):
@@ -126,7 +124,9 @@ class LoginWindow(QDialog):
 
     def sign_in_link(self):
         sign_in = self.SignIn(self.database)
+        self.setEnabled(False)
         sign_in.exec()
+        self.setEnabled(True)
 
     def checkbox_function(self):
         if self.password_visibility_checkbox.isChecked():
@@ -183,7 +183,8 @@ class LoginWindow(QDialog):
             self.cancel_button = QPushButton(self)
             self.cancel_button.setText("Cancel")
             self.layout.addWidget(self.cancel_button, 3, 1)
-            self.cancel_button.clicked.connect(lambda: self.close())
+            self.cancel_button.clicked.connect(lambda: self.reject())
+
         def click_checkbox(self):
             if self.password_visibility_checkbox.isChecked():
                 self.password_input.setEchoMode(QLineEdit.EchoMode.Normal)
@@ -193,14 +194,35 @@ class LoginWindow(QDialog):
         def create_account_function(self):
             email = self.email_input.text()
             password = self.password_input.text()
-            hashed_password = hash_password(password)
+            rep_password = self.rep_password_input.text()
+            # check email validation
+            em_valid, em_message = email_validation(email, self.database)
+            if not em_valid:
+                QMessageBox(text=f"{em_message}").exec()
+                return
 
-            with self.database.session() as session:
-                new_user = Users(email=email, password=hashed_password, role=Role.USER)
-                session.add(new_user)
-                session.commit()
-                session.close()
-            self.close()
+            # Check if password and repeat password are the same
+            if password != rep_password:
+                QMessageBox(text="Passwords do not match!").exec()
+                return
+            # Validate password for characters and length
+            pas_valid, pas_message = validate_password(password)
+            if pas_valid:
+                hashed_password = hash_password(password)
+                with self.database.session() as session:
+                    new_user = Users(email=email, password=hashed_password, role=Role.USER)
+                    session.add(new_user)
+                    session.commit()
+                    session.close()
+                QMessageBox(text="Your Account has been created !!!").exec()
+                self.accept()
+            else:
+                QMessageBox(text=f"{pas_message}").exec()
+
+
+
+
+
 
 class NewProjectWindow(QDialog):
     def __init__(self, parent_window):

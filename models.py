@@ -25,6 +25,7 @@ class Users(Base):
     password: Mapped[str] = mapped_column(String, nullable=False)
     picture: Mapped[bytes| None] = mapped_column(LargeBinary, nullable=True)
     role: Mapped[Role] = mapped_column(String, nullable=False, default=Role.USER)
+    logs: Mapped[Logs] = mapped_column(Logs, nullable=True)
 
     def __init__(self,
                  email: str,
@@ -44,6 +45,9 @@ class Users(Base):
         self.picture = picture
         self.role = role
 
+class Logs(Base):
+    __tablename__ = 'logs'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
 
 class Projects(Base):

@@ -1,6 +1,55 @@
 import hashlib
+from email_validator import validate_email, EmailNotValidError
+from models import Users
+from sqlalchemy import select
+
 
 def hash_password(password: str) -> str:
     return hashlib.sha256(password.encode()).hexdigest()
+
+def validate_password(password: str) -> tuple[bool, str]:
+    # Password must be at least 8 characters
+    if len(password) < 8:
+        return False, "Password must be at least 8 characters long"
+    # Password must contain at least 1 number
+    # Password must contain at least one special character
+    digit = False
+    special = False
+    for c in password:
+        if c.isdigit():
+            digit = True
+        elif not c.isalnum():
+            special = True
+    if not digit:
+        return False, "Password must contain at least one digit"
+    if not special:
+        return False, "Password must contain at least one special character"
+    return True, "Password is valid"
+
+def email_validation(email: str, database) -> tuple[bool, str]:
+    # 1 - email validation with module email_validator
+    try:
+        validate_email(email)
+    except EmailNotValidError:
+        return False, "Email is not valid"
+
+    # 2 - check if email exists in database. If so there already exists acoount.
+    with database.session() as session:
+        statement = select(Users.email).where(Users.email == email)
+        existing = session.scalars(statement).first()
+        if existing:
+            return False, "Account with this email already exists"
+    return True, "Password is valid"
+
+
+
+
+
+
+
+
+
+
+
 
 
