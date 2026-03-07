@@ -1,18 +1,34 @@
 from datetime import datetime
 from sqlalchemy import Integer, String, DateTime, Boolean, Float, ForeignKey, Enum, Column, LargeBinary
 from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase, relationship
-
+from dataclasses import dataclass
 
 
 
 class Base(DeclarativeBase):
     pass
 
-class Role(Enum):
+@dataclass
+class Role():
     DEVELOPER = 'developer'
     ADMIN = 'admin'
     USER = 'user'
     GUEST = 'guest'
+
+@dataclass
+class Log():
+    LOGIN = 'login'
+    LOGOUT = 'logout'
+    ADD_ITEM = 'add_item'
+    REMOVE_ITEM = 'remove_item'
+    UPDATE_ITEM = 'update_item'
+    DELETE_ITEM = 'delete_item'
+    ADD_ACTIVITY = 'add_activity'
+    REMOVE_ACTIVITY = 'remove_activity'
+    UPDATE_ACTIVITY = 'update_activity'
+    DELETE_ACTIVITY = 'delete_activity'
+    SIGN_IN = 'sign_in'
+
 
 
 class Users(Base):
@@ -24,8 +40,11 @@ class Users(Base):
     phone: Mapped[str | None] = mapped_column(String, nullable=True)
     password: Mapped[str] = mapped_column(String, nullable=False)
     picture: Mapped[bytes| None] = mapped_column(LargeBinary, nullable=True)
-    role: Mapped[Role] = mapped_column(String, nullable=False, default=Role.USER)
-    logs: Mapped[Logs] = mapped_column(Logs, nullable=True)
+    role: Mapped[str] = mapped_column(String,  nullable=False, default=Role.USER)
+
+
+    # Relationship with Logs
+    logs: Mapped[list["Logs"]] = relationship("Logs", back_populates="user", cascade="all, delete-orphan")
 
     def __init__(self,
                  email: str,
@@ -48,6 +67,18 @@ class Users(Base):
 class Logs(Base):
     __tablename__ = 'logs'
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    activity: Mapped[Log] = mapped_column(String, nullable=False)
+    description: Mapped[str] = mapped_column(String, nullable=True)
+
+    # Relationship with Users
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'))
+    user: Mapped["Users"] = relationship("Users", back_populates="logs")
+
+    # Relationship with Projects
+    project_id: Mapped[int] = mapped_column(Integer, ForeignKey('projects.id'))
+    project: Mapped["Projects"] = relationship("Projects", back_populates="logs")
+
+
 
 
 class Projects(Base):
@@ -60,10 +91,15 @@ class Projects(Base):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     beginning: Mapped[str] = mapped_column(String, nullable=False)
     end: Mapped[str | None]= mapped_column(String, nullable=True)
-    # RELATIONSHIP
+
+    # Relationship with Project Details
     project_details: Mapped[list["ProjectDetails"]] = relationship("ProjectDetails",
-                                                                                back_populates="project",
-                                                                                cascade="all, delete-orphan",)
+                                                                   back_populates="project",
+                                                                   cascade="all, delete-orphan",)
+    # relationship with Logs
+    project_logs: Mapped[list["Logs"]] = relationship("Logs",
+                                                      back_populates="project",
+                                                      cascade="all, delete-orphan")
 
     # For annotations because pycharm cant see Mapped[]
     def __init__(
