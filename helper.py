@@ -2,6 +2,7 @@ import hashlib
 from email_validator import validate_email, EmailNotValidError
 from models import Users
 from sqlalchemy import select
+import os
 
 
 def hash_password(password: str) -> str:
@@ -40,6 +41,17 @@ def email_validation(email: str, database) -> tuple[bool, str]:
         if existing:
             return False, "Account with this email already exists"
     return True, "Password is valid"
+
+def save_login(user_id: str):
+    with open("token.txt", "w") as token:
+        token.write(str(user_id))
+    return int(user_id)
+def load_login():
+    with open("token.txt", "r") as token:
+        token = token.read()
+        return token
+def delete_login():
+    os.remove("token.txt")
 
 
 

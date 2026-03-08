@@ -1,6 +1,9 @@
 
 import sys
-from helper import hash_password, validate_password, email_validation
+
+from sqlalchemy.testing.pickleable import User
+
+from helper import hash_password, validate_password, email_validation, save_login, load_login, delete_login
 import qdarkstyle
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QPushButton, QDialog, QLabel, QLineEdit, \
     QTextEdit, QMessageBox, QCheckBox
@@ -9,57 +12,16 @@ from database import Database
 from models import Projects, ProjectDetails, Users, Role, Logs ,Log
 from sqlalchemy import select
 
-class MainWindow(QMainWindow):
-    def __init__(self,database):
-        super().__init__()
-        self.database = database
-
-        self.new_project_window = None
-        self.all_projects_window = None
-
-
-        self.move(500, 250)
-
-
-        self.central_widget = QWidget(self)
-        self.setCentralWidget(self.central_widget)
-        self.setWindowTitle("Main Window")
-        self.layout = QGridLayout()
-        self.central_widget.setLayout(self.layout)
-
-        # WIDGETS
-
-        # Create New Project Button
-        self.create_button = QPushButton(self)
-        self.create_button.setText("CREATE NEW PROJECT")
-        self.layout.addWidget(self.create_button, 0, 0)
-        self.create_button.clicked.connect(self.create_project_button)
-
-        # Projects Button
-        self.all_projects_button = QPushButton(self)
-        self.all_projects_button.setText("PROJECTS")
-        self.layout.addWidget(self.all_projects_button, 1, 0)
-        self.all_projects_button.clicked.connect(self.all_projects_button_function)
-
-
-
-    def create_project_button(self):
-        self.new_project_window = NewProjectWindow(self)
-        self.hide()
-        self.new_project_window.exec()
-        self.show()
-
-    def all_projects_button_function(self):
-        self.all_projects_window = ProjectsWindow(self.database)
-        self.hide()
-        self.all_projects_window.exec()
-        self.show()
 
 class LoginWindow(QDialog):
-    def __init__(self, database):
+    def __init__(self, database, token=None):
         super().__init__()
 
         self.database = database
+
+        self.token = token
+
+        self.user_id = None
 
         self.layout = QGridLayout()
         self.setLayout(self.layout)
@@ -101,10 +63,30 @@ class LoginWindow(QDialog):
 
         self.sign_in_label = QLabel(self)
         self.sign_in_label.setText('<a href="#">Sign In</a>')
-        self.layout.addWidget(self.sign_in_label, 3, 0)
+        self.layout.addWidget(self.sign_in_label, 3, 1)
         self.sign_in_label.linkActivated.connect(self.sign_in_link)
 
+        self.remember_me_checkbox = QCheckBox(self)
+        self.remember_me_checkbox.setText("Remember Me")
+        self.layout.addWidget(self.remember_me_checkbox, 3, 0)
+        self.remember_me_checkbox.clicked.connect(self.remember_checkbox_function)
+
+        # check if exist user with id like token number. If yes fulfill email input with user email
+        if self.token is not None:
+            with self.database.session() as session:
+                user = session.get(Users, self.token)
+                if user:
+                    self.email_input.setText(user.email)
+
+
+    def remember_checkbox_function(self):
+        if self.remember_me_checkbox.isChecked():
+            return True
+        else:
+            return False
+
     def login_button_function(self):
+
         email = self.email_input.text()
         password = self.password_input.text()
 
@@ -123,15 +105,26 @@ class LoginWindow(QDialog):
                     log = Logs(activity=Log.LOGIN.value,user_id=row.id)
                     session.add(log)
                     session.commit()
+
+                    # Crete txt file with logged user.id if checkbox remember_me is checked
+                    if self.remember_me_checkbox.isChecked():
+                        save_login(user_id=row.id)
+                    else:
+                        try:
+                            delete_login()
+                        except FileNotFoundError:
+                            pass
                     message = QMessageBox()
                     message.setText("You have logged in successfully")
                     message.exec()
+                    self.user_id = row.id
                     self.accept()
 
             else:
                 message = QMessageBox()
                 message.setText("There is no account with that email address")
                 message.exec()
+
 
 
     def sign_in_link(self):
@@ -231,6 +224,65 @@ class LoginWindow(QDialog):
             else:
                 QMessageBox(text=f"{pas_message}").exec()
 
+class MainWindow(QMainWindow):
+    def __init__(self,database, user_id):
+        super().__init__()
+        self.database = database
+
+        # Logged User form Login window
+        self.user_id = user_id
+
+        self.new_project_window = None
+        self.all_projects_window = None
+        self.user_window = None
+
+
+        self.move(500, 250)
+
+
+        self.central_widget = QWidget(self)
+        self.setCentralWidget(self.central_widget)
+        self.setWindowTitle("Main Window")
+        self.layout = QGridLayout()
+        self.central_widget.setLayout(self.layout)
+
+        # WIDGETS
+
+        # Create New Project Button
+        self.create_button = QPushButton(self)
+        self.create_button.setText("CREATE NEW PROJECT")
+        self.layout.addWidget(self.create_button, 0, 0)
+        self.create_button.clicked.connect(self.create_project_button)
+
+        # Projects Button
+        self.all_projects_button = QPushButton(self)
+        self.all_projects_button.setText("PROJECTS")
+        self.layout.addWidget(self.all_projects_button, 1, 0)
+        self.all_projects_button.clicked.connect(self.all_projects_button_function)
+
+        # User Button
+        self.user_button= QPushButton(self)
+        self.user_button.setText("USER")
+        self.layout.addWidget(self.user_button, 2, 0)
+        self.user_button.clicked.connect(self.user_window_button_function)
+
+
+    def user_window_button_function(self):
+        self.user_window = UserWindow(self.database)
+        self.user_window.show()
+        self.hide()
+
+    def create_project_button(self):
+        self.new_project_window = NewProjectWindow(self)
+        self.hide()
+        self.new_project_window.exec()
+        self.show()
+
+    def all_projects_button_function(self):
+        self.all_projects_window = ProjectsWindow(self.database)
+        self.hide()
+        self.all_projects_window.exec()
+        self.show()
 
 class NewProjectWindow(QDialog):
     def __init__(self, parent_window):
@@ -338,6 +390,16 @@ class ProjectsWindow(QDialog):
         self.layout.addWidget(self.cancel_button, counter + 1, 0)
         self.cancel_button.clicked.connect(self.close)
 
+class UserWindow(QMainWindow):
+    def __init__(self,database):
+        super().__init__()
+        self.database = database
+        self.centralWidget = QWidget(self)
+        self.setCentralWidget(self.centralWidget)
+        self.setWindowTitle("User Window")
+        self.layout = QGridLayout()
+        self.centralWidget.setLayout(self.layout)
+
 class SingleProject(QDialog):
     def __init__(self, database, index):
         super().__init__()
@@ -362,10 +424,15 @@ app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
 
 database_object = Database()
 
-login = LoginWindow(database_object)
+try:
+    token = load_login()
+except FileNotFoundError:
+    token = None
+
+login = LoginWindow(database_object, token)
 
 if login.exec() == QDialog.DialogCode.Accepted:
-    main_window = MainWindow(database_object)
+    main_window = MainWindow(database_object, login.user_id) # login.user_id - id of user who logged in
     main_window.show()
     sys.exit(app.exec())
 else:

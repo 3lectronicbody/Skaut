@@ -1,4 +1,6 @@
 TODO:
-* Login logic
-* Logs table with logs from app (history of app activities
-(like login, inserting , delete etc)
+* Keep me logged in functionality:
+    1) save actually logged user id in text file
+    2) When app start load saved user.id
+    3) if keep me logged checkbox is checked open main window and pass user.id saved in text file
+* Keep me logged checkbox in Login Window
