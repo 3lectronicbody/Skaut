@@ -1,22 +1,23 @@
 from datetime import datetime
-from sqlalchemy import Integer, String, DateTime, Boolean, Float, ForeignKey, Enum, Column, LargeBinary
+from sqlalchemy import Integer, String, DateTime, Boolean, Float, ForeignKey,LargeBinary
+from enum import Enum
 from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase, relationship
-from dataclasses import dataclass
-
+from datetime import datetime
 
 
 class Base(DeclarativeBase):
     pass
 
-@dataclass
-class Role():
+
+class Role(Enum):
     DEVELOPER = 'developer'
     ADMIN = 'admin'
     USER = 'user'
     GUEST = 'guest'
 
-@dataclass
-class Log():
+
+class Log(Enum):
+    NORMAL = 'normal'
     LOGIN = 'login'
     LOGOUT = 'logout'
     ADD_ITEM = 'add_item'
@@ -31,6 +32,7 @@ class Log():
 
 
 
+
 class Users(Base):
     __tablename__ = 'users'
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -40,7 +42,7 @@ class Users(Base):
     phone: Mapped[str | None] = mapped_column(String, nullable=True)
     password: Mapped[str] = mapped_column(String, nullable=False)
     picture: Mapped[bytes| None] = mapped_column(LargeBinary, nullable=True)
-    role: Mapped[str] = mapped_column(String,  nullable=False, default=Role.USER)
+    role: Mapped[str] = mapped_column(String,  nullable=False, default=Role.USER.value)
 
 
     # Relationship with Logs
@@ -49,7 +51,7 @@ class Users(Base):
     def __init__(self,
                  email: str,
                  password: str,
-                 role: Role = Role.USER,
+                 role: str = Role.USER.value,
                  name: str | None = None,
                  surname: str | None = None,
                  phone: str | None = None,
@@ -67,8 +69,9 @@ class Users(Base):
 class Logs(Base):
     __tablename__ = 'logs'
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    activity: Mapped[Log] = mapped_column(String, nullable=False)
+    activity: Mapped[str] = mapped_column(String, nullable=False)
     description: Mapped[str] = mapped_column(String, nullable=True)
+    timestamp: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now())
 
     # Relationship with Users
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'))
@@ -89,8 +92,8 @@ class Projects(Base):
     description: Mapped[str] = mapped_column(String, nullable=False)
     project_owner: Mapped[str] = mapped_column(String, default="unknown", nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
-    beginning: Mapped[str] = mapped_column(String, nullable=False)
-    end: Mapped[str | None]= mapped_column(String, nullable=True)
+    beginning: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    end: Mapped[datetime | None]= mapped_column(DateTime, nullable=True)
 
     # Relationship with Project Details
     project_details: Mapped[list["ProjectDetails"]] = relationship("ProjectDetails",
@@ -108,12 +111,13 @@ class Projects(Base):
             description: str,
             project_owner: str = "unknown",
             is_active: bool | None = True,
-            beginning: str | None = None,
-            end: str | None = None
+            beginning: datetime | None = None,
+            end: datetime | None = None
     ):
         self.name = name
         self.description = description
         self.project_owner = project_owner
+        self.is_active = is_active
         self.beginning = beginning
         self.end = end
 
@@ -125,6 +129,7 @@ class ProjectDetails(Base):
     item: Mapped[str | None] = mapped_column(String, nullable=True)
     item_code: Mapped[str] = mapped_column(String)
     quantity: Mapped[float] = mapped_column(Float, nullable=False)
+
     # relationship
     project_id: Mapped[int] = mapped_column(Integer, ForeignKey("projects.id"), nullable=False)
     project = relationship("Projects", back_populates="project_details")
