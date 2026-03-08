@@ -38,7 +38,7 @@ class Users(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str | None] = mapped_column(String, nullable=True)
     surname: Mapped[str | None] = mapped_column(String, nullable=True)
-    email: Mapped[str] = mapped_column(String, nullable=False)
+    email: Mapped[str] = mapped_column(String, nullable=False, unique=True)
     phone: Mapped[str | None] = mapped_column(String, nullable=True)
     password: Mapped[str] = mapped_column(String, nullable=False)
     picture: Mapped[bytes| None] = mapped_column(LargeBinary, nullable=True)
@@ -70,7 +70,7 @@ class Logs(Base):
     __tablename__ = 'logs'
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     activity: Mapped[str] = mapped_column(String, nullable=False)
-    description: Mapped[str] = mapped_column(String, nullable=True)
+    description: Mapped[str | None] = mapped_column(String, nullable=True)
     timestamp: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now)
 
     # Relationship with Users
@@ -78,8 +78,8 @@ class Logs(Base):
     user: Mapped["Users"] = relationship("Users", back_populates="logs")
 
     # Relationship with Projects
-    project_id: Mapped[int] = mapped_column(Integer, ForeignKey('projects.id'))
-    project: Mapped["Projects"] = relationship("Projects", back_populates="project_logs")
+    project_id: Mapped[int] = mapped_column(Integer, ForeignKey('projects.id'), nullable=True)
+    project: Mapped["Projects | None"] = relationship("Projects", back_populates="project_logs")
 
 
 

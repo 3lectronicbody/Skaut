@@ -6,7 +6,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, Q
     QTextEdit, QMessageBox, QCheckBox
 from datetime import datetime
 from database import Database
-from models import Projects, ProjectDetails, Users, Role
+from models import Projects, ProjectDetails, Users, Role, Logs ,Log
 from sqlalchemy import select
 
 class MainWindow(QMainWindow):
@@ -119,6 +119,10 @@ class LoginWindow(QDialog):
             row = session.query(Users).filter(Users.email == email).first()
             if row is not None:
                 if hash_password(password) == row.password:
+
+                    log = Logs(activity=Log.LOGIN.value,user_id=row.id)
+                    session.add(log)
+                    session.commit()
                     message = QMessageBox()
                     message.setText("You have logged in successfully")
                     message.exec()
@@ -226,13 +230,6 @@ class LoginWindow(QDialog):
                 self.accept()
             else:
                 QMessageBox(text=f"{pas_message}").exec()
-
-
-
-
-
-
-
 
 
 class NewProjectWindow(QDialog):
