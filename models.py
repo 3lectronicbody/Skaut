@@ -71,7 +71,7 @@ class Logs(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     activity: Mapped[str] = mapped_column(String, nullable=False)
     description: Mapped[str] = mapped_column(String, nullable=True)
-    timestamp: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now())
+    timestamp: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.now)
 
     # Relationship with Users
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'))
@@ -79,7 +79,7 @@ class Logs(Base):
 
     # Relationship with Projects
     project_id: Mapped[int] = mapped_column(Integer, ForeignKey('projects.id'))
-    project: Mapped["Projects"] = relationship("Projects", back_populates="logs")
+    project: Mapped["Projects"] = relationship("Projects", back_populates="project_logs")
 
 
 
@@ -94,6 +94,7 @@ class Projects(Base):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     beginning: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     end: Mapped[datetime | None]= mapped_column(DateTime, nullable=True)
+    # logs: Mapped[list[str]] = mapped_column(String, nullable=False)
 
     # Relationship with Project Details
     project_details: Mapped[list["ProjectDetails"]] = relationship("ProjectDetails",

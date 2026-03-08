@@ -107,20 +107,28 @@ class LoginWindow(QDialog):
     def login_button_function(self):
         email = self.email_input.text()
         password = self.password_input.text()
+
+
+        if not (email and password):
+            warning = QMessageBox()
+            warning.setText("Please enter your email and password")
+            warning.exec()
+            return
+
         with self.database.session() as session:
-            if email and password:
-                row = session.query(Users).filter(Users.email == email).first()
-                if row is not None:
-                    if password == row.password:
-                        self.accept()
-                else:
+            row = session.query(Users).filter(Users.email == email).first()
+            if row is not None:
+                if hash_password(password) == row.password:
                     message = QMessageBox()
-                    message.setText("Wrong Password or Email Address")
+                    message.setText("You have logged in successfully")
                     message.exec()
+                    self.accept()
+
             else:
                 message = QMessageBox()
-                message.setText('Please enter your email address')
+                message.setText("There is no account with that email address")
                 message.exec()
+
 
     def sign_in_link(self):
         sign_in = self.SignIn(self.database)
@@ -210,7 +218,7 @@ class LoginWindow(QDialog):
             if pas_valid:
                 hashed_password = hash_password(password)
                 with self.database.session() as session:
-                    new_user = Users(email=email, password=hashed_password, role=Role.USER)
+                    new_user = Users(email=email, password=hashed_password, role=Role.USER.value)
                     session.add(new_user)
                     session.commit()
                     session.close()
@@ -218,6 +226,9 @@ class LoginWindow(QDialog):
                 self.accept()
             else:
                 QMessageBox(text=f"{pas_message}").exec()
+
+
+
 
 
 
