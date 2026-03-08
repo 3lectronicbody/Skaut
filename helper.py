@@ -33,7 +33,7 @@ def email_validation(email: str, database) -> tuple[bool, str]:
     except EmailNotValidError:
         return False, "Email is not valid"
 
-    # 2 - check if email exists in database. If so there already exists acoount.
+    # 2 - check if email exists in database. If so there already exists account.
     with database.session() as session:
         statement = select(Users.email).where(Users.email == email)
         existing = session.scalars(statement).first()
