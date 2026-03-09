@@ -1,8 +1,4 @@
-
 import sys
-
-from sqlalchemy.testing.pickleable import User
-
 from helper import hash_password, validate_password, email_validation, save_login, load_login, delete_login
 import qdarkstyle
 from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QPushButton, QDialog, QLabel, QLineEdit, \
@@ -231,6 +227,8 @@ class MainWindow(QMainWindow):
 
         # Logged User form Login window
         self.user_id = user_id
+        with self.database.session() as session:
+            self.user = session.get(Users,self.user_id)
 
         self.new_project_window = None
         self.all_projects_window = None
@@ -247,23 +245,26 @@ class MainWindow(QMainWindow):
         self.central_widget.setLayout(self.layout)
 
         # WIDGETS
-
+        # Welcome labe
+        self.welcome_label = QLabel(self)
+        self.welcome_label.setText(f"Welcome to Skaut {self.user.email}")
+        self.layout.addWidget(self.welcome_label, 0, 0)
         # Create New Project Button
         self.create_button = QPushButton(self)
         self.create_button.setText("CREATE NEW PROJECT")
-        self.layout.addWidget(self.create_button, 0, 0)
+        self.layout.addWidget(self.create_button, 1, 0)
         self.create_button.clicked.connect(self.create_project_button)
 
         # Projects Button
         self.all_projects_button = QPushButton(self)
         self.all_projects_button.setText("PROJECTS")
-        self.layout.addWidget(self.all_projects_button, 1, 0)
+        self.layout.addWidget(self.all_projects_button, 2, 0)
         self.all_projects_button.clicked.connect(self.all_projects_button_function)
 
         # User Button
         self.user_button= QPushButton(self)
         self.user_button.setText("USER")
-        self.layout.addWidget(self.user_button, 2, 0)
+        self.layout.addWidget(self.user_button, 3, 0)
         self.user_button.clicked.connect(self.user_window_button_function)
 
 
