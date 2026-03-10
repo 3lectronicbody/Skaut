@@ -21,6 +21,7 @@ class Log(Enum):
     LOGIN = 'login'
     LOGOUT = 'logout'
     ADD_ITEM = 'add_item'
+    CREATE_PROJECT = 'create_project'
     REMOVE_ITEM = 'remove_item'
     UPDATE_ITEM = 'update_item'
     DELETE_ITEM = 'delete_item'
@@ -81,9 +82,6 @@ class Logs(Base):
     project_id: Mapped[int] = mapped_column(Integer, ForeignKey('projects.id'), nullable=True)
     project: Mapped["Projects | None"] = relationship("Projects", back_populates="project_logs")
 
-
-
-
 class Projects(Base):
     __tablename__ = 'projects'
 
@@ -94,7 +92,7 @@ class Projects(Base):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     beginning: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     end: Mapped[datetime | None]= mapped_column(DateTime, nullable=True)
-    # logs: Mapped[list[str]] = mapped_column(String, nullable=False)
+
 
     # Relationship with Project Details
     project_details: Mapped[list["ProjectDetails"]] = relationship("ProjectDetails",

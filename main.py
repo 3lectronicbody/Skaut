@@ -1,12 +1,9 @@
-import sys
-from helper import hash_password, validate_password, email_validation, save_login, load_login, delete_login
-import qdarkstyle
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QGridLayout, QPushButton, QDialog, QLabel, QLineEdit, \
+from helper import hash_password, validate_password, email_validation, save_login,delete_login
+from PySide6.QtWidgets import QMainWindow, QWidget, QGridLayout, QPushButton, QDialog, QLabel, QLineEdit, \
     QTextEdit, QMessageBox, QCheckBox
 from datetime import datetime
-from database import Database
 from models import Projects, ProjectDetails, Users, Role, Logs ,Log
-from sqlalchemy import select
+
 
 
 class LoginWindow(QDialog):
@@ -227,6 +224,7 @@ class MainWindow(QMainWindow):
 
         # Logged User form Login window
         self.user_id = user_id
+        # Get iser based on id and save it in self.user variable for later use in main window
         with self.database.session() as session:
             self.user = session.get(Users,self.user_id)
 
@@ -263,13 +261,13 @@ class MainWindow(QMainWindow):
 
         # User Button
         self.user_button= QPushButton(self)
-        self.user_button.setText("USER")
+        self.user_button.setText("USER DASHBOARD")
         self.layout.addWidget(self.user_button, 3, 0)
         self.user_button.clicked.connect(self.user_window_button_function)
 
 
     def user_window_button_function(self):
-        self.user_window = UserWindow(self.database)
+        self.user_window = UserWindow(self.database, self)
         self.user_window.show()
         self.hide()
 
@@ -307,22 +305,16 @@ class NewProjectWindow(QDialog):
         self.name_input.setPlaceholderText("Name")
         self.layout.addWidget(self.name_input, 0, 1)
 
-        self.owner_label = QLabel(self)
-        self.owner_label.setText("Owner")
-        self.layout.addWidget(self.owner_label, 1, 0)
-        self.owner_input = QLineEdit(self)
-        self.owner_input.setPlaceholderText("Owner")
-        self.layout.addWidget(self.owner_input, 1, 1)
 
         self.description_label = QLabel(self)
         self.description_label.setText("Description")
-        self.layout.addWidget(self.description_label, 2, 0)
+        self.layout.addWidget(self.description_label, 1, 0)
         self.description_input = QTextEdit(self)
         self.description_input.setPlaceholderText("Description")
-        self.layout.addWidget(self.description_input, 2, 1)
+        self.layout.addWidget(self.description_input, 1, 1)
 
         self.save_button = QPushButton(self)
-        self.save_button.setText("SAVE")
+        self.save_button.setText("CREATE")
         self.layout.addWidget(self.save_button, 3, 0)
         self.save_button.clicked.connect(self.save_project)
 
@@ -333,14 +325,22 @@ class NewProjectWindow(QDialog):
 
     def save_project(self):
         name = self.name_input.text()
-        owner = self.owner_input.text()
         description = self.description_input.toPlainText()
-        beginning_date = datetime.now().strftime("%m/%d/%Y")
-        session = self.database.session()
-        session.add(Projects(name=name,description=description, project_owner=owner, beginning=beginning_date))
-        print("Row added to database")
-        session.commit()
-        session.close()
+        beginning_date = datetime.now()
+        project_owner = self.main_window.user.email
+
+        with self.database.session() as session:
+            project = Projects(name=name,description=description, project_owner=project_owner, beginning=beginning_date)
+            session.add(project)
+            session.flush() # Flush to get project.id before commit
+
+            # Log activity in database
+            log = Logs(activity=Log.CREATE_PROJECT.value, user_id=self.main_window.user_id, project_id=project.id)
+            session.add(log)
+            session.commit()
+        message  = QMessageBox()
+        message.setText("Project has been created successfully")
+        message.exec()
         self.close()
 
 class ProjectsWindow(QDialog):
@@ -392,14 +392,22 @@ class ProjectsWindow(QDialog):
         self.cancel_button.clicked.connect(self.close)
 
 class UserWindow(QMainWindow):
-    def __init__(self,database):
+    def __init__(self,database, main_window):
         super().__init__()
         self.database = database
+        self.main_window = main_window
+
         self.centralWidget = QWidget(self)
         self.setCentralWidget(self.centralWidget)
         self.setWindowTitle("User Window")
         self.layout = QGridLayout()
         self.centralWidget.setLayout(self.layout)
+
+        # Cancel button
+        self.cancel_button = QPushButton(self)
+        self.cancel_button.setText("CANCEL")
+        self.layout.addWidget(self.cancel_button, 0, 0)
+        self.cancel_button.clicked.connect(lambda: (self.close(), self.main_window.show()))
 
 class SingleProject(QDialog):
     def __init__(self, database, index):
