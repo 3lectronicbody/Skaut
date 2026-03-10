@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="App flow moved to separate file app.py">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models.py" afterDir="false" />
-    </list>
+    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="Todo: Projects Window" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -62,7 +58,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
-    "settings.editor.selected.configurable": "settings.sync"
+    "settings.editor.selected.configurable": "preferences.customizations"
   }
 }]]></component>
   <component name="SharedIndexes">
@@ -128,14 +124,23 @@
       <option name="project" value="LOCAL" />
       <updated>1773128239210</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Todo: Projects Window">
+      <option name="closed" value="true" />
+      <created>1773134471524</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1773134471524</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First Commit with sqlalchemy and login window" />
     <MESSAGE value="Create Account Logic with password check , email check and hashing login window" />
     <MESSAGE value="App flow moved to separate file app.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="App flow moved to separate file app.py" />
+    <MESSAGE value="Todo: Projects Window" />
+    <option name="LAST_COMMIT_MESSAGE" value="Todo: Projects Window" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
