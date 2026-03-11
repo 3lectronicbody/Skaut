@@ -3,7 +3,7 @@ from email_validator import validate_email, EmailNotValidError
 from models import Users
 from sqlalchemy import select
 import os
-from config import EMAIL_ADDRESS, EMAIL_PASSWORD
+
 
 
 
