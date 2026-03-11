@@ -6,6 +6,7 @@ from helper import load_login
 from main import MainWindow, LoginWindow
 from models import Logs, Log
 
+
 def main_app():
     # APPLICATION FLOW:
 
@@ -24,7 +25,9 @@ def main_app():
     login = LoginWindow(database_object, token)
     # 6. If user logged in successfully, open main window, if not exit application
     if login.exec() == QDialog.DialogCode.Accepted:
-        main_window = MainWindow(database_object, login.user_id) # login.user_id - id of user who logged in
+        main_window = MainWindow(
+            database_object, login.user_id
+        )  # login.user_id - id of user who logged in
         main_window.show()
         # When user closes main window, log out activity in database and exit application
         with database_object.session() as session:
@@ -35,10 +38,6 @@ def main_app():
     else:
         sys.exit()
 
+
 if __name__ == "__main__":
     main_app()
-
-
-
-
-

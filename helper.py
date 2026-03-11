@@ -3,6 +3,8 @@ from email_validator import validate_email, EmailNotValidError
 from models import Users
 from sqlalchemy import select
 import os
+from config import EMAIL_ADDRESS, EMAIL_PASSWORD
+
 
 
 def hash_password(password: str) -> str:
@@ -46,22 +48,14 @@ def save_login(user_id: str):
     with open("token.txt", "w") as token:
         token.write(str(user_id))
     return int(user_id)
+
 def load_login():
     with open("token.txt", "r") as token:
         token = token.read()
         return token
+
 def delete_login():
     os.remove("token.txt")
 
-
-
-
-
-
-
-
-
-
-
-
-
+def reset_password(user_email):
+    pass
