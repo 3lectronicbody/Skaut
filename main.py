@@ -295,7 +295,7 @@ class MainWindow(QMainWindow):
         self.show()
 
     def all_projects_button_function(self):
-        self.all_projects_window = ProjectsWindow(self.database)
+        self.all_projects_window = ProjectsWindow(self.database, self.user)
         self.hide()
         self.all_projects_window.exec()
         self.show()
@@ -370,10 +370,13 @@ class NewProjectWindow(QDialog):
 
 
 class ProjectsWindow(QDialog):
-    def __init__(self, database):
+    def __init__(self, database, user):
         super().__init__()
 
+
         self.database = database
+        self.user = user
+        self.single_project = None
 
         self.main_layout = QGridLayout()
         self.setLayout(self.main_layout)
@@ -410,15 +413,25 @@ class ProjectsWindow(QDialog):
             description_label.setText(row.description)
             self.ref_layout.addWidget(description_label, i, 1)
 
-            edit_button = QPushButton(self)
-            edit_button.setText("EDIT")
-            self.ref_layout.addWidget(edit_button, i, 2)
-            edit_button.clicked.connect(partial(self.edit_button_clicked, row.id))
+            details_button = QPushButton(self)
+            details_button.setText("DETAILS")
+            self.ref_layout.addWidget(details_button, i, 2)
+            details_button.clicked.connect(partial(self.details_button_clicked, row.id))
 
             delete_button = QPushButton(self)
             delete_button.setText("DELETE")
             self.ref_layout.addWidget(delete_button, i, 3)
             delete_button.clicked.connect(partial(self.delete_button_clicked, row.id))
+    def delete_button_clicked(self, idx: int):
+        with self.database.session() as session:
+            project = session.get(Projects, idx)
+            if project:
+                session.delete(project)
+                session.commit()
+        self.refresh_layout()
+    def details_button_clicked(self,idx: int):
+        self.single_project = SingleProject(self.database, idx, self.user)
+        self.single_project.exec()
 
 
 class UserWindow(QMainWindow):
@@ -443,17 +456,17 @@ class UserWindow(QMainWindow):
 
 
 class SingleProject(QDialog):
-    def __init__(self, database, index):
+    def __init__(self, database, project_id, user):
         super().__init__()
         self.database = database
+        self.project_id = project_id
+        self.user = user
         self.layout = QGridLayout()
         self.setLayout(self.layout)
 
-        self.index = index
 
-        table = list(self.database.fetch_table("projects"))
-        row = table[self.index]
+
 
         self.name_label = QLabel(self)
-        self.name_label.setText(str(row["name"]))
+        self.name_label.setText(self.user.name)
         self.layout.addWidget(self.name_label, 0, 0)
