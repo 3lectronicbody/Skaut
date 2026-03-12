@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="Todo: Projects Window">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="Todo: Single Project Window">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/TODO" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
@@ -178,7 +177,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773228485574</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Todo: Single Project Window">
+      <option name="closed" value="true" />
+      <created>1773241077350</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1773241077350</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -197,7 +204,8 @@
     <MESSAGE value="Create Account Logic with password check , email check and hashing login window" />
     <MESSAGE value="App flow moved to separate file app.py" />
     <MESSAGE value="Todo: Projects Window" />
-    <option name="LAST_COMMIT_MESSAGE" value="Todo: Projects Window" />
+    <MESSAGE value="Todo: Single Project Window" />
+    <option name="LAST_COMMIT_MESSAGE" value="Todo: Single Project Window" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

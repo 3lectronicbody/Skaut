@@ -16,6 +16,7 @@ from PySide6.QtWidgets import (
     QTextEdit,
     QMessageBox,
     QCheckBox,
+    QScrollArea,
 )
 from datetime import datetime
 from models import Projects, ProjectDetails, Users, Role, Logs, Log
@@ -283,6 +284,9 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(self.user_button, 3, 0)
         self.user_button.clicked.connect(self.user_window_button_function)
 
+        row_count = self.layout.rowCount()
+        self.layout.setRowStretch(row_count, 1)
+
     def user_window_button_function(self):
         self.user_window = UserWindow(self.database, self)
         self.user_window.show()
@@ -331,12 +335,12 @@ class NewProjectWindow(QDialog):
 
         self.save_button = QPushButton(self)
         self.save_button.setText("CREATE")
-        self.layout.addWidget(self.save_button, 3, 0)
+        self.layout.addWidget(self.save_button, 3, 1)
         self.save_button.clicked.connect(self.save_project)
 
         self.cancel_button = QPushButton(self)
         self.cancel_button.setText("CANCEL")
-        self.layout.addWidget(self.cancel_button, 3, 1)
+        self.layout.addWidget(self.cancel_button, 3, 0)
         self.cancel_button.clicked.connect(self.close)
 
     def save_project(self):
@@ -344,29 +348,39 @@ class NewProjectWindow(QDialog):
         description = self.description_input.toPlainText()
         beginning_date = datetime.now()
         project_owner = self.main_window.user.email
+        if name and description:
+            message = QMessageBox()
+            message.setText("Are You sure you want to create this project?")
+            message.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
 
-        with self.database.session() as session:
-            project = Projects(
-                name=name,
-                description=description,
-                project_owner=project_owner,
-                beginning=beginning_date,
-            )
-            session.add(project)
-            session.flush()  # Flush to get project.id before commit
+            if message.exec() == QMessageBox.StandardButton.Yes:
+                with self.database.session() as session:
+                    project = Projects(
+                        name=name,
+                        description=description,
+                        project_owner=project_owner,
+                        beginning=beginning_date,
+                    )
+                    session.add(project)
+                    session.flush()  # Flush to get project.id before commit
 
-            # Log activity in database
-            log = Logs(
-                activity=Log.CREATE_PROJECT.value,
-                user_id=self.main_window.user_id,
-                project_id=project.id,
-            )
-            session.add(log)
-            session.commit()
-        message = QMessageBox()
-        message.setText("Project has been created successfully")
-        message.exec()
-        self.close()
+                    # Log activity in database
+                    log = Logs(
+                        activity=Log.CREATE_PROJECT.value,
+                        user_id=self.main_window.user_id,
+                        project_id=project.id,
+                    )
+                    session.add(log)
+                    session.commit()
+                success_message = QMessageBox()
+                success_message.setText("Project has been created successfully")
+                print("Project has been created successfully")
+                success_message.exec()
+                self.close()
+        else:
+            warning_message = QMessageBox()
+            warning_message.setText("Please enter name of project and description")
+            warning_message.exec()
 
 
 class ProjectsWindow(QDialog):
@@ -381,47 +395,66 @@ class ProjectsWindow(QDialog):
         self.main_layout = QGridLayout()
         self.setLayout(self.main_layout)
 
+        self.scroll_area = QScrollArea(self)
+        self.scroll_area.setFixedHeight(200)
+        self.scroll_area.setWidgetResizable(True)
+        self.main_layout.addWidget(self.scroll_area, 0, 0)
+
+        self.container = QWidget()
+        self.scroll_area.setWidget(self.container)
+
         self.ref_layout = QGridLayout()
-        self.main_layout.addLayout(self.ref_layout, 0, 0)
+        self.ref_layout.setVerticalSpacing(10)  # 10 pixels between rows
+        self.ref_layout.setHorizontalSpacing(10)  # self.ref_layout.setContentsMargins(10, 10, 10, 10)  # Optional: add margins around the layout
+        self.container.setLayout(self.ref_layout)
+
 
         self.refresh_layout()
 
+
         self.cancel_button = QPushButton(self)
-        self.cancel_button.setText("CANCEL")
+        self.cancel_button.setText("BACK")
         self.main_layout.addWidget(self.cancel_button, 1, 0)
         self.cancel_button.clicked.connect(self.close)
 
     def refresh_layout(self):
-        # Clear current layout
         layout = self.ref_layout
+
         while layout.count():
             item = layout.takeAt(0)
             widget = item.widget()
-            if widget is not None:
+            if widget:
                 widget.deleteLater()
-        # Populate layout from database
+
+        # reset stretch
+        self.ref_layout.setRowStretch(0, 0)
+
         with self.database.session() as session:
             table = session.query(Projects).all()
-            print(type(table))
 
+        counter = 0
         for i, row in enumerate(table):
-            name_label = QLabel(self)
+            name_label = QLabel(self.container)
             name_label.setText(row.name)
             self.ref_layout.addWidget(name_label, i, 0)
 
-            description_label = QLabel(self)
+            description_label = QLabel(self.container)
             description_label.setText(row.description)
             self.ref_layout.addWidget(description_label, i, 1)
 
-            details_button = QPushButton(self)
-            details_button.setText("DETAILS")
+            details_button = QPushButton("DETAILS", self.container)
             self.ref_layout.addWidget(details_button, i, 2)
             details_button.clicked.connect(partial(self.details_button_clicked, row.id))
 
-            delete_button = QPushButton(self)
-            delete_button.setText("DELETE")
+            delete_button = QPushButton("DELETE", self.container)
             self.ref_layout.addWidget(delete_button, i, 3)
             delete_button.clicked.connect(partial(self.delete_button_clicked, row.id))
+
+            counter += 1
+
+        # push rows up so spacing stays consistent
+        self.ref_layout.setRowStretch(counter + 1, 1)
+
     def delete_button_clicked(self, idx: int):
         with self.database.session() as session:
             project = session.get(Projects, idx)
