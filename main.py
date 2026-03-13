@@ -288,7 +288,7 @@ class MainWindow(QMainWindow):
         self.layout.setRowStretch(row_count, 1)
 
     def user_window_button_function(self):
-        self.user_window = UserWindow(self.database, self)
+        self.user_window = UserWindow(self.database, self, self.user)
         self.user_window.show()
         self.hide()
 
@@ -442,7 +442,7 @@ class ProjectsWindow(QDialog):
             description_label.setText(row.description)
             self.ref_layout.addWidget(description_label, i, 1)
 
-            details_button = QPushButton("DETAILS", self.container)
+            details_button = QPushButton("OPEN", self.container)
             self.ref_layout.addWidget(details_button, i, 2)
             details_button.clicked.connect(partial(self.details_button_clicked, row.id))
 
@@ -456,22 +456,33 @@ class ProjectsWindow(QDialog):
         self.ref_layout.setRowStretch(counter + 1, 1)
 
     def delete_button_clicked(self, idx: int):
-        with self.database.session() as session:
-            project = session.get(Projects, idx)
-            if project:
-                session.delete(project)
-                session.commit()
-        self.refresh_layout()
+        warning_message = QMessageBox()
+        warning_message.setText("Are You sure you want to delete this project?\nProject will be removed permanently")
+        warning_message.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        if warning_message.exec() == QMessageBox.StandardButton.Yes:
+            with self.database.session() as session:
+                project = session.get(Projects, idx)
+                if project:
+                    session.delete(project)
+                    session.commit()
+            self.refresh_layout()
     def details_button_clicked(self,idx: int):
+        self.hide()
         self.single_project = SingleProject(self.database, idx, self.user)
+        self.setEnabled(False)
         self.single_project.exec()
+        self.setEnabled(True)
+        self.show()
+
+
 
 
 class UserWindow(QMainWindow):
-    def __init__(self, database, main_window):
+    def __init__(self, database, main_window, user):
         super().__init__()
         self.database = database
         self.main_window = main_window
+        self.user = user
 
         self.centralWidget = QWidget(self)
         self.setCentralWidget(self.centralWidget)
@@ -479,13 +490,110 @@ class UserWindow(QMainWindow):
         self.layout = QGridLayout()
         self.centralWidget.setLayout(self.layout)
 
+        self.ref_widget = QWidget(self)
+        self.layout.addWidget(self.ref_widget, 0, 0)
+        self.ref_layout = QGridLayout()
+        self.ref_widget.setLayout(self.ref_layout)
+
+        self.refresh_layout()
+
         # Cancel button
         self.cancel_button = QPushButton(self)
         self.cancel_button.setText("CANCEL")
-        self.layout.addWidget(self.cancel_button, 0, 0)
+        self.layout.addWidget(self.cancel_button, 1, 0)
         self.cancel_button.clicked.connect(
             lambda: (self.close(), self.main_window.show())
         )
+
+
+
+        # Widgets
+    def refresh_layout(self):
+        layout = self.ref_layout
+        while layout.count():
+            item = layout.takeAt(0)
+            widget = item.widget()
+            if widget:
+                widget.deleteLater()
+    # Name
+        name_label = QLabel(self)
+        name_label.setText("Name")
+        self.ref_layout.addWidget(name_label, 0, 0)
+
+        name_input = QLineEdit(self)
+        name_input.setPlaceholderText("Name")
+        name_input.setText(self.user.name)
+        name_input.setEnabled(False)
+        self.ref_layout.addWidget(name_input, 0, 1)
+
+        edit_name_button = QPushButton(self)
+        edit_name_button.setText("Edit...")
+        self.ref_layout.addWidget(edit_name_button, 0, 2)
+        def edit_button_clicked():
+            edit_name_button.setDisabled(True)
+            surname_input.setEnabled(True)
+            save_name_button.setEnabled(True)
+        edit_name_button.clicked.connect(edit_button_clicked)
+
+
+        save_name_button = QPushButton(self)
+        save_name_button.setText("Save...")
+        save_name_button.setDisabled(True)
+        self.ref_layout.addWidget(save_name_button, 0, 3)
+        def save_button_clicked():
+            with self.database.session() as session:
+                if not surname_input.text():
+                    edit_name_button.setEnabled(True)
+                    return
+                user = session.get(Users, self.user.id)
+                if user:
+                    user.name = surname_input.text()
+                    session.commit()
+                    surname_input.setText(user.name)
+                    surname_input.setEnabled(False)
+                    save_name_button.setDisabled(True)
+                    edit_name_button.setEnabled(True)
+        save_name_button.clicked.connect(save_button_clicked)
+
+    # surname
+        surname_label = QLabel(self)
+        surname_label.setText("Surname")
+        self.ref_layout.addWidget(surname_label, 1, 0)
+
+        surname_input = QLineEdit(self)
+        surname_input.setPlaceholderText("Surname")
+        surname_input.setText(self.user.surname)
+        surname_input.setEnabled(False)
+        self.ref_layout.addWidget(surname_input, 1, 1)
+
+        edit_surname_button = QPushButton(self)
+        edit_surname_button.setText("Edit...")
+        self.ref_layout.addWidget(edit_surname_button, 1, 2)
+        def edit_surname_button_clicked():
+            edit_surname_button.setDisabled(True)
+            surname_input.setEnabled(True)
+            save_surname_button.setEnabled(True)
+        edit_surname_button.clicked.connect(edit_surname_button_clicked)
+
+
+        save_surname_button = QPushButton(self)
+        save_surname_button.setText("Save...")
+        save_surname_button.setDisabled(True)
+        self.ref_layout.addWidget(save_surname_button, 1, 3)
+        def save_surname_button_clicked():
+            with self.database.session() as session:
+                if not surname_input.text():
+                    edit_surname_button.setEnabled(True)
+                    return
+                user = session.get(Users, self.user.id)
+                if user:
+                    user.surname = surname_input.text()
+                    session.commit()
+                    surname_input.setText(user.surname)
+                    surname_input.setEnabled(False)
+                    save_surname_button.setDisabled(True)
+                    edit_surname_button.setEnabled(True)
+        save_surname_button.clicked.connect(save_surname_button_clicked)
 
 
 class SingleProject(QDialog):

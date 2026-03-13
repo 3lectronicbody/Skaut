@@ -2,7 +2,6 @@ TODO:
 * User Window
 * Add functionality of forgot password
 * Add functionality of email sending when user forgets password
-* ProjectsWindow:project_delete project,
 * SingleProjectWindow:
     * Add functionality of project finish
     * Add functionality of adding items and activities to project
