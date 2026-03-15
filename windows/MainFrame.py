@@ -1,29 +1,8 @@
-
-from helper import (
-    hash_password,
-    validate_password,
-    email_validation,
-    save_login,
-    delete_login,
-)
 from PySide6.QtWidgets import (
     QMainWindow,
-    QWidget,
-    QGridLayout,
-    QPushButton,
-    QDialog,
-    QLabel,
-    QLineEdit,
-    QTextEdit,
-    QMessageBox,
-    QCheckBox,
-    QScrollArea, QStackedWidget,
+    QStackedWidget,
 )
-from datetime import datetime
-from models import Projects, ProjectDetails, Users, Role, Logs, Log
-from PySide6.QtGui import Qt
-from functools import partial
-
+from models import Users
 from windows.main_menu_page import MenuPage
 from windows.new_project_page import NewProjectWindow
 from windows.user_page import UserWindow

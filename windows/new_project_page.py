@@ -26,11 +26,11 @@ from functools import partial
 
 
 class NewProjectWindow(QDialog):
-    def __init__(self, database, user, parent):
+    def __init__(self, database, user, stack):
         super().__init__()
         self.database = database
         self.user = user
-        self.parent = parent
+        self.stack = stack
 
         self.layout = QGridLayout()
         self.setLayout(self.layout)
@@ -57,7 +57,7 @@ class NewProjectWindow(QDialog):
         self.cancel_button = QPushButton(self)
         self.cancel_button.setText("CANCEL")
         self.layout.addWidget(self.cancel_button, 3, 0)
-        self.cancel_button.clicked.connect(self.parent.show_main_page)
+        self.cancel_button.clicked.connect(self.stack.show_main_page)
 
     def save_project(self):
         name = self.name_input.text()
@@ -78,7 +78,7 @@ class NewProjectWindow(QDialog):
                         beginning=beginning_date,
                     )
                     session.add(project)
-                    session.flush()  # Flush to get project.id before commit
+                    session.flush()
 
                     # Log activity in database
                     log = Logs(
@@ -90,9 +90,8 @@ class NewProjectWindow(QDialog):
                     session.commit()
                 success_message = QMessageBox()
                 success_message.setText("Project has been created successfully")
-                print("Project has been created successfully")
                 success_message.exec()
-                self.close()
+                self.stack.show_main_page()
         else:
             warning_message = QMessageBox()
             warning_message.setText("Please enter name of project and description")
