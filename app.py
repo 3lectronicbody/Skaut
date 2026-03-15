@@ -3,7 +3,8 @@ import qdarkstyle
 import sys
 from database import Database
 from helper import load_login
-from main import MainWindow, LoginWindow
+from windows.login_window import LoginWindow
+from windows.main_frame import MainStack
 from models import Logs, Log
 
 
@@ -25,16 +26,18 @@ def main_app():
     login = LoginWindow(database_object, token)
     # 6. If user logged in successfully, open main window, if not exit application
     if login.exec() == QDialog.DialogCode.Accepted:
-        main_window = MainWindow(
+        main_window = MainStack(
             database_object, login.user_id
         )  # login.user_id - id of user who logged in
-        main_window.show()
-        # When user closes main window, log out activity in database and exit application
         with database_object.session() as session:
-            log = Logs(activity=Log.LOGOUT.value, user_id=login.user_id)
+            log = Logs(activity=Log.LOGIN.value, user_id=login.user_id)
             session.add(log)
             session.commit()
-        sys.exit(app.exec())
+        main_window.show()
+        # When user closes main window, log out activity in database and exit application
+        app.exec()
+
+
     else:
         sys.exit()
 

@@ -18,6 +18,7 @@ from PySide6.QtWidgets import (
     QCheckBox,
     QScrollArea,
 )
+from windows.sign_in_page import SignIn
 from datetime import datetime
 from models import Projects, ProjectDetails, Users, Role, Logs, Log
 from PySide6.QtGui import Qt
@@ -140,7 +141,7 @@ class LoginWindow(QDialog):
                 message.exec()
 
     def sign_in_link(self):
-        sign_in = self.SignIn(self.database)
+        sign_in = SignIn(self.database)
         self.setEnabled(False)
         sign_in.exec()
         self.setEnabled(True)
