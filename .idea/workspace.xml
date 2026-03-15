@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="Todo: Single Project Window">
-      <change afterPath="$PROJECT_DIR$/windows/all_projects_page.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/windows/login_page.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/windows/new_project_page.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/windows/sign_in_page.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/windows/single_project_page.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/windows/user_page.py" afterDir="false" />
-    </list>
+    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="Todo: Single Project Window" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,12 +32,12 @@
     &quot;assignee&quot;: &quot;3lectronicbody&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/3lectronicbody/Skaut.git",
-    "accountId": "b5d24d53-449e-4b59-8d66-619e6d9727d7"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/3lectronicbody/Skaut.git&quot;,
+    &quot;accountId&quot;: &quot;b5d24d53-449e-4b59-8d66-619e6d9727d7&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
