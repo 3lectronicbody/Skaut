@@ -4,18 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="Todo: Single Project Window">
-      <change afterPath="$PROJECT_DIR$/windows/main_frame.py" afterDir="false" />
+    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="State just before refraction to stacked version">
+      <change afterPath="$PROJECT_DIR$/windows/menu_page.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/Skaut.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Skaut.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/all_projects_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/all_projects_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/login_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/login_window.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/new_project_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/new_project_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/sign_in_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/sign_in_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/single_project_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/single_project_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/user_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/user_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/main_frame.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/main_frame.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +70,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
-    "settings.editor.selected.configurable": "com.github.copilot.settings.completions.CompletionsConfigurable"
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
   <component name="SharedIndexes">
@@ -206,7 +200,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773326774186</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="State just before refraction to stacked version">
+      <option name="closed" value="true" />
+      <created>1773583438373</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1773583438373</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -226,7 +228,8 @@
     <MESSAGE value="App flow moved to separate file app.py" />
     <MESSAGE value="Todo: Projects Window" />
     <MESSAGE value="Todo: Single Project Window" />
-    <option name="LAST_COMMIT_MESSAGE" value="Todo: Single Project Window" />
+    <MESSAGE value="State just before refraction to stacked version" />
+    <option name="LAST_COMMIT_MESSAGE" value="State just before refraction to stacked version" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -23,27 +23,11 @@ from models import Projects, ProjectDetails, Users, Role, Logs, Log
 from PySide6.QtGui import Qt
 from functools import partial
 
-class MainStack(QMainWindow):
-    def __init__(self, database, user_id):
+
+class MenuPage(QWidget):
+    def __init__(self):
         super().__init__()
-        self.database = database
-
-        # Logged User form Login window
-        self.user_id = user_id
-        # Get iser based on id and save it in self.user variable for later use in main window
-        with self.database.session() as session:
-            self.user = session.get(Users, self.user_id)
-
-
-        self.move(500, 250)
-
-        self.central_widget = QStackedWidget(self)
-        self.setCentralWidget(self.central_widget)
-
-
-
-
-        # WIDGETS
+        self.layout = QGridLayout(self)
         # Welcome labe
         self.welcome_label = QLabel(self)
         self.welcome_label.setText(f"Welcome to Skaut {self.user.email}")
@@ -68,4 +52,3 @@ class MainStack(QMainWindow):
 
         row_count = self.layout.rowCount()
         self.layout.setRowStretch(row_count, 1)
-
