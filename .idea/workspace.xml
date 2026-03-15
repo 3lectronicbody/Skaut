@@ -6,9 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="Login and Sign In complete">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/main_frame.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/main_frame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/main_frame.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/MainFrame.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/windows/menu_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/menu_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/new_project_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/new_project_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/user_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/user_page.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +64,7 @@
     "Python.app.executor": "Run",
     "Python.helper.executor": "Run",
     "Python.main.executor": "Run",
+    "Python.menu_page.executor": "Run",
     "Python.models.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
@@ -223,7 +225,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773584927350</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Login and Sign In complete">
+      <option name="closed" value="true" />
+      <created>1773586951155</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1773586951155</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -256,7 +266,7 @@
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/windows/main_frame.py</url>
+          <url>file://$PROJECT_DIR$/windows/MainFrame.py</url>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>

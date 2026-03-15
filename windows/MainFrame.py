@@ -26,6 +26,7 @@ from functools import partial
 
 from windows.menu_page import MenuPage
 from windows.new_project_page import NewProjectWindow
+from windows.user_page import UserWindow
 
 
 class MainStack(QMainWindow):
@@ -46,10 +47,12 @@ class MainStack(QMainWindow):
 
         self.main_menu = MenuPage(self.database, self.user, self)
         self.new_project_page = NewProjectWindow(self.database, self.user, self)
+        self.user_page = UserWindow(self.database, self.user, self)
 
 
         self.central_widget.addWidget(self.main_menu)
         self.central_widget.addWidget(self.new_project_page)
+        self.central_widget.addWidget(self.user_page)
 
         self.central_widget.setCurrentWidget(self.main_menu)
 
@@ -58,6 +61,9 @@ class MainStack(QMainWindow):
 
     def show_new_project_page(self):
         self.central_widget.setCurrentWidget(self.new_project_page)
+
+    def show_user_page(self):
+        self.central_widget.setCurrentWidget(self.user_page)
 
 
 

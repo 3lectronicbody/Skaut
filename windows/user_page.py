@@ -24,18 +24,18 @@ from PySide6.QtGui import Qt
 from functools import partial
 
 
-class UserWindow(QMainWindow):
-    def __init__(self, database, main_window, user):
+class UserWindow(QWidget):
+    def __init__(self, database,user, parent):
         super().__init__()
         self.database = database
-        self.main_window = main_window
         self.user = user
+        self.parent = parent
 
-        self.centralWidget = QWidget(self)
-        self.setCentralWidget(self.centralWidget)
+
         self.setWindowTitle("User Window")
         self.layout = QGridLayout()
-        self.centralWidget.setLayout(self.layout)
+        self.setLayout(self.layout)
+
 
         self.ref_widget = QWidget(self)
         self.layout.addWidget(self.ref_widget, 0, 0)
@@ -48,9 +48,7 @@ class UserWindow(QMainWindow):
         self.cancel_button = QPushButton(self)
         self.cancel_button.setText("CANCEL")
         self.layout.addWidget(self.cancel_button, 1, 0)
-        self.cancel_button.clicked.connect(
-            lambda: (self.close(), self.main_window.show())
-        )
+        self.cancel_button.clicked.connect(lambda: self.parent.show_main_page())
 
 
 
@@ -127,6 +125,7 @@ class UserWindow(QMainWindow):
         save_surname_button.setText("Save...")
         save_surname_button.setDisabled(True)
         self.ref_layout.addWidget(save_surname_button, 1, 3)
+
         def save_surname_button_clicked():
             with self.database.session() as session:
                 if not surname_input.text():
@@ -140,4 +139,5 @@ class UserWindow(QMainWindow):
                     surname_input.setEnabled(False)
                     save_surname_button.setDisabled(True)
                     edit_surname_button.setEnabled(True)
+
         save_surname_button.clicked.connect(save_surname_button_clicked)

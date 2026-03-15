@@ -35,6 +35,7 @@ class MenuPage(QWidget):
 
 
         self.layout = QGridLayout(self)
+        self.setLayout(self.layout)
         # Welcome labe
         self.welcome_label = QLabel(self)
         self.welcome_label.setText(f"Welcome to Skaut {self.user.email}")
@@ -56,6 +57,7 @@ class MenuPage(QWidget):
         self.user_button = QPushButton(self)
         self.user_button.setText("USER DASHBOARD")
         self.layout.addWidget(self.user_button, 3, 0)
+        self.user_button.clicked.connect(lambda: self.parent.show_user_page())
 
         row_count = self.layout.rowCount()
         self.layout.setRowStretch(row_count, 1)

@@ -4,7 +4,7 @@ import sys
 from database import Database
 from helper import load_login
 from windows.login_window import LoginWindow
-from windows.main_frame import MainStack
+from windows.MainFrame import MainStack
 from models import Logs, Log
 
 
