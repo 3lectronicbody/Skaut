@@ -1,3 +1,4 @@
+
 from helper import (
     hash_password,
     validate_password,
@@ -23,14 +24,17 @@ from models import Projects, ProjectDetails, Users, Role, Logs, Log
 from PySide6.QtGui import Qt
 from functools import partial
 
+from windows.menu_page import MenuPage
+from windows.new_project_page import NewProjectWindow
+
+
 class MainStack(QMainWindow):
     def __init__(self, database, user_id):
         super().__init__()
-        self.database = database
 
-        # Logged User form Login window
+        self.database = database
         self.user_id = user_id
-        # Get iser based on id and save it in self.user variable for later use in main window
+        # Get user based on id and save it in self.user variable for later use in main window
         with self.database.session() as session:
             self.user = session.get(Users, self.user_id)
 
@@ -40,32 +44,26 @@ class MainStack(QMainWindow):
         self.central_widget = QStackedWidget(self)
         self.setCentralWidget(self.central_widget)
 
+        self.main_menu = MenuPage(self.database, self.user, self)
+        self.new_project_page = NewProjectWindow(self.database, self.user, self)
+
+
+        self.central_widget.addWidget(self.main_menu)
+        self.central_widget.addWidget(self.new_project_page)
+
+        self.central_widget.setCurrentWidget(self.main_menu)
+
+    def show_main_page(self):
+        self.central_widget.setCurrentWidget(self.main_menu)
+
+    def show_new_project_page(self):
+        self.central_widget.setCurrentWidget(self.new_project_page)
 
 
 
-        # WIDGETS
-        # Welcome labe
-        self.welcome_label = QLabel(self)
-        self.welcome_label.setText(f"Welcome to Skaut {self.user.email}")
-        self.layout.addWidget(self.welcome_label, 0, 0)
-        # Create New Project Button
-        self.create_button = QPushButton(self)
-        self.create_button.setText("CREATE NEW PROJECT")
-        self.layout.addWidget(self.create_button, 1, 0)
-        self.create_button.clicked.connect(self.create_project_button)
 
-        # Projects Button
-        self.all_projects_button = QPushButton(self)
-        self.all_projects_button.setText("PROJECTS")
-        self.layout.addWidget(self.all_projects_button, 2, 0)
-        self.all_projects_button.clicked.connect(self.all_projects_button_function)
 
-        # User Button
-        self.user_button = QPushButton(self)
-        self.user_button.setText("USER DASHBOARD")
-        self.layout.addWidget(self.user_button, 3, 0)
-        self.user_button.clicked.connect(self.user_window_button_function)
 
-        row_count = self.layout.rowCount()
-        self.layout.setRowStretch(row_count, 1)
+
+
 

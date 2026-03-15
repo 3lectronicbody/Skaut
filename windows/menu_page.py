@@ -25,8 +25,15 @@ from functools import partial
 
 
 class MenuPage(QWidget):
-    def __init__(self):
+    def __init__(self, database, user, parent):
         super().__init__()
+
+        self.database = database
+        self.user = user
+        self.parent = parent
+
+
+
         self.layout = QGridLayout(self)
         # Welcome labe
         self.welcome_label = QLabel(self)
@@ -36,19 +43,19 @@ class MenuPage(QWidget):
         self.create_button = QPushButton(self)
         self.create_button.setText("CREATE NEW PROJECT")
         self.layout.addWidget(self.create_button, 1, 0)
-        self.create_button.clicked.connect(self.create_project_button)
+        self.create_button.clicked.connect(lambda: self.parent.show_new_project_page())
+
 
         # Projects Button
         self.all_projects_button = QPushButton(self)
         self.all_projects_button.setText("PROJECTS")
         self.layout.addWidget(self.all_projects_button, 2, 0)
-        self.all_projects_button.clicked.connect(self.all_projects_button_function)
+
 
         # User Button
         self.user_button = QPushButton(self)
         self.user_button.setText("USER DASHBOARD")
         self.layout.addWidget(self.user_button, 3, 0)
-        self.user_button.clicked.connect(self.user_window_button_function)
 
         row_count = self.layout.rowCount()
         self.layout.setRowStretch(row_count, 1)

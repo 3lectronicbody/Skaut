@@ -26,15 +26,11 @@ from functools import partial
 
 
 class NewProjectWindow(QDialog):
-    def __init__(self, parent_window):
+    def __init__(self, database, user, parent):
         super().__init__()
-        self.main_window = parent_window
-        self.database = parent_window.database
-
-        # Get current main window position
-        main_pos = self.main_window.frameGeometry().topLeft()
-        # Move dialog to same position
-        self.move(main_pos)
+        self.database = database
+        self.user = user
+        self.parent = parent
 
         self.layout = QGridLayout()
         self.setLayout(self.layout)
@@ -61,13 +57,13 @@ class NewProjectWindow(QDialog):
         self.cancel_button = QPushButton(self)
         self.cancel_button.setText("CANCEL")
         self.layout.addWidget(self.cancel_button, 3, 0)
-        self.cancel_button.clicked.connect(self.close)
+        self.cancel_button.clicked.connect(self.parent.show_main_page)
 
     def save_project(self):
         name = self.name_input.text()
         description = self.description_input.toPlainText()
         beginning_date = datetime.now()
-        project_owner = self.main_window.user.email
+        project_owner = self.user.email
         if name and description:
             message = QMessageBox()
             message.setText("Are You sure you want to create this project?")
@@ -87,7 +83,7 @@ class NewProjectWindow(QDialog):
                     # Log activity in database
                     log = Logs(
                         activity=Log.CREATE_PROJECT.value,
-                        user_id=self.main_window.user_id,
+                        user_id=self.user.id,
                         project_id=project.id,
                     )
                     session.add(log)
