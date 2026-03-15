@@ -141,3 +141,6 @@ class UserWindow(QWidget):
                     edit_surname_button.setEnabled(True)
 
         save_surname_button.clicked.connect(save_surname_button_clicked)
+
+        rows = self.ref_layout.rowCount()
+        self.ref_layout.setRowStretch(rows+1, 1)

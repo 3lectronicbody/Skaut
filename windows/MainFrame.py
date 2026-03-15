@@ -24,9 +24,10 @@ from models import Projects, ProjectDetails, Users, Role, Logs, Log
 from PySide6.QtGui import Qt
 from functools import partial
 
-from windows.menu_page import MenuPage
+from windows.main_menu_page import MenuPage
 from windows.new_project_page import NewProjectWindow
 from windows.user_page import UserWindow
+from windows .all_projects_page import ProjectsWindow
 
 
 class MainStack(QMainWindow):
@@ -46,13 +47,17 @@ class MainStack(QMainWindow):
         self.setCentralWidget(self.central_widget)
 
         self.main_menu = MenuPage(self.database, self.user, self)
+
         self.new_project_page = NewProjectWindow(self.database, self.user, self)
         self.user_page = UserWindow(self.database, self.user, self)
+        self.all_projects_page = ProjectsWindow(self.database, self.user, self)
 
 
         self.central_widget.addWidget(self.main_menu)
+
         self.central_widget.addWidget(self.new_project_page)
         self.central_widget.addWidget(self.user_page)
+        self.central_widget.addWidget(self.all_projects_page)
 
         self.central_widget.setCurrentWidget(self.main_menu)
 
@@ -64,6 +69,9 @@ class MainStack(QMainWindow):
 
     def show_user_page(self):
         self.central_widget.setCurrentWidget(self.user_page)
+
+    def show_all_projects_page(self):
+        self.central_widget.setCurrentWidget(self.all_projects_page)
 
 
 

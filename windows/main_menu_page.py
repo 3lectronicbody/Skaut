@@ -1,3 +1,4 @@
+from __future__ import annotations
 from helper import (
     hash_password,
     validate_password,
@@ -25,7 +26,7 @@ from functools import partial
 
 
 class MenuPage(QWidget):
-    def __init__(self, database, user, parent):
+    def __init__(self, database, user, parent: "MainStack"):
         super().__init__()
 
         self.database = database
@@ -40,6 +41,7 @@ class MenuPage(QWidget):
         self.welcome_label = QLabel(self)
         self.welcome_label.setText(f"Welcome to Skaut {self.user.email}")
         self.layout.addWidget(self.welcome_label, 0, 0)
+
         # Create New Project Button
         self.create_button = QPushButton(self)
         self.create_button.setText("CREATE NEW PROJECT")
@@ -51,6 +53,7 @@ class MenuPage(QWidget):
         self.all_projects_button = QPushButton(self)
         self.all_projects_button.setText("PROJECTS")
         self.layout.addWidget(self.all_projects_button, 2, 0)
+        self.all_projects_button.clicked.connect(lambda: self.parent.show_all_projects_page())
 
 
         # User Button

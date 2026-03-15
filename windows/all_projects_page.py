@@ -23,13 +23,14 @@ from models import Projects, ProjectDetails, Users, Role, Logs, Log
 from PySide6.QtGui import Qt
 from functools import partial
 
-class ProjectsWindow(QDialog):
-    def __init__(self, database, user):
+class ProjectsWindow(QWidget):
+    def __init__(self, database, user, parent):
         super().__init__()
 
 
         self.database = database
         self.user = user
+        self.parent = parent
         self.single_project = None
 
         self.main_layout = QGridLayout()
@@ -55,7 +56,7 @@ class ProjectsWindow(QDialog):
         self.cancel_button = QPushButton(self)
         self.cancel_button.setText("BACK")
         self.main_layout.addWidget(self.cancel_button, 1, 0)
-        self.cancel_button.clicked.connect(self.close)
+        self.cancel_button.clicked.connect(self.parent.show_main_page)
 
     def refresh_layout(self):
         layout = self.ref_layout
