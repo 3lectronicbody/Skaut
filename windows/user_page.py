@@ -1,9 +1,10 @@
+from PySide6.QtGui import QPixmap, Qt
 from PySide6.QtWidgets import (
     QWidget,
     QGridLayout,
     QPushButton,
     QLabel,
-    QLineEdit,
+    QLineEdit, QVBoxLayout,
 )
 from models import  Users
 
@@ -125,6 +126,52 @@ class UserWindow(QWidget):
                     edit_surname_button.setEnabled(True)
 
         save_surname_button.clicked.connect(save_surname_button_clicked)
+
+    # phone number
+        tel_label = QLabel(self)
+        tel_label.setText("Phone Number")
+        self.ref_layout.addWidget(tel_label,2, 0)
+
+        tel_input = QLineEdit(self)
+        tel_input.setPlaceholderText("Phone Number")
+        tel_input.setText(self.user.phone)
+        tel_input.setEnabled(False)
+        self.ref_layout.addWidget(tel_input, 2, 1)
+
+        edit_tel_button = QPushButton(self)
+        edit_tel_button.setText("Edit...")
+        self.ref_layout.addWidget(edit_tel_button, 2, 2)
+
+        def edit_tel_button_clicked():
+            edit_tel_button.setDisabled(True)
+            tel_input.setEnabled(True)
+            save_tel_button.setEnabled(True)
+
+        edit_tel_button.clicked.connect(edit_tel_button_clicked)
+
+        save_tel_button = QPushButton(self)
+        save_tel_button.setText("Save...")
+        save_tel_button.setDisabled(True)
+        self.ref_layout.addWidget(save_tel_button, 2, 3)
+
+        def save_tel_button_clicked():
+            with self.database.session() as session:
+                if not tel_input.text():
+                    edit_tel_button.setEnabled(True)
+                    return
+                user = session.get(Users, self.user.id)
+                if user:
+                    user.phone = tel_input.text()
+                    session.commit()
+                    tel_input.setText(user.phone)
+                    tel_input.setEnabled(False)
+                    save_tel_button.setDisabled(True)
+                    edit_tel_button.setEnabled(True)
+
+        save_tel_button.clicked.connect(save_tel_button_clicked)
+
+
+
 
         rows = self.ref_layout.rowCount()
         self.ref_layout.setRowStretch(rows+1, 1)

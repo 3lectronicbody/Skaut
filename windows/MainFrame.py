@@ -7,6 +7,7 @@ from windows.main_menu_page import MenuPage
 from windows.new_project_page import NewProjectWindow
 from windows.user_page import UserWindow
 from windows .all_projects_page import ProjectsWindow
+from windows.admin_page import AdminWindow
 
 
 class MainStack(QMainWindow):
@@ -30,6 +31,7 @@ class MainStack(QMainWindow):
         self.new_project_page = NewProjectWindow(self.database, self.user, self)
         self.user_page = UserWindow(self.database, self.user, self)
         self.all_projects_page = ProjectsWindow(self.database, self.user, self)
+        self.admin_page = AdminWindow(self.database, self.user, self)
 
 
         self.central_widget.addWidget(self.main_menu)
@@ -37,6 +39,7 @@ class MainStack(QMainWindow):
         self.central_widget.addWidget(self.new_project_page)
         self.central_widget.addWidget(self.user_page)
         self.central_widget.addWidget(self.all_projects_page)
+        self.central_widget.addWidget(self.admin_page)
 
         self.central_widget.setCurrentWidget(self.main_menu)
 
@@ -51,6 +54,9 @@ class MainStack(QMainWindow):
 
     def show_all_projects_page(self):
         self.central_widget.setCurrentWidget(self.all_projects_page)
+
+    def show_admin_page(self):
+        self.central_widget.setCurrentWidget(self.admin_page)
 
 
 
