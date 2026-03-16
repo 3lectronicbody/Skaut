@@ -38,6 +38,7 @@ class Log(Enum):
     UPDATE_ACTIVITY = "update_activity"
     DELETE_ACTIVITY = "delete_activity"
     SIGN_IN = "sign_in"
+    DELETE_PROJECT = "delete_project"
 
 
 class Users(Base):

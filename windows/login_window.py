@@ -4,6 +4,7 @@ from helper import (
     email_validation,
     save_login,
     delete_login,
+    ok_message
 )
 from PySide6.QtWidgets import (
     QMainWindow,
@@ -129,9 +130,7 @@ class LoginWindow(QDialog):
                         delete_login()
                     except FileNotFoundError:
                         pass
-                message = QMessageBox()
-                message.setText("You have logged in successfully")
-                message.exec()
+                ok_message("You have successfully logged in")
                 self.user_id = row.id
                 self.accept()
 

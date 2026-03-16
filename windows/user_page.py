@@ -30,7 +30,7 @@ class UserWindow(QWidget):
 
         # Cancel button
         self.cancel_button = QPushButton(self)
-        self.cancel_button.setText("CANCEL")
+        self.cancel_button.setText("BACK")
         self.layout.addWidget(self.cancel_button, 1, 0)
         self.cancel_button.clicked.connect(lambda: self.parent.show_main_page())
 
@@ -60,7 +60,7 @@ class UserWindow(QWidget):
         self.ref_layout.addWidget(edit_name_button, 0, 2)
         def edit_button_clicked():
             edit_name_button.setDisabled(True)
-            surname_input.setEnabled(True)
+            name_input.setEnabled(True)
             save_name_button.setEnabled(True)
         edit_name_button.clicked.connect(edit_button_clicked)
 
@@ -71,15 +71,15 @@ class UserWindow(QWidget):
         self.ref_layout.addWidget(save_name_button, 0, 3)
         def save_button_clicked():
             with self.database.session() as session:
-                if not surname_input.text():
+                if not name_input.text():
                     edit_name_button.setEnabled(True)
                     return
                 user = session.get(Users, self.user.id)
                 if user:
-                    user.name = surname_input.text()
+                    user.name = name_input.text()
                     session.commit()
-                    surname_input.setText(user.name)
-                    surname_input.setEnabled(False)
+                    name_input.setText(user.name)
+                    name_input.setEnabled(False)
                     save_name_button.setDisabled(True)
                     edit_name_button.setEnabled(True)
         save_name_button.clicked.connect(save_button_clicked)

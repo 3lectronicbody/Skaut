@@ -3,8 +3,7 @@ from email_validator import validate_email, EmailNotValidError
 from models import Users
 from sqlalchemy import select
 import os
-
-
+from PySide6.QtWidgets import QDialog, QLabel, QVBoxLayout, QPushButton
 
 
 def hash_password(password: str) -> str:
@@ -59,3 +58,19 @@ def delete_login():
 
 def reset_password(user_email):
     pass
+
+def ok_message(message: str):
+    message_window = QDialog()
+    layout = QVBoxLayout()
+    message_window.setLayout(layout)
+    message_label = QLabel(message)
+
+    layout.addWidget(message_label)
+
+    ok_button = QPushButton("Ok")
+    layout.addWidget(ok_button)
+    ok_button.clicked.connect(message_window.accept)
+
+
+    message_window.exec()
+

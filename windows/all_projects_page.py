@@ -97,22 +97,21 @@ class ProjectsWindow(QWidget):
         self.ref_layout.setRowStretch(counter + 1, 1)
 
     def delete_button_clicked(self, idx: int):
-        warning_message = QMessageBox()
-        warning_message.setText(
-            "Are You sure you want to delete this project?\nProject will be removed permanently")
-        warning_message.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-        if warning_message.exec() == QMessageBox.StandardButton.Yes:
-            with self.database.session() as session:
-                project = session.get(Projects, idx)
-                if project:
+        with self.database.session() as session:
+            project = session.get(Projects, idx)
+            if project:
+                warning_message = QMessageBox()
+                warning_message.setWindowTitle("Warning")
+                warning_message.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+                warning_message.setText("Are you sure you want to delete this project?")
+                if warning_message.exec() == QMessageBox.StandardButton.Yes:
                     session.delete(project)
+                    log = Logs(activity=Log.DELETE_PROJECT.value, user_id=self.user.id, project_id=idx)
+                    session.add(log)
                     session.commit()
-            self.refresh_layout()
+                    self.refresh_layout()
+
+
 
     def details_button_clicked(self, idx: int):
-        self.hide()
-        self.single_project = SingleProject(self.database, idx, self.user)
-        self.setEnabled(False)
-        self.single_project.exec()
-        self.setEnabled(True)
-        self.show()
+        pass

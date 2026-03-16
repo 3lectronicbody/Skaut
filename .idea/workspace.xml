@@ -8,9 +8,13 @@
       <change beforePath="$PROJECT_DIR$/.idea/Skaut.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Skaut.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/MainFrame.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/MainFrame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/helper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/windows/all_projects_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/all_projects_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/menu_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/main_menu_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/login_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/login_window.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/main_menu_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/main_menu_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/new_project_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/new_project_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/single_project_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/single_project_page.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/windows/user_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/user_page.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,7 +48,7 @@
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/3lectronicbody/Skaut.git",
-    "accountId": "b5d24d53-449e-4b59-8d66-619e6d9727d7"
+    "accountId": "3cb3094d-59e9-4aa5-b2ed-df64c4f464bd"
   }
 }]]></component>
   <component name="ProjectColorInfo">{
@@ -69,8 +73,10 @@
     "Python.conig.executor": "Run",
     "Python.helper.executor": "Run",
     "Python.main.executor": "Run",
+    "Python.main_menu_page.executor": "Run",
     "Python.menu_page.executor": "Run",
     "Python.models.executor": "Debug",
+    "Python.new_project_page.executor": "Run",
     "Python.user_page.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
@@ -274,6 +280,11 @@
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/windows/MainFrame.py</url>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/windows/main_menu_page.py</url>
+          <line>1</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

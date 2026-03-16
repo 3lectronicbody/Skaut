@@ -88,9 +88,8 @@ class NewProjectWindow(QDialog):
                     )
                     session.add(log)
                     session.commit()
-                success_message = QMessageBox()
-                success_message.setText("Project has been created successfully")
-                success_message.exec()
+                from helper import ok_message
+                ok_message("Project has been created successfully")
                 self.stack.show_main_page()
         else:
             warning_message = QMessageBox()

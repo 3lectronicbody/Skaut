@@ -64,3 +64,14 @@ class MenuPage(QWidget):
 
         row_count = self.layout.rowCount()
         self.layout.setRowStretch(row_count, 1)
+
+        self.logout_button = QPushButton(self)
+        self.logout_button.setText("LOGOUT")
+        self.layout.addWidget(self.logout_button, row_count + 1, 0)
+        self.logout_button.clicked.connect(self.logout_button_clicked)
+    def logout_button_clicked(self):
+        with self.database.session() as session:
+            log = Logs(activity=Log.LOGOUT.value, user_id=self.user.id)
+            session.add(log)
+            session.commit()
+        self.parent.close()

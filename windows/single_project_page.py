@@ -23,12 +23,13 @@ from models import Projects, ProjectDetails, Users, Role, Logs, Log
 from PySide6.QtGui import Qt
 from functools import partial
 
-class SingleProject(QDialog):
+class SingleProject(QWidget):
     def __init__(self, database, project_id, user):
         super().__init__()
         self.database = database
         self.project_id = project_id
         self.user = user
+
         self.layout = QGridLayout()
         self.setLayout(self.layout)
 
