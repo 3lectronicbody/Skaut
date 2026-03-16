@@ -67,6 +67,8 @@ class MenuPage(QWidget):
         self.admin_button.setText("ADMIN")
         self.layout.addWidget(self.admin_button, 4, 0)
         self.admin_button.clicked.connect(lambda: self.parent.show_admin_page())
+        if self.user.role != Role.ADMIN.value:
+            self.admin_button.setEnabled(False)
 
         row_count = self.layout.rowCount()
         self.layout.setRowStretch(row_count, 1)
