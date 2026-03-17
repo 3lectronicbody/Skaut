@@ -1,3 +1,5 @@
+from PySide6.QtCore import Signal
+
 from helper import (
     hash_password,
     validate_password,
@@ -26,6 +28,7 @@ from PySide6.QtGui import Qt
 from functools import partial
 
 class LoginWindow(QDialog):
+    login_signal = Signal(int)
     def __init__(self, database, token):
         super().__init__()
 
@@ -132,6 +135,7 @@ class LoginWindow(QDialog):
                         pass
                 ok_message("You have successfully logged in")
                 self.user_id = row.id
+                self.login_signal.emit(self.user_id)
                 self.accept()
 
             else:
