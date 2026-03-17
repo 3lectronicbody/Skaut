@@ -26,12 +26,12 @@ from functools import partial
 
 
 class MenuPage(QWidget):
-    def __init__(self, database, user, parent: "MainStack"):
+    def __init__(self, database, user, stack):
         super().__init__()
 
         self.database = database
         self.user = user
-        self.parent = parent
+        self.stack = stack
 
 
 
@@ -46,27 +46,27 @@ class MenuPage(QWidget):
         self.create_button = QPushButton(self)
         self.create_button.setText("CREATE NEW PROJECT")
         self.layout.addWidget(self.create_button, 1, 0)
-        self.create_button.clicked.connect(lambda: self.parent.show_new_project_page())
+        self.create_button.clicked.connect(lambda: self.stack.show_new_project_page())
 
 
         # Projects Button
         self.all_projects_button = QPushButton(self)
         self.all_projects_button.setText("PROJECTS")
         self.layout.addWidget(self.all_projects_button, 2, 0)
-        self.all_projects_button.clicked.connect(lambda: self.parent.show_all_projects_page())
+        self.all_projects_button.clicked.connect(lambda: self.stack.show_all_projects_page())
 
 
         # User Button
         self.user_button = QPushButton(self)
         self.user_button.setText("USER DASHBOARD")
         self.layout.addWidget(self.user_button, 3, 0)
-        self.user_button.clicked.connect(lambda: self.parent.show_user_page())
+        self.user_button.clicked.connect(lambda: self.stack.show_user_page())
 
         # Admin Button
         self.admin_button = QPushButton(self)
         self.admin_button.setText("ADMIN")
         self.layout.addWidget(self.admin_button, 4, 0)
-        self.admin_button.clicked.connect(lambda: self.parent.show_admin_page())
+        self.admin_button.clicked.connect(lambda: self.stack.show_admin_page())
         if self.user.role != Role.ADMIN.value:
             self.admin_button.setEnabled(False)
 
@@ -82,4 +82,6 @@ class MenuPage(QWidget):
             log = Logs(activity=Log.LOGOUT.value, user_id=self.user.id)
             session.add(log)
             session.commit()
-        self.parent.close()
+        delete_login()
+        self.stack.logout_requested = True
+        self.stack.close()

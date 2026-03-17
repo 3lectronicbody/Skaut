@@ -1,6 +1,7 @@
+from PySide6.QtGui import QCloseEvent
 from PySide6.QtWidgets import (
     QMainWindow,
-    QStackedWidget,
+    QStackedWidget, QMessageBox,
 )
 from models import Users
 from windows.main_menu_page import MenuPage
@@ -16,6 +17,8 @@ class MainStack(QMainWindow):
 
         self.database = database
         self.user_id = user_id
+        self.logout_requested = False
+
         # Get user based on id and save it in self.user variable for later use in main window
         with self.database.session() as session:
             self.user = session.get(Users, self.user_id)
@@ -42,6 +45,21 @@ class MainStack(QMainWindow):
         self.central_widget.addWidget(self.admin_page)
 
         self.central_widget.setCurrentWidget(self.main_menu)
+    def closeEvent(self, event: QCloseEvent) -> None:
+
+        if self.logout_requested:
+            event.accept()
+            return
+
+        message = QMessageBox(self)
+        message.setText("Are You Sure You want to leave application ?")
+        message.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        result = message.exec()
+        if result == QMessageBox.StandardButton.Yes:
+            event.accept()
+        else:
+            event.ignore()
+
 
     def show_main_page(self):
         self.central_widget.setCurrentWidget(self.main_menu)
@@ -57,6 +75,7 @@ class MainStack(QMainWindow):
 
     def show_admin_page(self):
         self.central_widget.setCurrentWidget(self.admin_page)
+
 
 
 

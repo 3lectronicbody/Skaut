@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QApplication, QDialog
+from PySide6.QtWidgets import QApplication, QDialog, QMessageBox
 import qdarkstyle
 import sys
 from database import Database
@@ -18,28 +18,31 @@ def main_app():
     # 3. Create database object
     database_object = Database()
     # 4. Try to load token from txt file. If exists, create login window with token, if not create login window without token
-    try:
-        token = load_login()
-    except FileNotFoundError:
-        token = None
-    # 5. Create login window
-    login = LoginWindow(database_object, token)
-    # 6. If user logged in successfully, open main window, if not exit application
-    if login.exec() == QDialog.DialogCode.Accepted:
-        main_window = MainStack(
-            database_object, login.user_id
-        )  # login.user_id - id of user who logged in
-        with database_object.session() as session:
-            log = Logs(activity=Log.LOGIN.value, user_id=login.user_id)
-            session.add(log)
-            session.commit()
-        main_window.show()
-        # When user closes main window, log out activity in database and exit application
-        app.exec()
+    while True:
+        try:
+            token = load_login()
+        except FileNotFoundError:
+            token = None
+        # 5. Create login window
+        login = LoginWindow(database_object, token)
+        # 6. If user logged in successfully, open main window, if not exit application
+        if login.exec() == QDialog.DialogCode.Accepted:
+            main_window = MainStack(database_object, login.user_id)  # login.user_id - id of user who logged in
+            with database_object.session() as session:
+                log = Logs(activity=Log.LOGIN.value, user_id=login.user_id)
+                session.add(log)
+                session.commit()
+            main_window.show()
+            # When user closes main window, log out activity in database and exit application
+            app.exec()
 
+            if main_window.logout_requested:
+                continue
+            else:
+                break
 
-    else:
-        sys.exit()
+        else:
+            sys.exit()
 
 
 if __name__ == "__main__":
