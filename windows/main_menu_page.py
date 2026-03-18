@@ -22,10 +22,12 @@ from PySide6.QtWidgets import (
 from datetime import datetime
 from models import Projects, ProjectDetails, Users, Role, Logs, Log
 from PySide6.QtGui import Qt
+from PySide6.QtCore import Signal
 from functools import partial
 
 
 class MenuPage(QWidget):
+    logout_signal = Signal()
     def __init__(self, database, user, stack):
         super().__init__()
 
@@ -68,7 +70,8 @@ class MenuPage(QWidget):
         self.layout.addWidget(self.admin_button, 4, 0)
         self.admin_button.clicked.connect(lambda: self.stack.show_admin_page())
         if self.user.role != Role.ADMIN.value:
-            self.admin_button.setEnabled(False)
+            pass
+            # self.admin_button.setEnabled(False)
 
         row_count = self.layout.rowCount()
         self.layout.setRowStretch(row_count, 1)
@@ -78,10 +81,17 @@ class MenuPage(QWidget):
         self.layout.addWidget(self.logout_button, row_count + 1, 0)
         self.logout_button.clicked.connect(self.logout_button_clicked)
     def logout_button_clicked(self):
-        with self.database.session() as session:
-            log = Logs(activity=Log.LOGOUT.value, user_id=self.user.id)
-            session.add(log)
-            session.commit()
-        delete_login()
-        self.stack.logout_requested = True
-        self.stack.close()
+        message = QMessageBox()
+        message.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        message.setText("Are you sure you want to logout?")
+        message.setWindowTitle("Logout Confirmation")
+        message.setIcon(QMessageBox.Question)
+        result = message.exec()
+        if result == QMessageBox.Yes:
+            with self.database.session() as session:
+                log = Logs(activity=Log.LOGOUT.value, user_id=self.user.id)
+                session.add(log)
+                session.commit()
+            delete_login()
+            self.stack.logout_requested = True
+            self.stack.logout_signal.emit()

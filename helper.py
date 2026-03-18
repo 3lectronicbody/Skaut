@@ -53,9 +53,12 @@ def load_login():
         token = token.read()
         return token
 
-def delete_login():
-    os.remove("token.txt")
 
+def delete_login():
+    try:
+        os.remove("token.txt")
+    except FileNotFoundError:
+        pass
 def reset_password(user_email):
     pass
 
