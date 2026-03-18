@@ -37,7 +37,7 @@ class AppController(QObject):
 
     def show_sign_in_window(self):
         self.sign_in_window = SignIn(self.database, controller=self)
-        self.sign_in_window.signup_successful.connect(self.show_login_window)
+        self.sign_in_window.sign_in_signal.connect(self.show_login_window)
         self.sign_in_window.show()
         if self.login_window:
             self.login_window.hide()

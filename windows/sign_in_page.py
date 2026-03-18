@@ -21,15 +21,18 @@ from PySide6.QtWidgets import (
 from datetime import datetime
 from models import Projects, ProjectDetails, Users, Role, Logs, Log
 from PySide6.QtGui import Qt
+from PySide6.QtCore import Signal
 from functools import partial
 
 
 
 
 class SignIn(QDialog):
-    def __init__(self, database):
+    sign_in_signal = Signal()
+    def __init__(self, database, controller):
         super().__init__()
         self.database = database
+        self.controller = controller
         self.layout = QGridLayout()
         self.setLayout(self.layout)
 
@@ -104,6 +107,7 @@ class SignIn(QDialog):
                 session.commit()
                 session.close()
             QMessageBox(text="Your Account has been created !!!").exec()
+            self.sign_in_signal.emit()
             self.accept()
         else:
             QMessageBox(text=f"{pas_message}").exec()
