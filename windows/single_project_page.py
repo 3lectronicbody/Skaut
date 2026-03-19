@@ -1,27 +1,11 @@
-from helper import (
-    hash_password,
-    validate_password,
-    email_validation,
-    save_login,
-    delete_login,
-)
 from PySide6.QtWidgets import (
-    QMainWindow,
     QWidget,
     QGridLayout,
     QPushButton,
-    QDialog,
-    QLabel,
-    QLineEdit,
-    QTextEdit,
-    QMessageBox,
-    QCheckBox,
-    QScrollArea,
+    QLabel
 )
-from datetime import datetime
-from models import Projects, ProjectDetails, Users, Role, Logs, Log
-from PySide6.QtGui import Qt
-from functools import partial
+from models import Projects
+
 
 class SingleProject(QWidget):
     def __init__(self, database, user, project_id, stack):

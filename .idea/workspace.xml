@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="Refractoring:&#10;AppController refractoring complete">
+    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="Refractoring:&#10;Complete&#10;TODO: Single project window&#10;Caps Lock on notification">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/MainFrame.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/MainFrame.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/all_projects_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/all_projects_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/new_project_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/new_project_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/windows/single_project_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/single_project_page.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -309,7 +307,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773845048970</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Refractoring:&#10;Complete&#10;TODO: Single project window&#10;Caps Lock on notification">
+      <option name="closed" value="true" />
+      <created>1773918404839</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1773918404839</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -335,7 +341,8 @@
     <MESSAGE value="Refractoring complete:&#10;Admin Page added" />
     <MESSAGE value="Refractoring:&#10;AppController to control app flow &#10;Login, SignIn, MainFrame" />
     <MESSAGE value="Refractoring:&#10;AppController refractoring complete" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refractoring:&#10;AppController refractoring complete" />
+    <MESSAGE value="Refractoring:&#10;Complete&#10;TODO: Single project window&#10;Caps Lock on notification" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refractoring:&#10;Complete&#10;TODO: Single project window&#10;Caps Lock on notification" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
