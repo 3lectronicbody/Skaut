@@ -24,13 +24,13 @@ from PySide6.QtGui import Qt
 from functools import partial
 
 class ProjectsWindow(QWidget):
-    def __init__(self, database, user, parent):
+    def __init__(self, database, user, stack):
         super().__init__()
 
 
         self.database = database
         self.user = user
-        self.parent = parent
+        self.stack = stack
         self.single_project = None
 
         self.main_layout = QGridLayout()
@@ -56,7 +56,7 @@ class ProjectsWindow(QWidget):
         self.cancel_button = QPushButton(self)
         self.cancel_button.setText("BACK")
         self.main_layout.addWidget(self.cancel_button, 1, 0)
-        self.cancel_button.clicked.connect(self.parent.show_main_page)
+        self.cancel_button.clicked.connect(self.stack.show_main_page)
 
     def refresh_layout(self):
         layout = self.ref_layout
@@ -114,4 +114,6 @@ class ProjectsWindow(QWidget):
 
 
     def details_button_clicked(self, idx: int):
-        pass
+        print("clicked details button for project id")
+        self.stack.show_single_project(idx)
+

@@ -7,15 +7,19 @@ from windows.new_project_page import NewProjectWindow
 from windows.user_page import UserWindow
 from windows.all_projects_page import ProjectsWindow
 from windows.admin_page import AdminWindow
+from windows.single_project_page import SingleProject
 
 class MainStack(QMainWindow):
     # Signal to notify controller that user clicked logout
     logout_signal = Signal()
 
-    def __init__(self, database, user_id):
+    def __init__(self, database, user_id, project_id=None):
         super().__init__()
         self.database = database
         self.user_id = user_id
+        self.project_id = project_id
+
+
 
         # Load user object from DB
         with self.database.session() as session:
@@ -33,6 +37,7 @@ class MainStack(QMainWindow):
         self.user_page = UserWindow(self.database, self.user, self)
         self.all_projects_page = ProjectsWindow(self.database, self.user, self)
         self.admin_page = AdminWindow(self.database, self.user, self)
+        self.single_project_page = SingleProject(self.database, self.user, self.project_id,self)
 
         # Add pages to stack
         self.central_widget.addWidget(self.main_menu)
@@ -40,6 +45,7 @@ class MainStack(QMainWindow):
         self.central_widget.addWidget(self.user_page)
         self.central_widget.addWidget(self.all_projects_page)
         self.central_widget.addWidget(self.admin_page)
+        self.central_widget.addWidget(self.single_project_page)
 
         self.central_widget.setCurrentWidget(self.main_menu)
 
@@ -71,10 +77,19 @@ class MainStack(QMainWindow):
         self.central_widget.setCurrentWidget(self.user_page)
 
     def show_all_projects_page(self):
+        self.all_projects_page.refresh_layout()
         self.central_widget.setCurrentWidget(self.all_projects_page)
 
     def show_admin_page(self):
         self.central_widget.setCurrentWidget(self.admin_page)
+
+    def show_single_project(self, project_id):
+        self.single_project_page.load_project(project_id)
+        self.central_widget.setCurrentWidget(self.single_project_page)
+
+
+
+
 
     # --- Logout Method ---
     def request_logout(self):
