@@ -27,6 +27,7 @@ class LoginWindow(QDialog):
         self.layout.addWidget(self.email_label, 0, 0)
         self.email_input = QLineEdit()
         self.email_input.setPlaceholderText("Email Address")
+        self.email_input.setMinimumWidth(300)
         self.layout.addWidget(self.email_input, 0, 1)
 
         self.password_label = QLabel("Password")
@@ -41,7 +42,8 @@ class LoginWindow(QDialog):
 
         self.login_button = QPushButton("LOGIN")
         self.login_button.clicked.connect(self.login_button_function)
-        self.layout.addWidget(self.login_button, 2, 1)
+        self.login_button.setMaximumWidth(100)
+        self.layout.addWidget(self.login_button, 2, 1, alignment=Qt.AlignmentFlag.AlignCenter)
 
         self.cancel_button = QPushButton("CANCEL")
         self.cancel_button.clicked.connect(self.reject)
