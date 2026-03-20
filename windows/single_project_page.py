@@ -26,9 +26,11 @@ class SingleProject(QWidget):
         self.project_name_label.setText("loaded content")
         self.layout.addWidget(self.project_name_label, 0, 1)
 
+        self.layout.setRowStretch(1,1)
+
         self.back_button = QPushButton(self)
         self.back_button.setText("Back")
-        self.layout.addWidget(self.back_button, 0, 2)
+        self.layout.addWidget(self.back_button, 2, 0, 1, 2)
         self.back_button.clicked.connect(self.stack.show_all_projects_page)
 
     def load_project(self, project_id):

@@ -20,7 +20,7 @@ def validate_password(password: str) -> tuple[bool, str]:
     for c in password:
         if c.isdigit():
             digit = True
-        elif not c.isalnum():
+        elif c.isalnum():
             special = True
     if not digit:
         return False, "Password must contain at least one digit"
@@ -76,4 +76,6 @@ def ok_message(message: str):
 
 
     message_window.exec()
+
+
 

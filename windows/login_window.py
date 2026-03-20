@@ -1,10 +1,11 @@
-from PySide6.QtCore import Signal
+from PySide6.QtCore import Signal, QEvent
 from PySide6.QtWidgets import (
     QDialog, QLabel, QLineEdit, QPushButton, QCheckBox, QGridLayout, QMessageBox
 )
-from PySide6.QtGui import Qt
+from PySide6.QtGui import Qt, QGuiApplication
 from helper import hash_password, save_login, delete_login, ok_message
 from models import Users, Logs, Log
+import ctypes
 
 class LoginWindow(QDialog):
     # Signals to communicate with controller
@@ -17,6 +18,11 @@ class LoginWindow(QDialog):
         self.token = token
         self.user_id = None
         self.controller = controller
+
+        # Connect event filter on whole login window that listens to events
+        self.installEventFilter(self)
+
+
 
         self.layout = QGridLayout()
         self.setLayout(self.layout)
@@ -34,6 +40,8 @@ class LoginWindow(QDialog):
         self.layout.addWidget(self.password_label, 1, 0)
         self.password_input = QLineEdit()
         self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
+        # Connect capslock check function to default text change signal in password input
+        self.password_input.textChanged.connect(self.caps_state)
         self.layout.addWidget(self.password_input, 1, 1)
 
         self.password_checkbox = QCheckBox("Show Password")
@@ -58,6 +66,11 @@ class LoginWindow(QDialog):
         self.layout.addWidget(self.remember_checkbox, 3, 0)
         if self.token:
             self.remember_checkbox.setChecked(True)
+
+        self.caps_label = QLabel("")
+        self.layout.addWidget(self.caps_label, 4, 0)
+
+        self.caps_state()
 
         # Pre-fill email if token exists
         if self.token:
@@ -111,3 +124,19 @@ class LoginWindow(QDialog):
     def sign_in_link(self):
         # Notify controller to open SignIn window
         self.signup_signal.emit()
+    def caps_state(self):
+        caps_on = ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1
+        if caps_on:
+            self.caps_label.setText("CAPS_ON")
+        else:
+            self.caps_label.setText("")
+
+    def eventFilter(self, obj, event):
+        if obj == self and event.type() == QEvent.Type.KeyPress:
+            self.caps_state()
+        return super().eventFilter(obj, event)
+
+
+
+
+
