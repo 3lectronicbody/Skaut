@@ -8,6 +8,7 @@ from windows.user_page import UserWindow
 from windows.all_projects_page import ProjectsWindow
 from windows.admin_page import AdminWindow
 from windows.single_project_page import SingleProject
+from windows.employees_page import EmployeesWindow
 
 class MainStack(QMainWindow):
     # Signal to notify controller that user clicked logout
@@ -38,6 +39,7 @@ class MainStack(QMainWindow):
         self.all_projects_page = ProjectsWindow(self.database, self.user, self)
         self.admin_page = AdminWindow(self.database, self.user, self)
         self.single_project_page = SingleProject(self.database, self.user, self.project_id,self)
+        self.employees_page = EmployeesWindow(self.database, self.user, self)
 
         # Add pages to stack
         self.central_widget.addWidget(self.main_menu)
@@ -46,6 +48,7 @@ class MainStack(QMainWindow):
         self.central_widget.addWidget(self.all_projects_page)
         self.central_widget.addWidget(self.admin_page)
         self.central_widget.addWidget(self.single_project_page)
+        self.central_widget.addWidget(self.employees_page)
 
         self.central_widget.setCurrentWidget(self.main_menu)
 
@@ -86,6 +89,9 @@ class MainStack(QMainWindow):
     def show_single_project(self, project_id):
         self.single_project_page.load_project(project_id)
         self.central_widget.setCurrentWidget(self.single_project_page)
+    def show_employees_page(self):
+        self.employees_page.reload()
+        self.central_widget.setCurrentWidget(self.employees_page)
 
 
 

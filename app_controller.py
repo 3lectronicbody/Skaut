@@ -5,6 +5,7 @@ from windows.MainFrame import MainStack
 from helper import load_login, delete_login
 
 class AppController(QObject):
+    # Object that manages the flow of the application and windows transition( Login, Sign In, Main Window)
     def __init__(self, database):
         super().__init__()
         self.database = database
