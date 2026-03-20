@@ -1,3 +1,4 @@
+import Quartz
 from PySide6.QtCore import Signal, QEvent
 from PySide6.QtWidgets import (
     QDialog, QLabel, QLineEdit, QPushButton, QCheckBox, QGridLayout, QMessageBox
@@ -125,7 +126,9 @@ class LoginWindow(QDialog):
         # Notify controller to open SignIn window
         self.signup_signal.emit()
     def caps_state(self):
-        caps_on = ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1
+        caps_on = bool(Quartz.CGEventSourceFlagsState(
+            Quartz.kCGEventSourceStateHIDSystemState
+        ) & Quartz.kCGEventFlagMaskAlphaShift)
         if caps_on:
             self.caps_label.setText("CAPS_ON")
         else:
