@@ -1,10 +1,4 @@
-from helper import (
-    hash_password,
-    validate_password,
-    email_validation,
-    save_login,
-    delete_login,
-)
+from helper import confirmation_message
 from PySide6.QtWidgets import (
     QMainWindow,
     QWidget,
@@ -51,11 +45,12 @@ class NewProjectWindow(QDialog):
 
         self.save_button = QPushButton(self)
         self.save_button.setText("CREATE")
+        self.save_button.setStyleSheet("color: green;")
         self.layout.addWidget(self.save_button, 3, 1)
         self.save_button.clicked.connect(self.save_project)
 
         self.cancel_button = QPushButton(self)
-        self.cancel_button.setText("CANCEL")
+        self.cancel_button.setText("BACK")
         self.layout.addWidget(self.cancel_button, 3, 0)
         self.cancel_button.clicked.connect(self.stack.show_main_page)
 
@@ -65,11 +60,12 @@ class NewProjectWindow(QDialog):
         beginning_date = datetime.now()
         project_owner = self.user.email
         if name and description:
-            message = QMessageBox()
+            """message = QMessageBox()
             message.setText("Are You sure you want to create this project?")
             message.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
-
-            if message.exec() == QMessageBox.StandardButton.Yes:
+            if message.exec() == QMessageBox.StandardButton.Yes:"""
+            message = "Are You sure you want to create this project?"
+            if confirmation_message(message):
                 with self.database.session() as session:
                     project = Projects(
                         name=name,

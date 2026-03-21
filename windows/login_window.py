@@ -1,5 +1,5 @@
 import Quartz
-from PySide6.QtCore import Signal, QEvent
+from PySide6.QtCore import Signal, QTimer
 from PySide6.QtWidgets import (
     QDialog, QLabel, QLineEdit, QPushButton, QCheckBox, QGridLayout, QMessageBox
 )
@@ -20,8 +20,9 @@ class LoginWindow(QDialog):
         self.user_id = None
         self.controller = controller
 
-        # Connect event filter on whole login window that listens to events
-        self.installEventFilter(self)
+        self.caps_timer = QTimer(self)
+        self.caps_timer.timeout.connect(self.caps_state)
+        self.caps_timer.start(200)
 
 
 
@@ -41,6 +42,7 @@ class LoginWindow(QDialog):
         self.layout.addWidget(self.password_label, 1, 0)
         self.password_input = QLineEdit()
         self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
+        self.password_input.installEventFilter(self)
         # Connect capslock check function to default text change signal in password input
         self.password_input.textChanged.connect(self.caps_state)
         self.layout.addWidget(self.password_input, 1, 1)
@@ -134,10 +136,7 @@ class LoginWindow(QDialog):
         else:
             self.caps_label.setText("")
 
-    def eventFilter(self, obj, event):
-        if obj == self and event.type() == QEvent.Type.KeyPress:
-            self.caps_state()
-        return super().eventFilter(obj, event)
+
 
 
 

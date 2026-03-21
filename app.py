@@ -1,11 +1,7 @@
 from PySide6.QtWidgets import QApplication
-import qdarkstyle
 import sys
 from database import Database
-
 from app_controller import AppController
-
-
 
 def main_app():
     # APPLICATION FLOW:

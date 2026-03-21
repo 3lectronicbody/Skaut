@@ -1,9 +1,11 @@
 import hashlib
+import tempfile
+
 from email_validator import validate_email, EmailNotValidError
 from models import Users
 from sqlalchemy import select
 import os
-from PySide6.QtWidgets import QDialog, QLabel, QVBoxLayout, QPushButton
+from PySide6.QtWidgets import QDialog, QLabel, QVBoxLayout, QPushButton, QGridLayout
 
 
 def hash_password(password: str) -> str:
@@ -76,6 +78,34 @@ def ok_message(message: str):
 
 
     message_window.exec()
+
+def confirmation_message(message: str):
+    confirmation = QDialog()
+    layout = QGridLayout()
+
+    confirmation.setLayout(layout)
+
+    message_label = QLabel()
+    message_label.setText(message)
+    layout.addWidget(message_label, 0, 0, 1, 2)
+
+    back_button = QPushButton()
+    back_button.setText("BACK")
+    layout.addWidget(back_button, 1, 1)
+
+    confirm_button = QPushButton()
+    confirm_button.setText("CONFIRM")
+    confirm_button.setStyleSheet(back_button.styleSheet())
+    confirm_button.setStyleSheet("color: green;")
+    layout.addWidget(confirm_button, 1, 0)
+
+
+
+    confirm_button.clicked.connect(confirmation.accept)
+    back_button.clicked.connect(confirmation.reject)
+
+    return confirmation.exec()
+
 
 
 

@@ -1,29 +1,15 @@
 from __future__ import annotations
-from helper import (
-    hash_password,
-    validate_password,
-    email_validation,
-    save_login,
-    delete_login,
-)
+from helper import delete_login
 from PySide6.QtWidgets import (
-    QMainWindow,
     QWidget,
     QGridLayout,
     QPushButton,
-    QDialog,
     QLabel,
-    QLineEdit,
-    QTextEdit,
     QMessageBox,
-    QCheckBox,
-    QScrollArea, QStackedWidget,
 )
-from datetime import datetime
-from models import Projects, ProjectDetails, Users, Role, Logs, Log
-from PySide6.QtGui import Qt
+from models import Role, Logs, Log
 from PySide6.QtCore import Signal
-from functools import partial
+
 
 
 class MenuPage(QWidget):
@@ -34,7 +20,6 @@ class MenuPage(QWidget):
         self.database = database
         self.user = user
         self.stack = stack
-
 
 
         self.layout = QGridLayout(self)

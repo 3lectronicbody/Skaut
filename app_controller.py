@@ -22,7 +22,8 @@ class AppController(QObject):
 
     # Start the app
     def start(self):
-        self.show_login_window()
+        # self.show_login_window()
+        self.show_main_frame(user_id=1)
 
     def show_login_window(self):
         self.login_window = LoginWindow(self.database, self.token, controller=self)

@@ -9,16 +9,18 @@ from windows.all_projects_page import ProjectsWindow
 from windows.admin_page import AdminWindow
 from windows.single_project_page import SingleProject
 from windows.employees_page import EmployeesWindow
+from windows.employee_details import EmployeeDetailsWindow
 
 class MainStack(QMainWindow):
     # Signal to notify controller that user clicked logout
     logout_signal = Signal()
 
-    def __init__(self, database, user_id, project_id=None):
+    def __init__(self, database, user_id, project_id=None, employee_id=None):
         super().__init__()
         self.database = database
         self.user_id = user_id
         self.project_id = project_id
+        self.employee_id = employee_id
 
 
 
@@ -40,6 +42,7 @@ class MainStack(QMainWindow):
         self.admin_page = AdminWindow(self.database, self.user, self)
         self.single_project_page = SingleProject(self.database, self.user, self.project_id,self)
         self.employees_page = EmployeesWindow(self.database, self.user, self)
+        self.employee_details_page = EmployeeDetailsWindow(self.database, self.user, employee_id, self)  # Placeholder, will be replaced when needed
 
         # Add pages to stack
         self.central_widget.addWidget(self.main_menu)
@@ -49,6 +52,8 @@ class MainStack(QMainWindow):
         self.central_widget.addWidget(self.admin_page)
         self.central_widget.addWidget(self.single_project_page)
         self.central_widget.addWidget(self.employees_page)
+        self.central_widget.addWidget(self.employee_details_page)  # Placeholder, will be replaced when needed
+
 
         self.central_widget.setCurrentWidget(self.main_menu)
 
@@ -92,6 +97,10 @@ class MainStack(QMainWindow):
     def show_employees_page(self):
         self.employees_page.reload()
         self.central_widget.setCurrentWidget(self.employees_page)
+    def show_employee_details_page(self, employee_id):
+        self.employee_details_page.load(employee_id)
+        self.central_widget.setCurrentWidget(self.employee_details_page)
+
 
 
 
