@@ -16,6 +16,8 @@ class SingleProject(QWidget):
         self.project_id = project_id
         self.stack = stack
 
+
+
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
 
@@ -27,7 +29,7 @@ class SingleProject(QWidget):
         self.project_name_label.setText("load project name here")
         self.layout.addWidget(self.project_name_label, 0, Qt.AlignmentFlag.AlignCenter)
 
-        # self.layout.setStretch(1,1)
+        self.layout.addStretch()
 
         self.button_layout = QHBoxLayout()
         self.layout.addLayout(self.button_layout)

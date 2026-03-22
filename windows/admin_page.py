@@ -9,7 +9,6 @@ class AdminWindow(QWidget):
         self.stack = stack
 
 
-
         self.layout = QGridLayout()
         self.setLayout(self.layout)
         self.setWindowTitle("Admin Page")

@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="employee details page">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/all_projects_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/all_projects_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/employees_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/employees_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/admin_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/admin_page.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/windows/single_project_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/single_project_page.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,12 +43,12 @@
     &quot;assignee&quot;: &quot;3lectronicbody&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/3lectronicbody/Skaut.git",
-    "accountId": "b5d24d53-449e-4b59-8d66-619e6d9727d7"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/3lectronicbody/Skaut.git&quot;,
+    &quot;accountId&quot;: &quot;b5d24d53-449e-4b59-8d66-619e6d9727d7&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -61,35 +60,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.MainFrame.executor": "Run",
-    "Python.all_projects_page.executor": "Run",
-    "Python.app.executor": "Run",
-    "Python.app_controller.executor": "Run",
-    "Python.conig.executor": "Run",
-    "Python.employee_details.executor": "Run",
-    "Python.employees_page.executor": "Run",
-    "Python.helper.executor": "Run",
-    "Python.login_window.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.main_menu_page.executor": "Run",
-    "Python.menu_page.executor": "Run",
-    "Python.models.executor": "Debug",
-    "Python.new_project_page.executor": "Run",
-    "Python.user_page.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "macos",
-    "last_opened_file_path": "C:/Users/Mateusz/PycharmProjects/Skaut",
-    "settings.editor.selected.configurable": "com.github.copilot.settings.completions.CompletionsConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.MainFrame.executor&quot;: &quot;Run&quot;,
+    &quot;Python.all_projects_page.executor&quot;: &quot;Run&quot;,
+    &quot;Python.app.executor&quot;: &quot;Run&quot;,
+    &quot;Python.app_controller.executor&quot;: &quot;Run&quot;,
+    &quot;Python.conig.executor&quot;: &quot;Run&quot;,
+    &quot;Python.employee_details.executor&quot;: &quot;Run&quot;,
+    &quot;Python.employees_page.executor&quot;: &quot;Run&quot;,
+    &quot;Python.helper.executor&quot;: &quot;Run&quot;,
+    &quot;Python.login_window.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main_menu_page.executor&quot;: &quot;Run&quot;,
+    &quot;Python.menu_page.executor&quot;: &quot;Run&quot;,
+    &quot;Python.models.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.new_project_page.executor&quot;: &quot;Run&quot;,
+    &quot;Python.user_page.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;macos&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Mateusz/PycharmProjects/Skaut&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.github.copilot.settings.completions.CompletionsConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Mateusz\PycharmProjects\Skaut" />
@@ -361,7 +360,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774127310225</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="employee details page">
+      <option name="closed" value="true" />
+      <created>1774213152666</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1774213152666</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
