@@ -2,8 +2,9 @@ from PySide6.QtWidgets import (
     QWidget,
     QGridLayout,
     QPushButton,
-    QLabel
+    QLabel, QHBoxLayout, QVBoxLayout
 )
+from PySide6.QtCore import Qt
 from models import Projects
 
 
@@ -15,22 +16,25 @@ class SingleProject(QWidget):
         self.project_id = project_id
         self.stack = stack
 
-        self.layout = QGridLayout()
+        self.layout = QVBoxLayout()
         self.setLayout(self.layout)
 
         self.name_label = QLabel(self)
         self.name_label.setText(self.user.name)
-        self.layout.addWidget(self.name_label, 0, 0)
+        self.layout.addWidget(self.name_label, 0, Qt.AlignmentFlag.AlignCenter)
 
         self.project_name_label = QLabel(self)
-        self.project_name_label.setText("loaded content")
-        self.layout.addWidget(self.project_name_label, 0, 1)
+        self.project_name_label.setText("load project name here")
+        self.layout.addWidget(self.project_name_label, 0, Qt.AlignmentFlag.AlignCenter)
 
-        self.layout.setRowStretch(1,1)
+        # self.layout.setStretch(1,1)
+
+        self.button_layout = QHBoxLayout()
+        self.layout.addLayout(self.button_layout)
 
         self.back_button = QPushButton(self)
         self.back_button.setText("Back")
-        self.layout.addWidget(self.back_button, 2, 0, 1, 2)
+        self.button_layout.addWidget(self.back_button, 0, Qt.AlignmentFlag.AlignCenter)
         self.back_button.clicked.connect(self.stack.show_all_projects_page)
 
     def load_project(self, project_id):

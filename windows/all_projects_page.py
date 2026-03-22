@@ -16,7 +16,7 @@ from PySide6.QtWidgets import (
     QTextEdit,
     QMessageBox,
     QCheckBox,
-    QScrollArea,
+    QScrollArea, QFrame,
 )
 from datetime import datetime
 from models import Projects, ProjectDetails, Users, Role, Logs, Log
@@ -26,7 +26,6 @@ from functools import partial
 class ProjectsWindow(QWidget):
     def __init__(self, database, user, stack):
         super().__init__()
-
 
         self.database = database
         self.user = user
@@ -39,7 +38,7 @@ class ProjectsWindow(QWidget):
         self.scroll_area = QScrollArea(self)
         self.scroll_area.setFixedHeight(200)
         self.scroll_area.setWidgetResizable(True)
-        self.main_layout.addWidget(self.scroll_area, 0, 0)
+        self.main_layout.addWidget(self.scroll_area, 0, 0, 1, 2)
 
         self.container = QWidget()
         self.scroll_area.setWidget(self.container)
@@ -58,6 +57,11 @@ class ProjectsWindow(QWidget):
         self.main_layout.addWidget(self.cancel_button, 1, 0)
         self.cancel_button.clicked.connect(self.stack.show_main_page)
 
+        self.add_button = QPushButton(self)
+        self.add_button.setText("ADD NEW PROJECT")
+        self.main_layout.addWidget(self.add_button, 1, 1)
+        self.add_button.clicked.connect(self.stack.show_new_project_page)
+
     def refresh_layout(self):
         layout = self.ref_layout
 
@@ -68,28 +72,41 @@ class ProjectsWindow(QWidget):
                 widget.deleteLater()
 
         # reset stretch
-        self.ref_layout.setRowStretch(0, 0)
+        # self.ref_layout.setRowStretch(0, 0)
 
         with self.database.session() as session:
             table = session.query(Projects).all()
 
-        counter = 0
-        for i, row in enumerate(table):
+        name_title = QLabel(self.container)
+        name_title.setText("NAME")
+        self.ref_layout.addWidget(name_title, 0, 0)
+
+        description_title = QLabel(self.container)
+        description_title.setText("DESCRIPTION")
+        self.ref_layout.addWidget(description_title, 0, 1)
+
+
+        counter = 1
+        for i, row in enumerate(table,start=1):
             name_label = QLabel(self.container)
             name_label.setText(row.name)
             self.ref_layout.addWidget(name_label, i, 0)
+            self.ref_layout.setColumnStretch(0,4)
 
             description_label = QLabel(self.container)
             description_label.setText(row.description)
             self.ref_layout.addWidget(description_label, i, 1)
+            self.ref_layout.setColumnStretch(1, 4)
 
             details_button = QPushButton("OPEN", self.container)
             self.ref_layout.addWidget(details_button, i, 2)
             details_button.clicked.connect(partial(self.details_button_clicked, row.id))
+            self.ref_layout.setColumnStretch(2, 1)
 
             delete_button = QPushButton("DELETE", self.container)
             self.ref_layout.addWidget(delete_button, i, 3)
             delete_button.clicked.connect(partial(self.delete_button_clicked, row.id))
+            self.ref_layout.setColumnStretch(3, 1)
 
             counter += 1
 
