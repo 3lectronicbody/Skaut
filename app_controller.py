@@ -46,6 +46,10 @@ class AppController(QObject):
 
     def show_main_frame(self, user_id):
         self.user_id = user_id
+        if self.main_frame:
+            self.main_frame.close()
+            self.main_frame.deleteLater()
+            self.main_frame = None
 
         if self.main_frame is None:
             self.main_frame = MainStack(self.database, self.user_id)

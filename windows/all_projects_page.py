@@ -16,7 +16,7 @@ from PySide6.QtWidgets import (
     QTextEdit,
     QMessageBox,
     QCheckBox,
-    QScrollArea,
+    QScrollArea, QHBoxLayout, QComboBox,
 )
 from datetime import datetime
 from models import Projects, ProjectDetails, Users, Role, Logs, Log
@@ -36,10 +36,15 @@ class ProjectsWindow(QWidget):
         self.main_layout = QGridLayout()
         self.setLayout(self.main_layout)
 
+        self.combo = QComboBox(self)
+        self.combo.addItems(["All Projects", "My Projects"])
+        self.main_layout.addWidget(self.combo, 0, 0)
+        self.combo.currentIndexChanged.connect(self.combo_change)
+
         self.scroll_area = QScrollArea(self)
         self.scroll_area.setFixedHeight(200)
         self.scroll_area.setWidgetResizable(True)
-        self.main_layout.addWidget(self.scroll_area, 0, 0)
+        self.main_layout.addWidget(self.scroll_area, 1, 0)
 
         self.container = QWidget()
         self.scroll_area.setWidget(self.container)
@@ -52,13 +57,20 @@ class ProjectsWindow(QWidget):
 
         self.refresh_layout()
 
+        self.buttons_layout = QHBoxLayout()
+        self.main_layout.addLayout(self.buttons_layout,2,0)
 
-        self.cancel_button = QPushButton(self)
-        self.cancel_button.setText("BACK")
-        self.main_layout.addWidget(self.cancel_button, 1, 0)
-        self.cancel_button.clicked.connect(self.stack.show_main_page)
+        self.back_button = QPushButton(self)
+        self.back_button.setText("BACK")
+        self.buttons_layout.addWidget(self.back_button)
+        self.back_button.clicked.connect(self.stack.show_main_page)
 
-    def refresh_layout(self):
+        self.new_project_button = QPushButton(self)
+        self.new_project_button.setText("NEW PROJECT")
+        self.buttons_layout.addWidget(self.new_project_button)
+        self.new_project_button.clicked.connect(self.stack.show_new_project_page)
+
+    def refresh_layout(self, flag=None):
         layout = self.ref_layout
 
         while layout.count():
@@ -71,7 +83,13 @@ class ProjectsWindow(QWidget):
         self.ref_layout.setRowStretch(0, 0)
 
         with self.database.session() as session:
-            table = session.query(Projects).all()
+            if flag == "All":
+                table = session.query(Projects).all()
+            elif flag == "My":
+                table = session.query(Projects).filter_by(project_owner=self.user.email).all()
+            else:
+                table = session.query(Projects).all()
+
 
         counter = 0
         for i, row in enumerate(table):
@@ -116,4 +134,9 @@ class ProjectsWindow(QWidget):
     def details_button_clicked(self, idx: int):
         print("clicked details button for project id")
         self.stack.show_single_project(idx)
+    def combo_change(self):
+        if self.combo.currentText() == "All Projects":
+            self.refresh_layout(flag="All")
+        elif self.combo.currentText() == "My Projects":
+            self.refresh_layout(flag="My")
 

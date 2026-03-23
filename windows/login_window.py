@@ -1,11 +1,12 @@
-from PySide6.QtCore import Signal, QEvent
+from PySide6.QtCore import Signal, QEvent, QTimer
 from PySide6.QtWidgets import (
-    QDialog, QLabel, QLineEdit, QPushButton, QCheckBox, QGridLayout, QMessageBox
+    QDialog, QLabel, QLineEdit, QPushButton, QCheckBox, QGridLayout, QMessageBox, QHBoxLayout
 )
 from PySide6.QtGui import Qt, QGuiApplication
 from helper import hash_password, save_login, delete_login, ok_message
 from models import Users, Logs, Log
 import ctypes
+import sys
 
 class LoginWindow(QDialog):
     # Signals to communicate with controller
@@ -19,8 +20,9 @@ class LoginWindow(QDialog):
         self.user_id = None
         self.controller = controller
 
-        # Connect event filter on whole login window that listens to events
-        self.installEventFilter(self)
+        self.timer =QTimer(self)
+        self.timer.timeout.connect(self.caps_state)
+        self.timer.start(100)
 
 
 
@@ -48,14 +50,19 @@ class LoginWindow(QDialog):
         self.password_checkbox.clicked.connect(self.toggle_password_visibility)
         self.layout.addWidget(self.password_checkbox, 1, 2)
 
+        self.button_layout = QHBoxLayout()
+        self.layout.addLayout(self.button_layout, 2, 1)
+
         self.login_button = QPushButton("LOGIN")
         self.login_button.clicked.connect(self.login_button_function)
-        self.login_button.setMaximumWidth(100)
-        self.layout.addWidget(self.login_button, 2, 1, alignment=Qt.AlignmentFlag.AlignCenter)
+        # self.login_button.setMaximumWidth(100)
+        self.button_layout.addWidget(self.login_button)
+        # self.layout.addWidget(self.login_button, 2, 1, alignment=Qt.AlignmentFlag.AlignCenter)
 
         self.cancel_button = QPushButton("CANCEL")
         self.cancel_button.clicked.connect(self.reject)
-        self.layout.addWidget(self.cancel_button, 2, 2)
+        # self.layout.addWidget(self.cancel_button, 2, 2)
+        self.button_layout.addWidget(self.cancel_button)
 
         self.sign_in_label = QLabel('<a href="#">Sign In</a>')
         self.sign_in_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -67,7 +74,8 @@ class LoginWindow(QDialog):
         if self.token:
             self.remember_checkbox.setChecked(True)
 
-        self.caps_label = QLabel("")
+        self.caps_label = QLabel()
+        self.caps_label.setText("")
         self.layout.addWidget(self.caps_label, 4, 0)
 
         self.caps_state()
@@ -125,16 +133,13 @@ class LoginWindow(QDialog):
         # Notify controller to open SignIn window
         self.signup_signal.emit()
     def caps_state(self):
-        caps_on = ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1
+        # check in WIN32 API if caps lock is on
+        caps_on =  bool(ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1)
         if caps_on:
-            self.caps_label.setText("CAPS_ON")
+            self.caps_label.setText("Caps Lock is ON")
         else:
             self.caps_label.setText("")
 
-    def eventFilter(self, obj, event):
-        if obj == self and event.type() == QEvent.Type.KeyPress:
-            self.caps_state()
-        return super().eventFilter(obj, event)
 
 
 

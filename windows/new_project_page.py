@@ -55,9 +55,9 @@ class NewProjectWindow(QDialog):
         self.save_button.clicked.connect(self.save_project)
 
         self.cancel_button = QPushButton(self)
-        self.cancel_button.setText("CANCEL")
+        self.cancel_button.setText("BACK")
         self.layout.addWidget(self.cancel_button, 3, 0)
-        self.cancel_button.clicked.connect(self.stack.show_main_page)
+        self.cancel_button.clicked.connect(self.stack.show_all_projects_page)
 
     def save_project(self):
         name = self.name_input.text()
@@ -92,7 +92,7 @@ class NewProjectWindow(QDialog):
                 ok_message("Project has been created successfully")
                 self.name_input.setText("")
                 self.description_input.setText("")
-                self.stack.show_main_page()
+                self.stack.show_all_projects_page()
         else:
             warning_message = QMessageBox()
             warning_message.setText("Please enter name of project and description")
