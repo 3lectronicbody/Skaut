@@ -10,8 +10,6 @@ from PySide6.QtWidgets import (
 from models import Role, Logs, Log
 from PySide6.QtCore import Signal
 
-
-
 class MenuPage(QWidget):
     logout_signal = Signal()
     def __init__(self, database, user, stack):
@@ -80,3 +78,4 @@ class MenuPage(QWidget):
             delete_login()
             self.stack.logout_requested = True
             self.stack.logout_signal.emit()
+            self.stack = None

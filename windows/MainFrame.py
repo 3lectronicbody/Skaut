@@ -61,6 +61,7 @@ class MainStack(QMainWindow):
     def closeEvent(self, event: QCloseEvent):
         # If user requested logout, skip confirmation
         if getattr(self, "_logging_out", False):
+
             event.accept()
             return
 
@@ -73,6 +74,12 @@ class MainStack(QMainWindow):
             event.accept()
         else:
             event.ignore()
+    # --- Logout Method ---
+    def request_logout(self):
+        """Call this method when user clicks Logout button"""
+        self._logging_out = True  # Flag to skip confirmation
+        self.logout_signal.emit()
+        self.close()
 
     # --- Navigation Methods ---
     def show_main_page(self):
@@ -102,13 +109,3 @@ class MainStack(QMainWindow):
         self.central_widget.setCurrentWidget(self.employee_details_page)
 
 
-
-
-
-
-    # --- Logout Method ---
-    def request_logout(self):
-        """Call this method when user clicks Logout button"""
-        self._logging_out = True  # Flag to skip confirmation
-        self.logout_signal.emit()
-        self.close()

@@ -26,6 +26,7 @@ class AppController(QObject):
         self.show_main_frame(user_id=1)
 
     def show_login_window(self):
+        # self.main_frame = None # Ensure main frame is reset when showing login
         self.login_window = LoginWindow(self.database, self.token, controller=self)
         # Connect signals
         self.login_window.login_signal.connect(self.show_main_frame)
@@ -52,7 +53,7 @@ class AppController(QObject):
         if self.main_frame is None:
             self.main_frame = MainStack(self.database, self.user_id)
             # Connect main window logout signal to controller
-            self.main_frame.logout_signal.connect(self.show_login_window)
+            self.main_frame.logout_signal.connect(self.handle_logout)
         self.main_frame.show()
         if self.login_window:
             self.login_window.hide()
@@ -66,5 +67,6 @@ class AppController(QObject):
             pass
         if self.main_frame:
             self.main_frame.close()
+            self.main_frame.deleteLater()
             self.main_frame = None
         self.show_login_window()
