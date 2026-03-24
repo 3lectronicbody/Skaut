@@ -23,7 +23,7 @@ class AppController(QObject):
     # Start the app
     def start(self):
         # self.show_login_window()
-        self.show_main_frame(user_id=1)
+        self.show_main_frame(user_id=2)
 
     def show_login_window(self):
         # self.main_frame = None # Ensure main frame is reset when showing login

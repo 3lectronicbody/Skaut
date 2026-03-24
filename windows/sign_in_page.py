@@ -73,7 +73,11 @@ class SignIn(QDialog):
         self.cancel_button = QPushButton(self)
         self.cancel_button.setText("Cancel")
         self.layout.addWidget(self.cancel_button, 3, 1)
-        self.cancel_button.clicked.connect(lambda: self.reject())
+        self.cancel_button.clicked.connect(self.cancel_button_function)
+
+    def cancel_button_function(self):
+        self.deleteLater()
+        self.controller.show_login_window()
 
     def click_checkbox(self):
         if self.password_visibility_checkbox.isChecked():

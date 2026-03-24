@@ -11,12 +11,19 @@ from windows.single_project_page import SingleProject
 from windows.employees_page import EmployeesWindow
 from windows.employee_details import EmployeeDetailsWindow
 
+
+
 class MainStack(QMainWindow):
     # Signal to notify controller that user clicked logout
     logout_signal = Signal()
 
+
     def __init__(self, database, user_id, project_id=None, employee_id=None):
         super().__init__()
+        WINDOW_WIDTH = 900
+        WINDOW_HEIGHT = 500
+        self.setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT)
+
         self.database = database
         self.user_id = user_id
         self.project_id = project_id

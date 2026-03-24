@@ -91,13 +91,13 @@ def confirmation_message(message: str):
 
     back_button = QPushButton()
     back_button.setText("BACK")
-    layout.addWidget(back_button, 1, 1)
+    layout.addWidget(back_button, 1, 0)
 
     confirm_button = QPushButton()
     confirm_button.setText("CONFIRM")
     confirm_button.setStyleSheet(back_button.styleSheet())
     confirm_button.setStyleSheet("color: green;")
-    layout.addWidget(confirm_button, 1, 0)
+    layout.addWidget(confirm_button, 1, 1)
 
 
 

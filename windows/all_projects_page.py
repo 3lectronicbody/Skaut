@@ -16,7 +16,7 @@ from PySide6.QtWidgets import (
     QTextEdit,
     QMessageBox,
     QCheckBox,
-    QScrollArea, QFrame,
+    QScrollArea, QFrame, QComboBox,
 )
 from datetime import datetime
 from models import Projects, ProjectDetails, Users, Role, Logs, Log
@@ -35,10 +35,18 @@ class ProjectsWindow(QWidget):
         self.main_layout = QGridLayout()
         self.setLayout(self.main_layout)
 
+
+        self.combo = QComboBox()
+        self.combo.addItems(["My Projects", "All Projects"])
+        self.main_layout.addWidget(self.combo, 0,0,1,2)
+        self.combo.currentTextChanged.connect(self.refresh_layout)
+
+
+
         self.scroll_area = QScrollArea(self)
         self.scroll_area.setFixedHeight(200)
         self.scroll_area.setWidgetResizable(True)
-        self.main_layout.addWidget(self.scroll_area, 0, 0, 1, 2)
+        self.main_layout.addWidget(self.scroll_area, 1, 0, 1, 2)
 
         self.container = QWidget()
         self.scroll_area.setWidget(self.container)
@@ -54,12 +62,12 @@ class ProjectsWindow(QWidget):
 
         self.cancel_button = QPushButton(self)
         self.cancel_button.setText("BACK")
-        self.main_layout.addWidget(self.cancel_button, 1, 0)
+        self.main_layout.addWidget(self.cancel_button, 2, 0)
         self.cancel_button.clicked.connect(self.stack.show_main_page)
 
         self.add_button = QPushButton(self)
         self.add_button.setText("ADD NEW PROJECT")
-        self.main_layout.addWidget(self.add_button, 1, 1)
+        self.main_layout.addWidget(self.add_button, 2, 1)
         self.add_button.clicked.connect(self.stack.show_new_project_page)
 
     def refresh_layout(self):
@@ -75,16 +83,10 @@ class ProjectsWindow(QWidget):
         # self.ref_layout.setRowStretch(0, 0)
 
         with self.database.session() as session:
-            table = session.query(Projects).all()
-
-        name_title = QLabel(self.container)
-        name_title.setText("NAME")
-        self.ref_layout.addWidget(name_title, 0, 0)
-
-        description_title = QLabel(self.container)
-        description_title.setText("DESCRIPTION")
-        self.ref_layout.addWidget(description_title, 0, 1)
-
+            if self.combo.currentText() == "My Projects":
+                table = session.query(Projects).filter_by(project_owner=self.user.email).all()
+            else:
+                table = session.query(Projects).all()
 
         counter = 1
         for i, row in enumerate(table,start=1):
@@ -98,13 +100,19 @@ class ProjectsWindow(QWidget):
             self.ref_layout.addWidget(description_label, i, 1)
             self.ref_layout.setColumnStretch(1, 4)
 
+            project_owner_label = QLabel(self.container)
+            project_owner_label.setText(row.project_owner)
+            self.ref_layout.addWidget(project_owner_label, i, 2)
+
             details_button = QPushButton("OPEN", self.container)
-            self.ref_layout.addWidget(details_button, i, 2)
+            self.ref_layout.addWidget(details_button, i, 3)
             details_button.clicked.connect(partial(self.details_button_clicked, row.id))
             self.ref_layout.setColumnStretch(2, 1)
 
             delete_button = QPushButton("DELETE", self.container)
-            self.ref_layout.addWidget(delete_button, i, 3)
+            if row.project_owner != self.user.email:
+                delete_button.setEnabled(False)
+            self.ref_layout.addWidget(delete_button, i, 4)
             delete_button.clicked.connect(partial(self.delete_button_clicked, row.id))
             self.ref_layout.setColumnStretch(3, 1)
 
@@ -112,6 +120,8 @@ class ProjectsWindow(QWidget):
 
         # push rows up so spacing stays consistent
         self.ref_layout.setRowStretch(counter + 1, 1)
+        self.container.adjustSize()
+        self.adjustSize()
 
     def delete_button_clicked(self, idx: int):
         with self.database.session() as session:

@@ -1,7 +1,5 @@
 from helper import confirmation_message
 from PySide6.QtWidgets import (
-    QMainWindow,
-    QWidget,
     QGridLayout,
     QPushButton,
     QDialog,
@@ -9,13 +7,10 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QTextEdit,
     QMessageBox,
-    QCheckBox,
-    QScrollArea,
 )
 from datetime import datetime
-from models import Projects, ProjectDetails, Users, Role, Logs, Log
-from PySide6.QtGui import Qt
-from functools import partial
+from models import Projects, Logs, Log
+
 
 
 

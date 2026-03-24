@@ -27,30 +27,24 @@ class MenuPage(QWidget):
         self.welcome_label.setText(f"Welcome to Skaut {self.user.email}")
         self.layout.addWidget(self.welcome_label, 0, 0)
 
-        #New Project Button
-        self.create_button = QPushButton(self)
-        self.create_button.setText("CREATE NEW PROJECT")
-        self.layout.addWidget(self.create_button, 1, 0)
-        self.create_button.clicked.connect(lambda: self.stack.show_new_project_page())
-
 
         # Projects Button
         self.all_projects_button = QPushButton(self)
         self.all_projects_button.setText("PROJECTS")
-        self.layout.addWidget(self.all_projects_button, 2, 0)
+        self.layout.addWidget(self.all_projects_button, 1, 0)
         self.all_projects_button.clicked.connect(lambda: self.stack.show_all_projects_page())
 
 
         # User Button
         self.user_button = QPushButton(self)
         self.user_button.setText("USER DASHBOARD")
-        self.layout.addWidget(self.user_button, 3, 0)
+        self.layout.addWidget(self.user_button, 2, 0)
         self.user_button.clicked.connect(lambda: self.stack.show_user_page())
 
         # Admin Button
         self.admin_button = QPushButton(self)
         self.admin_button.setText("ADMIN")
-        self.layout.addWidget(self.admin_button, 4, 0)
+        self.layout.addWidget(self.admin_button, 3, 0)
         self.admin_button.clicked.connect(lambda: self.stack.show_admin_page())
         if self.user.role != Role.ADMIN.value:
             pass

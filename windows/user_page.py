@@ -63,6 +63,7 @@ class UserWindow(QWidget):
             edit_name_button.setDisabled(True)
             name_input.setEnabled(True)
             save_name_button.setEnabled(True)
+            name_input.setFocus()
         edit_name_button.clicked.connect(edit_button_clicked)
 
 
@@ -103,6 +104,7 @@ class UserWindow(QWidget):
             edit_surname_button.setDisabled(True)
             surname_input.setEnabled(True)
             save_surname_button.setEnabled(True)
+            surname_input.setFocus()
         edit_surname_button.clicked.connect(edit_surname_button_clicked)
 
 
@@ -146,6 +148,7 @@ class UserWindow(QWidget):
             edit_tel_button.setDisabled(True)
             tel_input.setEnabled(True)
             save_tel_button.setEnabled(True)
+            tel_input.setFocus()
 
         edit_tel_button.clicked.connect(edit_tel_button_clicked)
 
