@@ -51,8 +51,9 @@ class MainStack(QMainWindow):
 
     # --- Close Event ---
     def closeEvent(self, event: QCloseEvent):
-        # If user requested logout, skip confirmation
-        if getattr(self, "_logging_out", False):
+        # If user requested logout, skip confirmation. Early return interrupt rest of close
+        # event procedure which include
+        if self._logging_out:
             event.accept()
             return
 
