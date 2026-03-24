@@ -101,12 +101,19 @@ class ProjectsWindow(QWidget):
             description_label.setText(row.description)
             self.ref_layout.addWidget(description_label, i, 1)
 
+            project_owner_label = QLabel(self.container)
+            project_owner_label.setText(row.project_owner)
+            self.ref_layout.addWidget(project_owner_label, i, 2)
+
             details_button = QPushButton("OPEN", self.container)
-            self.ref_layout.addWidget(details_button, i, 2)
+            self.ref_layout.addWidget(details_button, i, 3)
             details_button.clicked.connect(partial(self.details_button_clicked, row.id))
 
+
             delete_button = QPushButton("DELETE", self.container)
-            self.ref_layout.addWidget(delete_button, i, 3)
+            if self.user.email != project_owner_label.text():
+                delete_button.setEnabled(False)
+            self.ref_layout.addWidget(delete_button, i, 4)
             delete_button.clicked.connect(partial(self.delete_button_clicked, row.id))
 
             counter += 1

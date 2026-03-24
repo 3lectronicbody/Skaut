@@ -62,6 +62,7 @@ class MenuPage(QWidget):
         self.admin_button.setText("ADMIN")
         self.layout.addWidget(self.admin_button,3, 0)
         self.admin_button.clicked.connect(lambda: self.stack.show_admin_page())
+        # block admin button for ather roles than ADMIN
         if self.user.role != Role.ADMIN.value:
             pass
             # self.admin_button.setEnabled(False)
