@@ -96,4 +96,3 @@ class MainStack(QMainWindow):
         """Call this method when user clicks Logout button"""
         self._logging_out = True  # Flag to skip confirmation
         self.logout_signal.emit()
-        self.close()

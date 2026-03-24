@@ -86,5 +86,7 @@ class MenuPage(QWidget):
                 session.add(log)
                 session.commit()
             delete_login()
+            self.stack.request_logout()
             self.stack.logout_requested = True
-            self.logout_signal.emit()
+            self.stack.logout_signal.emit()
+

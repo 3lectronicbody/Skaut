@@ -7,11 +7,8 @@
     <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="Caps Lock on notification complete">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/admin_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/admin_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/all_projects_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/all_projects_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/login_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/login_window.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/MainFrame.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/MainFrame.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/windows/main_menu_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/main_menu_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/new_project_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/new_project_page.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,6 +86,36 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Mateusz\PycharmProjects\Skaut" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Skaut" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.app" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -345,7 +372,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774012421730</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Caps Lock on notification complete">
+      <option name="closed" value="true" />
+      <created>1774276246407</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1774276246407</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
