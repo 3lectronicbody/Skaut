@@ -78,4 +78,4 @@ class MenuPage(QWidget):
             delete_login()
             self.stack.logout_requested = True
             self.stack.logout_signal.emit()
-            self.stack = None
+

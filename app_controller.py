@@ -66,7 +66,7 @@ class AppController(QObject):
         except FileNotFoundError:
             pass
         if self.main_frame:
-            self.main_frame.close()
+            self.main_frame.hide()
             self.main_frame.deleteLater()
             self.main_frame = None
         self.show_login_window()
