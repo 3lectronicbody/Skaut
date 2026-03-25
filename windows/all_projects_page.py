@@ -99,6 +99,9 @@ class ProjectsWindow(QWidget):
 
             description_label = QLabel(self.container)
             description_label.setText(row.description)
+            description_label.setWordWrap(True)
+            description_label.setFixedWidth(100)
+            description_label.setToolTip(f"{row.description}")
             self.ref_layout.addWidget(description_label, i, 1)
 
             project_owner_label = QLabel(self.container)

@@ -18,6 +18,7 @@ class MainStack(QMainWindow):
         self.database = database
         self.user_id = user_id
         self.project_id = project_id
+        self.setFixedWidth(500)
 
 
 
@@ -43,11 +44,13 @@ class MainStack(QMainWindow):
         self.menu_bar = QMenuBar(self)
         self.setMenuBar(self.menu_bar)
         # Add options to menubar
-        self.file_menu = self.menu_bar.addMenu("File")
-        self.file_menu.addAction("Main Menu", self.show_main_page)
+        self.file_menu = self.menu_bar.addMenu("Main Menu")
         self.file_menu.addAction("New Project", self.show_new_project_page)
         self.file_menu.addAction("My Account", self.show_user_page)
         self.file_menu.addAction("All Projects", self.show_all_projects_page)
+
+        self.about_menu = self.menu_bar.addMenu("About")
+        self.about_menu.addAction("About...", self.about_menu_dialog)
 
         # Add pages to stack
         self.central_widget.addWidget(self.main_menu)
@@ -107,3 +110,9 @@ class MainStack(QMainWindow):
         """Call this method when user clicks Logout button"""
         self._logging_out = True  # Flag to skip confirmation
         self.logout_signal.emit()
+    def about_menu_dialog(self):
+        about_dialog = QMessageBox(self)
+        about_dialog.setWindowTitle("About")
+        from config import VERSION
+        about_dialog.setText(f"Application Version: {VERSION}\nLogged User: {self.user.email}")
+        about_dialog.exec()
