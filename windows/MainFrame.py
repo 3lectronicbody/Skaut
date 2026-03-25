@@ -1,6 +1,6 @@
 from PySide6.QtCore import Signal
 from PySide6.QtGui import QCloseEvent
-from PySide6.QtWidgets import QMainWindow, QStackedWidget, QMessageBox
+from PySide6.QtWidgets import QMainWindow, QStackedWidget, QMessageBox, QMenuBar
 from models import Users
 from windows.main_menu_page import MenuPage
 from windows.new_project_page import NewProjectWindow
@@ -38,6 +38,16 @@ class MainStack(QMainWindow):
         self.all_projects_page = ProjectsWindow(self.database, self.user, self)
         self.admin_page = AdminWindow(self.database, self.user, self)
         self.single_project_page = SingleProject(self.database, self.user, self.project_id,self)
+
+        # Add menu to Main Frame
+        self.menu_bar = QMenuBar(self)
+        self.setMenuBar(self.menu_bar)
+        # Add options to menubar
+        self.file_menu = self.menu_bar.addMenu("File")
+        self.file_menu.addAction("Main Menu", self.show_main_page)
+        self.file_menu.addAction("New Project", self.show_new_project_page)
+        self.file_menu.addAction("My Account", self.show_user_page)
+        self.file_menu.addAction("All Projects", self.show_all_projects_page)
 
         # Add pages to stack
         self.central_widget.addWidget(self.main_menu)

@@ -10,7 +10,7 @@ from app_controller import AppController
 def main_app():
     # APPLICATION FLOW:
     app = QApplication(sys.argv)
-    # app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
+    app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
     database = Database()
     controller = AppController(database)
     controller.start()

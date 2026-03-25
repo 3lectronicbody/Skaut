@@ -42,6 +42,8 @@ class MenuPage(QWidget):
         # Welcome labe
         self.welcome_label = QLabel(self)
         self.welcome_label.setText(f"Welcome to Skaut {self.user.email}")
+        self.welcome_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.welcome_label.setStyleSheet("font-weight: bold;")
         self.layout.addWidget(self.welcome_label, 0, 0)
 
         # Projects Button
