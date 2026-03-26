@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="Caps Lock on notification complete">
+    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="create tootltip on description label">
+      <change afterPath="$PROJECT_DIR$/windows/employees_page.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app_controller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/windows/MainFrame.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/MainFrame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/admin_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/admin_page.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/windows/all_projects_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/all_projects_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/new_project_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/new_project_page.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +67,7 @@
     &quot;Python.all_projects_page.executor&quot;: &quot;Run&quot;,
     &quot;Python.app.executor&quot;: &quot;Run&quot;,
     &quot;Python.conig.executor&quot;: &quot;Run&quot;,
+    &quot;Python.d.executor&quot;: &quot;Run&quot;,
     &quot;Python.helper.executor&quot;: &quot;Run&quot;,
     &quot;Python.login_window.executor&quot;: &quot;Run&quot;,
     &quot;Python.main.executor&quot;: &quot;Run&quot;,
@@ -411,7 +416,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774431102831</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="create tootltip on description label">
+      <option name="closed" value="true" />
+      <created>1774450004663</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1774450004663</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -439,7 +452,8 @@
     <MESSAGE value="Refractoring:&#10;AppController refractoring complete" />
     <MESSAGE value="Refractoring:&#10;Complete&#10;TODO: Single project window&#10;Caps Lock on notification" />
     <MESSAGE value="Caps Lock on notification complete" />
-    <option name="LAST_COMMIT_MESSAGE" value="Caps Lock on notification complete" />
+    <MESSAGE value="create tootltip on description label" />
+    <option name="LAST_COMMIT_MESSAGE" value="create tootltip on description label" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -448,6 +462,11 @@
           <url>file://$PROJECT_DIR$/windows/main_menu_page.py</url>
           <line>1</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/models.py</url>
+          <line>26</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -8,17 +8,23 @@ from windows.user_page import UserWindow
 from windows.all_projects_page import ProjectsWindow
 from windows.admin_page import AdminWindow
 from windows.single_project_page import SingleProject
+from windows.employees_page import EmployeesWindow
 
 class MainStack(QMainWindow):
     # Signal to notify controller that user clicked logout
     logout_signal = Signal()
 
-    def __init__(self, database, user_id, project_id=None):
+    def __init__(self, database, user_id, controller, project_id=None):
         super().__init__()
         self.database = database
         self.user_id = user_id
+        self.controller = controller
         self.project_id = project_id
-        self.setFixedWidth(500)
+        self._logging_out = False
+
+
+        self.resize(500,500)
+        self.setWindowTitle("Skaut Projects")
 
 
 
@@ -39,15 +45,15 @@ class MainStack(QMainWindow):
         self.all_projects_page = ProjectsWindow(self.database, self.user, self)
         self.admin_page = AdminWindow(self.database, self.user, self)
         self.single_project_page = SingleProject(self.database, self.user, self.project_id,self)
+        self.employees_page = EmployeesWindow(self.database)
 
-        # Add menu to Main Frame
+        # Create Menubar
         self.menu_bar = QMenuBar(self)
         self.setMenuBar(self.menu_bar)
-        # Add options to menubar
-        self.file_menu = self.menu_bar.addMenu("Main Menu")
-        self.file_menu.addAction("New Project", self.show_new_project_page)
-        self.file_menu.addAction("My Account", self.show_user_page)
-        self.file_menu.addAction("All Projects", self.show_all_projects_page)
+        # Add options to Menubar
+        self.file_menu = self.menu_bar.addMenu("File..")
+        self.file_menu.addAction("Logout", self.file_menu_logout_action)
+        self.file_menu.addAction("Home Page...", self.show_main_page)
 
         self.about_menu = self.menu_bar.addMenu("About")
         self.about_menu.addAction("About...", self.about_menu_dialog)
@@ -59,6 +65,7 @@ class MainStack(QMainWindow):
         self.central_widget.addWidget(self.all_projects_page)
         self.central_widget.addWidget(self.admin_page)
         self.central_widget.addWidget(self.single_project_page)
+        self.central_widget.addWidget(self.employees_page)
 
         self.central_widget.setCurrentWidget(self.main_menu)
 
@@ -101,6 +108,9 @@ class MainStack(QMainWindow):
         self.single_project_page.load_project(project_id)
         self.central_widget.setCurrentWidget(self.single_project_page)
 
+    def show_employees_page(self):
+        self.central_widget.setCurrentWidget(self.employees_page)
+
 
 
 
@@ -116,3 +126,5 @@ class MainStack(QMainWindow):
         from config import VERSION
         about_dialog.setText(f"Application Version: {VERSION}\nLogged User: {self.user.email}")
         about_dialog.exec()
+    def file_menu_logout_action(self):
+        self.request_logout()

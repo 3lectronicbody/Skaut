@@ -52,7 +52,7 @@ class AppController(QObject):
             self.main_frame = None
 
         if self.main_frame is None:
-            self.main_frame = MainStack(self.database, self.user_id)
+            self.main_frame = MainStack(self.database, self.user_id, self)
             # Connect main window logout signal to controller
             self.main_frame.logout_signal.connect(self.handle_logout)
         self.main_frame.show()

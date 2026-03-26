@@ -55,10 +55,13 @@ class ProjectsWindow(QWidget):
         self.container.setLayout(self.ref_layout)
 
 
-        self.refresh_layout()
+        self.refresh_layout(flag="All")
+
+        # Move main_layout widgets (combo, scroll area) up and navigation buttons down
+        self.main_layout.setRowStretch(2, 1)
 
         self.buttons_layout = QHBoxLayout()
-        self.main_layout.addLayout(self.buttons_layout,2,0)
+        self.main_layout.addLayout(self.buttons_layout,3,0)
 
         self.back_button = QPushButton(self)
         self.back_button.setText("BACK")
@@ -69,6 +72,8 @@ class ProjectsWindow(QWidget):
         self.new_project_button.setText("NEW PROJECT")
         self.buttons_layout.addWidget(self.new_project_button)
         self.new_project_button.clicked.connect(self.stack.show_new_project_page)
+
+
 
     def refresh_layout(self, flag=None):
         layout = self.ref_layout

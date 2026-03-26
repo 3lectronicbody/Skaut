@@ -88,8 +88,7 @@ class NewProjectWindow(QDialog):
                     )
                     session.add(log)
                     session.commit()
-                from helper import ok_message
-                ok_message("Project has been created successfully")
+                    
                 self.name_input.setText("")
                 self.description_input.setText("")
                 self.stack.show_all_projects_page()
