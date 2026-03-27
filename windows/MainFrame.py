@@ -45,7 +45,7 @@ class MainStack(QMainWindow):
         self.all_projects_page = ProjectsWindow(self.database, self.user, self)
         self.admin_page = AdminWindow(self.database, self.user, self)
         self.single_project_page = SingleProject(self.database, self.user, self.project_id,self)
-        self.employees_page = EmployeesWindow(self.database)
+        self.employees_page = EmployeesWindow(self.database, self)
 
         # Create Menubar
         self.menu_bar = QMenuBar(self)
@@ -110,9 +110,6 @@ class MainStack(QMainWindow):
 
     def show_employees_page(self):
         self.central_widget.setCurrentWidget(self.employees_page)
-
-
-
 
 
     # --- Logout Method ---

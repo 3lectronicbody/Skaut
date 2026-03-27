@@ -16,6 +16,8 @@ class UserWindow(QWidget):
         self.user = user
         self.parent = parent
 
+        self.edit_buttons = []
+
 
         self.setWindowTitle("User Window")
         self.layout = QGridLayout()
@@ -38,6 +40,7 @@ class UserWindow(QWidget):
 
 
         # Widgets
+
     def refresh_layout(self):
         layout = self.ref_layout
         while layout.count():
@@ -45,6 +48,8 @@ class UserWindow(QWidget):
             widget = item.widget()
             if widget:
                 widget.deleteLater()
+    # Clear old list of added buttons
+        self.edit_buttons.clear()
     # Name
         name_label = QLabel(self)
         name_label.setText("Name")
@@ -58,17 +63,21 @@ class UserWindow(QWidget):
 
         edit_name_button = QPushButton(self)
         edit_name_button.setText("Edit...")
+        self.edit_buttons.append(edit_name_button)
         self.ref_layout.addWidget(edit_name_button, 0, 2)
         def edit_button_clicked():
-            edit_name_button.setDisabled(True)
             name_input.setEnabled(True)
             save_name_button.setEnabled(True)
+            for button in self.edit_buttons:
+                button.setDisabled(True)
+            name_input.setFocus()
         edit_name_button.clicked.connect(edit_button_clicked)
 
 
         save_name_button = QPushButton(self)
         save_name_button.setText("Save...")
         save_name_button.setDisabled(True)
+
         self.ref_layout.addWidget(save_name_button, 0, 3)
         def save_button_clicked():
             with self.database.session() as session:
@@ -82,7 +91,9 @@ class UserWindow(QWidget):
                     name_input.setText(user.name)
                     name_input.setEnabled(False)
                     save_name_button.setDisabled(True)
-                    edit_name_button.setEnabled(True)
+                    for button in self.edit_buttons:
+                        button.setEnabled(True)
+
         save_name_button.clicked.connect(save_button_clicked)
 
     # surname
@@ -98,11 +109,14 @@ class UserWindow(QWidget):
 
         edit_surname_button = QPushButton(self)
         edit_surname_button.setText("Edit...")
+        self.edit_buttons.append(edit_surname_button)
         self.ref_layout.addWidget(edit_surname_button, 1, 2)
         def edit_surname_button_clicked():
-            edit_surname_button.setDisabled(True)
             surname_input.setEnabled(True)
             save_surname_button.setEnabled(True)
+            surname_input.setFocus()
+            for button in self.edit_buttons:
+                button.setDisabled(True)
         edit_surname_button.clicked.connect(edit_surname_button_clicked)
 
 
@@ -123,7 +137,8 @@ class UserWindow(QWidget):
                     surname_input.setText(user.surname)
                     surname_input.setEnabled(False)
                     save_surname_button.setDisabled(True)
-                    edit_surname_button.setEnabled(True)
+                    for button in self.edit_buttons:
+                        button.setDisabled(False)
 
         save_surname_button.clicked.connect(save_surname_button_clicked)
 
@@ -141,11 +156,13 @@ class UserWindow(QWidget):
         edit_tel_button = QPushButton(self)
         edit_tel_button.setText("Edit...")
         self.ref_layout.addWidget(edit_tel_button, 2, 2)
+        self.edit_buttons.append(edit_tel_button)
 
         def edit_tel_button_clicked():
-            edit_tel_button.setDisabled(True)
             tel_input.setEnabled(True)
             save_tel_button.setEnabled(True)
+            for button in self.edit_buttons:
+                button.setDisabled(True)
 
         edit_tel_button.clicked.connect(edit_tel_button_clicked)
 
@@ -166,7 +183,8 @@ class UserWindow(QWidget):
                     tel_input.setText(user.phone)
                     tel_input.setEnabled(False)
                     save_tel_button.setDisabled(True)
-                    edit_tel_button.setEnabled(True)
+                    for button in self.edit_buttons:
+                        button.setDisabled(False)
 
         save_tel_button.clicked.connect(save_tel_button_clicked)
 

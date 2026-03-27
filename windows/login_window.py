@@ -76,7 +76,8 @@ class LoginWindow(QDialog):
 
         self.caps_label = QLabel()
         self.caps_label.setText("")
-        self.layout.addWidget(self.caps_label, 4, 0)
+        self.caps_label.setStyleSheet("color: red; font-size: 12px;")
+        self.layout.addWidget(self.caps_label, 4, 1,  alignment=Qt.AlignmentFlag.AlignCenter)
 
         self.caps_state()
 
@@ -132,6 +133,7 @@ class LoginWindow(QDialog):
     def sign_in_link(self):
         # Notify controller to open SignIn window
         self.signup_signal.emit()
+
     def caps_state(self):
         # check in WIN32 API if caps lock is on
         caps_on =  bool(ctypes.WinDLL("User32.dll").GetKeyState(0x14) & 1)

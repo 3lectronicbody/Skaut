@@ -4,14 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="create tootltip on description label">
-      <change afterPath="$PROJECT_DIR$/windows/employees_page.py" afterDir="false" />
+    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="TODO: employee page">
+      <change afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app_controller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/windows/MainFrame.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/MainFrame.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/windows/admin_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/admin_page.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/windows/all_projects_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/all_projects_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/new_project_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/new_project_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/employees_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/employees_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/login_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/login_window.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/user_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/user_page.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +25,13 @@
       <entry key="_C:/Users/Dominik/PycharmProjects/Skaut" value="3Az55BYOlm5rBs6fQq9BfXNbDQw" />
       <entry key="_C:/Users/Mateusz/PycharmProjects/Skaut" value="3ATNCZGvAqLiRsOLFbFUQGdn9rJ" />
     </persistenceIdMap>
+  </component>
+  <component name="CopilotUserSelectedChatMode">
+    <option name="chatModeId" value="Agent" />
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="29" />
+    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -47,6 +55,10 @@
     &quot;accountId&quot;: &quot;3cb3094d-59e9-4aa5-b2ed-df64c4f464bd&quot;
   }
 }</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -77,13 +89,14 @@
     &quot;Python.new_project_page.executor&quot;: &quot;Run&quot;,
     &quot;Python.single_project_page.executor&quot;: &quot;Run&quot;,
     &quot;Python.user_page.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/Mateusz/PycharmProjects/Skaut&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.completion&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -124,7 +137,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-2653e85de345-6d6dccd035ac-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.31033.139" />
+        <option value="bundled-python-sdk-1cd77e80b48f-6d6dccd035ac-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.32098.74" />
       </set>
     </attachedChunks>
   </component>
@@ -424,7 +437,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774450004663</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="TODO: employee page">
+      <option name="closed" value="true" />
+      <created>1774534834693</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1774534834693</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -453,7 +474,8 @@
     <MESSAGE value="Refractoring:&#10;Complete&#10;TODO: Single project window&#10;Caps Lock on notification" />
     <MESSAGE value="Caps Lock on notification complete" />
     <MESSAGE value="create tootltip on description label" />
-    <option name="LAST_COMMIT_MESSAGE" value="create tootltip on description label" />
+    <MESSAGE value="TODO: employee page" />
+    <option name="LAST_COMMIT_MESSAGE" value="TODO: employee page" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -15,8 +15,10 @@ class AdminWindow(QWidget):
         self.main_layout.addWidget(self.employees_button, 0, 0)
         self.employees_button.clicked.connect(self.stack.show_employees_page)
 
+        self.main_layout.setRowStretch(1, 1)
+
         self.back_button = QPushButton("Back")
-        self.main_layout.addWidget(self.back_button, 1, 0)
+        self.main_layout.addWidget(self.back_button,2, 0)
         self.back_button.clicked.connect(self.stack.show_main_page)
 
 

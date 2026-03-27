@@ -145,9 +145,7 @@ class ProjectsWindow(QWidget):
                     self.refresh_layout()
 
 
-
     def details_button_clicked(self, idx: int):
-        print("clicked details button for project id")
         self.stack.show_single_project(idx)
     def combo_change(self):
         if self.combo.currentText() == "All Projects":
