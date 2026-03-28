@@ -47,7 +47,7 @@ class NewProjectWindow(QDialog):
         self.cancel_button = QPushButton(self)
         self.cancel_button.setText("BACK")
         self.layout.addWidget(self.cancel_button, 3, 0)
-        self.cancel_button.clicked.connect(self.stack.show_main_page)
+        self.cancel_button.clicked.connect(self.stack.show_all_projects_page)
 
     def save_project(self):
         name = self.name_input.text()

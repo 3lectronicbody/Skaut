@@ -20,7 +20,7 @@ class MainStack(QMainWindow):
 
     def __init__(self, database, user_id, project_id=None, employee_id=None):
         super().__init__()
-        WINDOW_WIDTH = 900
+        WINDOW_WIDTH = 600
         WINDOW_HEIGHT = 500
         self.setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT)
 
@@ -36,7 +36,13 @@ class MainStack(QMainWindow):
         with self.database.session() as session:
             self.user = session.get(Users, self.user_id)
 
-        self.move(500, 250)
+        self.move(400, 250)
+
+        # MENU BAR
+        self.menu_bar = self.menuBar()
+        self.file_menu = self.menu_bar.addMenu("File")
+
+
 
         # Central stacked widget for pages
         self.central_widget = QStackedWidget(self)
