@@ -41,6 +41,7 @@ class MainStack(QMainWindow):
         # MENU BAR
         self.menu_bar = self.menuBar()
         self.file_menu = self.menu_bar.addMenu("File")
+        self.file_menu.addAction("Main Menu", self.show_main_page)
 
 
 
