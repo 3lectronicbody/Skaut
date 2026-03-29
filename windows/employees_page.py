@@ -2,6 +2,7 @@ from functools import partial
 
 from PySide6.QtWidgets import QWidget, QGridLayout, QToolButton, QPushButton, QTableWidget, QComboBox
 from models import Users, Role
+from helper import confirmation_message
 
 class EmployeesWindow(QWidget):
     def __init__(self, database, user, stack):
@@ -69,14 +70,17 @@ class EmployeesWindow(QWidget):
         save_button.clicked.connect(self.save_button_function)
 
     def save_button_function(self):
-        updated_roles = {idx : combo.currentData() for idx, combo in self.combos.items()}
-        with self.database.session() as session:
+        message = confirmation_message('Do You want to save changes?')
+        if message:
+            updated_roles = {idx : combo.currentText() for idx, combo in self.combos.items()}
+            with self.database.session() as session:
 
-            for idx, role in updated_roles.items():
-                user = session.get(Users, idx)
-                if user.role != role:
-                    user.role = role
-            session.commit()
+                for idx, role in updated_roles.items():
+                    user = session.get(Users, idx)
+                    if user.role != role:
+                        user.role = role
+                session.commit()
+                self.stack.show_admin_page()
 
 
 

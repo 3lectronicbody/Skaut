@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="login and logout problem solved with using handle_logout function">
+    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="employees role change save button: COMPLETE">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/MainFrame.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/MainFrame.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/windows/employees_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/employees_page.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -438,7 +437,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774738502135</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="employees role change save button: COMPLETE">
+      <option name="closed" value="true" />
+      <created>1774812208880</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1774812208880</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -468,7 +475,8 @@
     <MESSAGE value="Caps Lock on notification" />
     <MESSAGE value="employee details page" />
     <MESSAGE value="login and logout problem solved with using handle_logout function" />
-    <option name="LAST_COMMIT_MESSAGE" value="login and logout problem solved with using handle_logout function" />
+    <MESSAGE value="employees role change save button: COMPLETE" />
+    <option name="LAST_COMMIT_MESSAGE" value="employees role change save button: COMPLETE" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
