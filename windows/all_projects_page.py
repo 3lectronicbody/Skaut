@@ -100,12 +100,13 @@ class ProjectsWindow(QWidget):
         for i, row in enumerate(table):
             name_label = QLabel(self.container)
             name_label.setText(row.name)
+            name_label.setMinimumWidth(100)
             self.ref_layout.addWidget(name_label, i, 0)
 
             description_label = QLabel(self.container)
             description_label.setText(row.description)
-            description_label.setWordWrap(True)
-            description_label.setFixedWidth(100)
+            description_label.setWordWrap(False)
+            description_label.setMaximumWidth(100)
             description_label.setToolTip(f"{row.description}")
             self.ref_layout.addWidget(description_label, i, 1)
 
@@ -142,7 +143,12 @@ class ProjectsWindow(QWidget):
                     log = Logs(activity=Log.DELETE_PROJECT.value, user_id=self.user.id, project_id=idx)
                     session.add(log)
                     session.commit()
-                    self.refresh_layout()
+
+                    if self.combo.currentText() == "My Projects":
+                        flag = "My"
+                    elif self.combo.currentText() == "All Projects":
+                        flag = "All"
+                    self.refresh_layout(flag = flag)
 
 
     def details_button_clicked(self, idx: int):

@@ -8,7 +8,7 @@ from PySide6.QtWidgets import (
     QMessageBox,
 )
 from models import Role, Logs, Log
-from PySide6.QtCore import Signal
+from PySide6.QtCore import Signal, Qt
 
 class MenuPage(QWidget):
     logout_signal = Signal()
@@ -25,6 +25,7 @@ class MenuPage(QWidget):
         # Welcome labe
         self.welcome_label = QLabel(self)
         self.welcome_label.setText(f"Welcome to Skaut {self.user.email}")
+        self.welcome_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.welcome_label, 0, 0)
 
 
@@ -47,8 +48,7 @@ class MenuPage(QWidget):
         self.layout.addWidget(self.admin_button, 3, 0)
         self.admin_button.clicked.connect(lambda: self.stack.show_admin_page())
         if self.user.role != Role.ADMIN.value:
-            pass
-            # self.admin_button.setEnabled(False)
+            self.admin_button.setEnabled(False)
 
         row_count = self.layout.rowCount()
         self.layout.setRowStretch(row_count, 1)

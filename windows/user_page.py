@@ -11,11 +11,11 @@ from models import  Users
 
 
 class UserWindow(QWidget):
-    def __init__(self, database,user, parent):
+    def __init__(self, database,user, stack):
         super().__init__()
         self.database = database
         self.user = user
-        self.parent = parent
+        self.stack = stack
 
         self.edit_buttons = []
 
@@ -36,7 +36,10 @@ class UserWindow(QWidget):
         self.cancel_button = QPushButton(self)
         self.cancel_button.setText("BACK")
         self.layout.addWidget(self.cancel_button, 1, 0)
-        self.cancel_button.clicked.connect(lambda: self.parent.show_main_page())
+        self.cancel_button.clicked.connect(self.handle_back_button)
+    def handle_back_button(self):
+        self.refresh_layout()
+        self.stack.show_main_page()
 
 
 
