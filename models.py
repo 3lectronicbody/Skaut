@@ -66,6 +66,7 @@ class Users(Base):
         surname: str | None = None,
         phone: str | None = None,
         picture: bytes | None = None,
+        remember_me: bool = False
     ):
 
         self.name = name
@@ -75,6 +76,7 @@ class Users(Base):
         self.password = password
         self.picture = picture
         self.role = role
+        self.remember_me = remember_me
 
 
 class Logs(Base):

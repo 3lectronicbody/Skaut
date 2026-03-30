@@ -6,18 +6,18 @@ from PySide6.QtWidgets import (
 from PySide6.QtGui import Qt, QGuiApplication
 from helper import hash_password, save_login, delete_login, ok_message
 from models import Users, Logs, Log
-import ctypes
+
 
 class LoginWindow(QDialog):
     # Signals to communicate with controller
     login_signal = Signal(int)       # Emits user_id on successful login
     signup_signal = Signal()         # Emits when user clicks "Sign In / Sign Up"
 
-    def __init__(self, database, token=None, controller=None):
+    def __init__(self, database,token=None, controller=None):
         super().__init__()
         self.database = database
-        self.token = token
         self.user_id = None
+        self.token = token
         self.controller = controller
 
         self.caps_timer = QTimer(self)
