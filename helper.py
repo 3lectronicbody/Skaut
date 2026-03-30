@@ -1,11 +1,14 @@
 import hashlib
 import tempfile
+from email.policy import default
 
 from email_validator import validate_email, EmailNotValidError
 from models import Users
 from sqlalchemy import select
 import os
 from PySide6.QtWidgets import QDialog, QLabel, QVBoxLayout, QPushButton, QGridLayout
+from config import CONFIG_FILE
+import json
 
 
 def hash_password(password: str) -> str:
@@ -105,6 +108,16 @@ def confirmation_message(message: str):
     back_button.clicked.connect(confirmation.reject)
 
     return confirmation.exec()
+
+def load_remembered_user(config_file):
+    with open(config_file, "r") as file:
+        data = json.load(file)
+    return data.get("remember_me", default="")
+
+
+
+
+
 
 
 

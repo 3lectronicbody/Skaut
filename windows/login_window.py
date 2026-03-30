@@ -1,11 +1,13 @@
-import Quartz
+
 from PySide6.QtCore import Signal, QTimer
 from PySide6.QtWidgets import (
     QDialog, QLabel, QLineEdit, QPushButton, QCheckBox, QGridLayout, QMessageBox
 )
-from PySide6.QtGui import Qt, QGuiApplication
+from PySide6.QtGui import Qt
 from helper import hash_password, save_login, delete_login, ok_message
 from models import Users, Logs, Log
+from config import CONFIG_FILE
+import json
 
 
 class LoginWindow(QDialog):
@@ -17,8 +19,8 @@ class LoginWindow(QDialog):
         super().__init__()
         self.database = database
         self.user_id = None
-        self.token = token
         self.controller = controller
+        self.config_file = CONFIG_FILE
 
         self.caps_timer = QTimer(self)
         self.caps_timer.timeout.connect(self.caps_state)
@@ -67,8 +69,7 @@ class LoginWindow(QDialog):
 
         self.remember_checkbox = QCheckBox("Remember Me")
         self.layout.addWidget(self.remember_checkbox, 3, 0)
-        if self.token:
-            self.remember_checkbox.setChecked(True)
+
 
         self.caps_label = QLabel("")
         self.layout.addWidget(self.caps_label, 4, 0)
