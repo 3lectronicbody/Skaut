@@ -1,9 +1,11 @@
 import hashlib
+
+from PySide6.QtCore import Qt
 from email_validator import validate_email, EmailNotValidError
 from models import Users
 from sqlalchemy import select
 import os
-from PySide6.QtWidgets import QDialog, QLabel, QVBoxLayout, QPushButton
+from PySide6.QtWidgets import QDialog, QLabel, QVBoxLayout, QPushButton, QFrame
 
 
 def hash_password(password: str) -> str:
@@ -53,7 +55,6 @@ def load_login():
         token = token.read()
         return token
 
-
 def delete_login():
     try:
         os.remove("token.txt")
@@ -76,6 +77,9 @@ def ok_message(message: str):
 
 
     message_window.exec()
+
+
+
 
 
 

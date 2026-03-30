@@ -1,26 +1,17 @@
 from __future__ import annotations
 from helper import (
-    hash_password,
-    validate_password,
-    email_validation,
-    save_login,
     delete_login,
 )
 from PySide6.QtWidgets import (
-    QMainWindow,
     QWidget,
     QGridLayout,
     QPushButton,
-    QDialog,
     QLabel,
-    QLineEdit,
-    QTextEdit,
     QMessageBox,
-    QCheckBox,
-    QScrollArea, QStackedWidget,
+
 )
-from datetime import datetime
-from models import Projects, ProjectDetails, Users, Role, Logs, Log
+
+from models import Role, Logs, Log
 from PySide6.QtGui import Qt
 from PySide6.QtCore import Signal
 from functools import partial
@@ -64,10 +55,9 @@ class MenuPage(QWidget):
         self.admin_button.setText("ADMIN")
         self.layout.addWidget(self.admin_button,3, 0)
         self.admin_button.clicked.connect(lambda: self.stack.show_admin_page())
-        # block admin button for ather roles than ADMIN
+        # block admin button for other roles than ADMIN
         if self.user.role != Role.ADMIN.value:
-            pass
-            # self.admin_button.setEnabled(False)
+            self.admin_button.setVisible(False)
 
         row_count = self.layout.rowCount()
         self.layout.setRowStretch(row_count, 1)

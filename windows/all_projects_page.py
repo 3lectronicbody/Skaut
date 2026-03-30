@@ -1,27 +1,17 @@
-from helper import (
-    hash_password,
-    validate_password,
-    email_validation,
-    save_login,
-    delete_login,
-)
+
 from PySide6.QtWidgets import (
-    QMainWindow,
     QWidget,
     QGridLayout,
     QPushButton,
-    QDialog,
     QLabel,
-    QLineEdit,
-    QTextEdit,
     QMessageBox,
-    QCheckBox,
     QScrollArea, QHBoxLayout, QComboBox,
 )
-from datetime import datetime
-from models import Projects, ProjectDetails, Users, Role, Logs, Log
-from PySide6.QtGui import Qt
+from models import Projects, Logs, Log
 from functools import partial
+
+
+
 
 class ProjectsWindow(QWidget):
     def __init__(self, database, user, stack):
@@ -103,10 +93,14 @@ class ProjectsWindow(QWidget):
             self.ref_layout.addWidget(name_label, i, 0)
 
             description_label = QLabel(self.container)
+            raw_text = row.description
+            display_text = raw_text[:40] + "..." if len(raw_text) > 40 else raw_text
             description_label.setText(row.description)
-            description_label.setWordWrap(True)
-            description_label.setFixedWidth(100)
-            description_label.setToolTip(f"{row.description}")
+            description_label.setToolTip(
+                f"<html><div style='width: 300px; word-wrap: break-word; word-break: break-all;'>"
+                f"{row.description}"
+                f"</div></html>"
+            )
             self.ref_layout.addWidget(description_label, i, 1)
 
             project_owner_label = QLabel(self.container)

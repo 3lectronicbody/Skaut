@@ -8,6 +8,7 @@ from sqlalchemy import (
     LargeBinary,
 )
 from enum import Enum
+from sqlalchemy import Enum as SQLAlchemyEnum
 from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase, relationship
 from datetime import datetime, timezone
 from typing import Optional
@@ -50,7 +51,7 @@ class Users(Base):
     phone: Mapped[str | None] = mapped_column(String, nullable=True)
     password: Mapped[str] = mapped_column(String, nullable=False)
     picture: Mapped[bytes | None] = mapped_column(LargeBinary, nullable=True)
-    role: Mapped[str] = mapped_column(String, nullable=False, default=Role.USER.value)
+    role: Mapped[str] = mapped_column(String,default=Role.USER.value, nullable=False)
 
     # Relationship with Logs
     logs: Mapped[list["Logs"]] = relationship(

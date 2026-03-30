@@ -26,6 +26,11 @@ class EmployeesWindow(QWidget):
         self.refresh_data()
 
     def refresh_data(self):
+        while self.data_layout.count():
+            item = self.data_layout.takeAt(0)
+            widget = item.widget()
+            if widget:
+                widget.deleteLater()
 
         counter = 0
         with self.database.session() as session:
@@ -33,26 +38,26 @@ class EmployeesWindow(QWidget):
 
             for index, user in enumerate(table):
                 name_label = QLabel(self)
-                name_label.setText(user.name if not None else "")
+                name_label.setText(user.name or "")
                 self.data_layout.addWidget(name_label, index, 0)
 
                 surname_label = QLabel(self)
-                surname_label.setText(user.surname if not None else "")
+                surname_label.setText(user.surname or "")
                 self.data_layout.addWidget(surname_label, index, 1)
 
                 email_label = QLabel(self)
-                email_label.setText(user.email if not None else "")
+                email_label.setText(user.email or "")
                 self.data_layout.addWidget(email_label, index, 2)
 
                 phone_label = QLabel(self)
-                phone_label.setText(user.phone if not None else "")
+                phone_label.setText(user.phone or "")
                 self.data_layout.addWidget(phone_label, index, 3)
 
                 role_combo = QComboBox(self)
-                role_combo.addItems([role for role in Role.__members__])
+                role_combo.addItems([role.value for role in Role.__members__.values()])
                 self.data_layout.addWidget(role_combo, index, 4)
                 role_combo.setCurrentText(user.role)
-                role_combo.currentTextChanged.connect(lambda text, idx = user.id: self.change_role(idx, role_combo))
+                role_combo.currentTextChanged.connect(lambda text, idx = user.id, combo = role_combo: self.change_role(idx, combo))
 
 
 
@@ -63,6 +68,6 @@ class EmployeesWindow(QWidget):
         with self.database.session() as session:
             user = session.get(Users, idx)
             new_role = role_combo.currentText()
-            user.role = Role[new_role]
+            user.role = new_role
             session.commit()
 

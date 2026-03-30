@@ -4,15 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="TODO: employee page">
-      <change afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="TODO: employee role change">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/MainFrame.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/MainFrame.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/admin_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/admin_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/helper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/windows/all_projects_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/all_projects_page.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/windows/employees_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/employees_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/login_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/login_window.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/user_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/user_page.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/windows/main_menu_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/main_menu_page.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -445,7 +443,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774534834693</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="TODO: employee role change">
+      <option name="closed" value="true" />
+      <created>1774622778022</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1774622778022</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -475,7 +481,8 @@
     <MESSAGE value="Caps Lock on notification complete" />
     <MESSAGE value="create tootltip on description label" />
     <MESSAGE value="TODO: employee page" />
-    <option name="LAST_COMMIT_MESSAGE" value="TODO: employee page" />
+    <MESSAGE value="TODO: employee role change" />
+    <option name="LAST_COMMIT_MESSAGE" value="TODO: employee role change" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -487,7 +494,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/models.py</url>
-          <line>26</line>
+          <line>27</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
