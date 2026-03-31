@@ -2,17 +2,12 @@ from PySide6.QtCore import QObject
 from windows.login_window import LoginWindow
 from windows.sign_in_page import SignIn
 from windows.MainFrame import MainStack
-from helper import load_login, delete_login
 
 class AppController(QObject):
     # Object that manages the flow of the application and windows transition( Login, Sign In, Main Window)
     def __init__(self, database):
         super().__init__()
         self.database = database
-        try:
-            self.token = load_login()
-        except FileNotFoundError:
-            self.token = None
         self.user_id = None
 
         # References to windows
@@ -22,12 +17,14 @@ class AppController(QObject):
 
     # Start the app
     def start(self):
-        # self.show_login_window()
-        self.show_main_frame(user_id=2)
+        self.show_login_window()
 
     def show_login_window(self):
+        if self.login_window:
+            self.login_window.close()
+            self.login_window.deleteLater()
         # self.main_frame = None # Ensure main frame is reset when showing login
-        self.login_window = LoginWindow(self.database, self.token, controller=self)
+        self.login_window = LoginWindow(self.database, controller=self)
         # Connect signals
         self.login_window.login_signal.connect(self.show_main_frame)
         self.login_window.signup_signal.connect(self.show_sign_in_window)  # new
@@ -61,10 +58,6 @@ class AppController(QObject):
             self.sign_in_window.hide()
 
     def handle_logout(self):
-        try:
-            delete_login()
-        except FileNotFoundError:
-            pass
         if self.main_frame:
             self.main_frame.hide()
             self.main_frame.deleteLater()

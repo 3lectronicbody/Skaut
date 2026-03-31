@@ -1,12 +1,12 @@
-
+import Quartz
 from PySide6.QtCore import Signal, QTimer
 from PySide6.QtWidgets import (
     QDialog, QLabel, QLineEdit, QPushButton, QCheckBox, QGridLayout, QMessageBox
 )
 from PySide6.QtGui import Qt
-from helper import hash_password, save_login, delete_login, ok_message
+from helper import hash_password, ok_message
 from models import Users, Logs, Log
-from config import CONFIG_FILE
+
 import json
 
 
@@ -15,12 +15,14 @@ class LoginWindow(QDialog):
     login_signal = Signal(int)       # Emits user_id on successful login
     signup_signal = Signal()         # Emits when user clicks "Sign In / Sign Up"
 
-    def __init__(self, database,token=None, controller=None):
+    def __init__(self, database, controller=None):
         super().__init__()
         self.database = database
-        self.user_id = None
         self.controller = controller
-        self.config_file = CONFIG_FILE
+        self.user_id = None
+        with open("config.json", "r") as json_file:
+            data = json.load(json_file)
+
 
         self.caps_timer = QTimer(self)
         self.caps_timer.timeout.connect(self.caps_state)
@@ -77,11 +79,13 @@ class LoginWindow(QDialog):
         self.caps_state()
 
         # Pre-fill email if token exists
-        if self.token:
+
+        if data["remembered_email"] and data["remember_checkbox"]:
             with self.database.session() as session:
-                user = session.get(Users, self.token)
+                user = session.query(Users).filter(Users.email == data["remembered_email"]).first()
                 if user:
                     self.email_input.setText(user.email)
+                    self.remember_checkbox.setChecked(True)
 
     # --- Button Methods ---
     def toggle_password_visibility(self):
@@ -113,12 +117,11 @@ class LoginWindow(QDialog):
             session.commit()
 
             if self.remember_checkbox.isChecked():
-                save_login(user.id)
-            else:
-                try:
-                    delete_login()
-                except FileNotFoundError:
-                    pass
+                with open('config.json', 'r') as json_file:
+                    data = json.load(json_file)
+                    data["remembered"] = user.email
+                with open("config.json", 'w') as json_file:
+                    json.dump(data, json_file)
 
             ok_message("You have successfully logged in")
             self.user_id = user.id

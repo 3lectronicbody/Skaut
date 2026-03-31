@@ -2,27 +2,21 @@ from helper import (
     hash_password,
     validate_password,
     email_validation,
-    save_login,
-    delete_login,
+    load_config,
+    save_config
 )
 from PySide6.QtWidgets import (
-    QMainWindow,
-    QWidget,
     QGridLayout,
     QPushButton,
     QDialog,
     QLabel,
     QLineEdit,
-    QTextEdit,
     QMessageBox,
     QCheckBox,
-    QScrollArea,
+
 )
-from datetime import datetime
-from models import Projects, ProjectDetails, Users, Role, Logs, Log
-from PySide6.QtGui import Qt
+from models import Users, Role
 from PySide6.QtCore import Signal
-from functools import partial
 
 
 
@@ -111,6 +105,11 @@ class SignIn(QDialog):
                 session.commit()
                 session.close()
             QMessageBox(text="Your Account has been created !!!").exec()
+
+            data = load_config()
+            data["remembered_email"] = email
+            data["remember_checkbox"] = True
+            save_config(data)
             self.sign_in_signal.emit()
             self.accept()
         else:

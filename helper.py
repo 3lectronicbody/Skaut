@@ -1,13 +1,9 @@
 import hashlib
-import tempfile
-from email.policy import default
-
 from email_validator import validate_email, EmailNotValidError
 from models import Users
 from sqlalchemy import select
 import os
 from PySide6.QtWidgets import QDialog, QLabel, QVBoxLayout, QPushButton, QGridLayout
-from config import CONFIG_FILE
 import json
 
 
@@ -48,24 +44,13 @@ def email_validation(email: str, database) -> tuple[bool, str]:
             return False, "Account with this email already exists"
     return True, "Password is valid"
 
-def save_login(user_id: str):
-    with open("token.txt", "w") as token:
-        token.write(str(user_id))
-    return int(user_id)
+def load_config(file="config.json"):
+    with open(file, "r") as json_file:
+        return json.load(json_file)
+def save_config(data, file="config.json"):
+    with open(file, "w") as json_file:
+        json.dump(data, json_file)
 
-def load_login():
-    with open("token.txt", "r") as token:
-        token = token.read()
-        return token
-
-
-def delete_login():
-    try:
-        os.remove("token.txt")
-    except FileNotFoundError:
-        pass
-def reset_password(user_email):
-    pass
 
 def ok_message(message: str):
     message_window = QDialog()

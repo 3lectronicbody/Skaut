@@ -1,5 +1,4 @@
 from __future__ import annotations
-from helper import delete_login
 from PySide6.QtWidgets import (
     QWidget,
     QGridLayout,
@@ -9,6 +8,7 @@ from PySide6.QtWidgets import (
 )
 from models import Role, Logs, Log
 from PySide6.QtCore import Signal, Qt
+from helper import load_config, save_config
 
 class MenuPage(QWidget):
     logout_signal = Signal()
@@ -24,7 +24,7 @@ class MenuPage(QWidget):
         self.setLayout(self.layout)
         # Welcome labe
         self.welcome_label = QLabel(self)
-        self.welcome_label.setText(f"Welcome to Skaut {self.user.email}")
+        self.welcome_label.setText(f"Welcome to Skaut {self.user.email or ''}")
         self.welcome_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.layout.addWidget(self.welcome_label, 0, 0)
 
@@ -69,7 +69,10 @@ class MenuPage(QWidget):
                 log = Logs(activity=Log.LOGOUT.value, user_id=self.user.id)
                 session.add(log)
                 session.commit()
-            delete_login()
+            data = load_config()
+            data["remembered_email"] = ""
+            data["remember_checkbox"] = False
+            save_config(data)
             self.stack.logout_requested = True
             self.stack.logout_signal.emit()
 
