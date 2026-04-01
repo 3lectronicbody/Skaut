@@ -92,6 +92,7 @@ class UserWindow(QWidget):
                 if user:
                     user.name = name_input.text()
                     session.commit()
+                    self.user.name = user.name
                     name_input.setText(user.name)
                     name_input.setEnabled(False)
                     save_name_button.setDisabled(True)
@@ -141,6 +142,9 @@ class UserWindow(QWidget):
                 if user:
                     user.surname = surname_input.text()
                     session.commit()
+
+                    # Update the user object in the main window
+                    self.user.surname = user.surname
                     surname_input.setText(user.surname)
                     surname_input.setEnabled(False)
                     save_surname_button.setDisabled(True)
@@ -191,6 +195,8 @@ class UserWindow(QWidget):
                 if user:
                     user.phone = tel_input.text()
                     session.commit()
+                    # Update the user object in the main window
+                    self.user.phone = user.phone
                     tel_input.setText(user.phone)
                     tel_input.setEnabled(False)
                     save_tel_button.setDisabled(True)

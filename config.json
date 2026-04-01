@@ -1,1 +1,6 @@
-{"remembered_email": "test@gmail.com", "remember_checkbox": true, "database_url": "sqlite:///data.db", "remembered": "test@gmail.com"}
+{
+    "remembered_email": "",
+    "remember_checkbox": false,
+    "database_url": "sqlite:///data.db",
+    "remembered": "test@gmail.com"
+}

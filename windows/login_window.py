@@ -4,10 +4,9 @@ from PySide6.QtWidgets import (
     QDialog, QLabel, QLineEdit, QPushButton, QCheckBox, QGridLayout, QMessageBox
 )
 from PySide6.QtGui import Qt
-from helper import hash_password, ok_message
+from helper import hash_password, ok_message, load_config, save_config
 from models import Users, Logs, Log
 
-import json
 
 
 class LoginWindow(QDialog):
@@ -20,8 +19,7 @@ class LoginWindow(QDialog):
         self.database = database
         self.controller = controller
         self.user_id = None
-        with open("config.json", "r") as json_file:
-            data = json.load(json_file)
+        self.data = load_config()  # Ensure config is loaded for "Remember Me" functionality
 
 
         self.caps_timer = QTimer(self)
@@ -80,13 +78,13 @@ class LoginWindow(QDialog):
 
         # Pre-fill email if token exists
 
-        if data["remembered_email"] and data["remember_checkbox"]:
+        if self.data["remembered_email"] and self.data["remember_checkbox"]:
             with self.database.session() as session:
-                user = session.query(Users).filter(Users.email == data["remembered_email"]).first()
+                user = session.query(Users).filter(Users.email == self.data["remembered_email"]).first()
                 if user:
                     self.email_input.setText(user.email)
                     self.remember_checkbox.setChecked(True)
-    
+
 
     # --- Button Methods ---
     def toggle_password_visibility(self):
@@ -118,11 +116,9 @@ class LoginWindow(QDialog):
             session.commit()
 
             if self.remember_checkbox.isChecked():
-                with open('config.json', 'r') as json_file:
-                    data = json.load(json_file)
-                    data["remembered"] = user.email
-                with open("config.json", 'w') as json_file:
-                    json.dump(data, json_file)
+                self.data["remembered_email"] = user.email
+                self.data["remember_checkbox"] = True
+                save_config(self.data)
 
             ok_message("You have successfully logged in")
             self.user_id = user.id

@@ -50,7 +50,7 @@ def load_config(file="config.json"):
         return json.load(json_file)
 def save_config(data, file="config.json"):
     with open(file, "w") as json_file:
-        json.dump(data, json_file)
+        json.dump(data, json_file, indent=4)
 
 
 def ok_message(message: str):
