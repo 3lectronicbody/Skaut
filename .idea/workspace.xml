@@ -4,16 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="TODO: remember me checkbox function with QSettings">
+    <list default="true" id="60965c8e-50de-4f9d-8652-738b798cf7cc" name="Changes" comment="refactor: implement remember me functionality using config.json">
+      <change afterPath="$PROJECT_DIR$/test_code.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/app_controller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/helper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/all_projects_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/all_projects_page.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/windows/login_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/login_window.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/main_menu_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/main_menu_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/windows/sign_in_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/windows/sign_in_page.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -476,7 +473,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774905619462</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="refactor: implement remember me functionality using config.json">
+      <option name="closed" value="true" />
+      <created>1774980344822</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1774980344822</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -509,7 +514,8 @@
     <MESSAGE value="employees role change save button: COMPLETE" />
     <MESSAGE value="TODO: all projects window" />
     <MESSAGE value="TODO: remember me checkbox function with QSettings" />
-    <option name="LAST_COMMIT_MESSAGE" value="TODO: remember me checkbox function with QSettings" />
+    <MESSAGE value="refactor: implement remember me functionality using config.json" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: implement remember me functionality using config.json" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

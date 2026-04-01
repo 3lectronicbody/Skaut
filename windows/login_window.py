@@ -86,6 +86,7 @@ class LoginWindow(QDialog):
                 if user:
                     self.email_input.setText(user.email)
                     self.remember_checkbox.setChecked(True)
+    
 
     # --- Button Methods ---
     def toggle_password_visibility(self):

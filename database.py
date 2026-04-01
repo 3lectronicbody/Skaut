@@ -19,3 +19,4 @@ class Database:
 
     def session(self):
         return self.SessionLocal()
+
