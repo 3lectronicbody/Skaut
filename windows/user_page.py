@@ -5,9 +5,8 @@ from PySide6.QtWidgets import (
     QGridLayout,
     QPushButton,
     QLabel,
-    QLineEdit, QVBoxLayout,
+    QLineEdit
 )
-from models import  Users
 
 
 class UserWindow(QWidget):
@@ -18,6 +17,7 @@ class UserWindow(QWidget):
         self.stack = stack
 
         self.edit_buttons = []
+        self.data_inputs = []
 
 
         self.setWindowTitle("User Window")
@@ -37,6 +37,7 @@ class UserWindow(QWidget):
         self.cancel_button.setText("BACK")
         self.layout.addWidget(self.cancel_button, 1, 0)
         self.cancel_button.clicked.connect(self.handle_back_button)
+
     def handle_back_button(self):
         self.refresh_layout()
         self.stack.show_main_page()
@@ -46,167 +47,38 @@ class UserWindow(QWidget):
         # Widgets
 
     def refresh_layout(self):
+
         layout = self.ref_layout
         while layout.count():
             item = layout.takeAt(0)
             widget = item.widget()
             if widget:
                 widget.deleteLater()
+        attributes = ["name", "surname", "phone"]
+        for index, attribute in enumerate(attributes):
+            self.data_row(attribute, self.user, index, layout=layout)
     # Clear old list of added buttons
         self.edit_buttons.clear()
-    # Name
-        name_label = QLabel(self)
-        name_label.setText("Name")
-        self.ref_layout.addWidget(name_label, 0, 0)
+    def data_row(self,attr, user, index, layout=None):
 
-        name_input = QLineEdit(self)
-        name_input.setPlaceholderText("Name")
-        name_input.setText(self.user.name)
-        name_input.setEnabled(False)
-        self.ref_layout.addWidget(name_input, 0, 1)
+        data_label = QLabel()
+        data_label.setText(attr+":")
+        layout.addWidget(data_label, index, 0)
 
-        edit_name_button = QPushButton(self)
-        edit_name_button.setText("Edit...")
-        self.edit_buttons.append(edit_name_button)
-        self.ref_layout.addWidget(edit_name_button, 0, 2)
-        def edit_button_clicked():
-            name_input.setEnabled(True)
-            save_name_button.setEnabled(True)
-            for button in self.edit_buttons:
-                button.setDisabled(True)
-            name_input.setFocus()
-        edit_name_button.clicked.connect(edit_button_clicked)
+        data_input = QLineEdit()
+        data_input.setPlaceholderText(f"Enter {attr}")
+        layout.addWidget(data_input, index, 1)
+        self.data_inputs.append(data_input)
 
+        edit_button = QPushButton("Edit")
+        layout.addWidget(edit_button, index, 2)
+        self.edit_buttons.append(edit_button)
 
-        save_name_button = QPushButton(self)
-        save_name_button.setText("Save...")
-        save_name_button.setDisabled(True)
-
-        self.ref_layout.addWidget(save_name_button, 0, 3)
-        def save_button_clicked():
-            with self.database.session() as session:
-                if not name_input.text():
-                    edit_name_button.setEnabled(True)
-                    return
-                user = session.get(Users, self.user.id)
-                if user:
-                    user.name = name_input.text()
-                    session.commit()
-                    self.user.name = user.name
-                    name_input.setText(user.name)
-                    name_input.setEnabled(False)
-                    save_name_button.setDisabled(True)
-                    for button in self.edit_buttons:
-                        button.setEnabled(True)
-                    self.edit_buttons.clear()
-
-        save_name_button.clicked.connect(save_button_clicked)
-
-    # surname
-        surname_label = QLabel(self)
-        surname_label.setText("Surname")
-        self.ref_layout.addWidget(surname_label, 1, 0)
-
-        surname_input = QLineEdit(self)
-        surname_input.setPlaceholderText("Surname")
-        surname_input.setText(self.user.surname)
-        surname_input.setEnabled(False)
-        self.ref_layout.addWidget(surname_input, 1, 1)
-
-        edit_surname_button = QPushButton(self)
-        edit_surname_button.setText("Edit...")
-        self.edit_buttons.append(edit_surname_button)
-        self.ref_layout.addWidget(edit_surname_button, 1, 2)
-        def edit_surname_button_clicked():
-            surname_input.setEnabled(True)
-            save_surname_button.setEnabled(True)
-            surname_input.setFocus()
-            for button in self.edit_buttons:
-                button.setDisabled(True)
-        edit_surname_button.clicked.connect(edit_surname_button_clicked)
-
-
-        save_surname_button = QPushButton(self)
-        save_surname_button.setText("Save...")
-        save_surname_button.setDisabled(True)
-        self.ref_layout.addWidget(save_surname_button, 1, 3)
-
-        def save_surname_button_clicked():
-            with self.database.session() as session:
-                if not surname_input.text():
-                    save_surname_button.setDisabled(True)
-                    for button in self.edit_buttons:
-                        button.setEnabled(True)
-                    return
-                user = session.get(Users, self.user.id)
-                if user:
-                    user.surname = surname_input.text()
-                    session.commit()
-
-                    # Update the user object in the main window
-                    self.user.surname = user.surname
-                    surname_input.setText(user.surname)
-                    surname_input.setEnabled(False)
-                    save_surname_button.setDisabled(True)
-
-            for button in self.edit_buttons:
-                button.setEnabled(True)
-
-
-        save_surname_button.clicked.connect(save_surname_button_clicked)
-
-    # phone number
-        tel_label = QLabel(self)
-        tel_label.setText("Phone Number")
-        self.ref_layout.addWidget(tel_label,2, 0)
-
-        tel_input = QLineEdit(self)
-        tel_input.setPlaceholderText("Phone Number")
-        tel_input.setText(self.user.phone)
-        tel_input.setEnabled(False)
-        self.ref_layout.addWidget(tel_input, 2, 1)
-
-        edit_tel_button = QPushButton(self)
-        edit_tel_button.setText("Edit...")
-        self.ref_layout.addWidget(edit_tel_button, 2, 2)
-        self.edit_buttons.append(edit_tel_button)
-
-        def edit_tel_button_clicked():
-            tel_input.setEnabled(True)
-            save_tel_button.setEnabled(True)
-            for button in self.edit_buttons:
-                button.setDisabled(True)
-
-        edit_tel_button.clicked.connect(edit_tel_button_clicked)
-
-        save_tel_button = QPushButton(self)
-        save_tel_button.setText("Save...")
-        save_tel_button.setDisabled(True)
-        self.ref_layout.addWidget(save_tel_button, 2, 3)
-
-        def save_tel_button_clicked():
-            with self.database.session() as session:
-                if not tel_input.text():
-                    save_tel_button.setDisabled(True)
-                    for button in self.edit_buttons:
-                        button.setEnabled(True)
-                    return
-                user = session.get(Users, self.user.id)
-                if user:
-                    user.phone = tel_input.text()
-                    session.commit()
-                    # Update the user object in the main window
-                    self.user.phone = user.phone
-                    tel_input.setText(user.phone)
-                    tel_input.setEnabled(False)
-                    save_tel_button.setDisabled(True)
-                    for button in self.edit_buttons:
-                        button.setEnabled(True)
-
-        save_tel_button.clicked.connect(save_tel_button_clicked)
+        save_button = QPushButton("Save")
+        layout.addWidget(save_button, index, 3)
+        save_button.setEnabled(False)
 
 
 
-
-        rows = self.ref_layout.rowCount()
-        self.ref_layout.setRowStretch(rows+1, 1)
+        number_of_data_rows = self.ref_layout.rowCount()
+        self.ref_layout.setRowStretch(number_of data_rows+1, 1)
